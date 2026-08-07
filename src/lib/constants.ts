@@ -1,4 +1,4 @@
-export const APP_NAME = 'Gradexis';
+export const APP_NAME = 'Gradiate';
 export const PLATFORMS = ['hac', 'skyward-legacy', 'powerschool'] as const;
 export const PLATFORM_MAPPING: Record<string, string> = {
     hac: 'HAC',

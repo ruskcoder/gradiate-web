@@ -751,7 +751,7 @@ export default function Login() {
                         </PopoverTrigger>
                         <PopoverContent className="w-64 text-center text-sm">
                           Microsoft sign-in is disabled on the website. Please use the
-                          Gradexis mobile app to sign in with Microsoft.
+                          Gradiate mobile app to sign in with Microsoft.
                         </PopoverContent>
                       </Popover>
                     );
@@ -842,7 +842,7 @@ export default function Login() {
                     <path d="M242-249q-20-11-31-29.5T200-320v-192l-96-53q-11-6-16-15t-5-20q0-11 5-20t16-15l338-184q9-5 18.5-7.5T480-829q10 0 19.5 2.5T518-819l381 208q10 5 15.5 14.5T920-576v256q0 17-11.5 28.5T880-280q-17 0-28.5-11.5T840-320v-236l-80 44v192q0 23-11 41.5T718-249L518-141q-9 5-18.5 7.5T480-131q-10 0-19.5-2.5T442-141L242-249Zm238-203 274-148-274-148-274 148 274 148Zm0 241 200-108v-151l-161 89q-9 5-19 7.5t-20 2.5q-10 0-20-2.5t-19-7.5l-161-89v151l200 108Zm0-241Zm0 121Zm0 0Z" />
                   </svg>
                 </div>
-                <span className="text-4xl font-extrabold tracking-tight">Gradexis</span>
+                <span className="text-4xl font-extrabold tracking-tight">Gradiate</span>
               </div>
             </div>
 

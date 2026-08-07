@@ -60,7 +60,7 @@ export async function fetchReferralData(user, changeUserData, {
           text-align: center;
         ">
           <div>
-        <strong>You have been blocked. <br/> Please contact info@gradexis.com for assistance.</strong>
+        <strong>You have been blocked. <br/> Please contact info@gradiate.com for assistance.</strong>
           
           </div>
           <button style="
@@ -178,7 +178,7 @@ export default function App() {
   }, [])
 
   return (
-    <ThemeProvider defaultTheme="light" storageKey="gradexis-theme">
+    <ThemeProvider defaultTheme="light" storageKey="gradiate-theme">
       <BrowserRouter>
         <Routes>
           <Route path="/" element={notLogged ? <Navigate to="/login" replace /> : <Navigate to="/dashboard" replace />} />
