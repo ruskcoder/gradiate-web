@@ -26,7 +26,6 @@ import {
 import { Trash2, Plus, RotateCcw, Paperclip } from 'lucide-react'
 import { GPA_CONFIGS } from '@/lib/GPAConfigs'
 import { useStore, useCurrentUser } from '@/lib/store'
-import { PremiumDialog } from '@/components/custom/premium-dialog'
 
 export default function GPARankCalculator() {
   const [loadingInitial, setLoadingInitial] = useState(true)
@@ -44,16 +43,9 @@ export default function GPARankCalculator() {
   const [defaultGPAType, setDefaultGPAType] = useState('katyWeighted')
   const [currentRank, setCurrentRank] = useState(null)
   const [classSize, setClassSize] = useState(null)
-  const [showPremiumDialog, setShowPremiumDialog] = useState(false)
 
   const user = useCurrentUser()
   const showTitle = user ? user.showPageTitles !== false : true
-
-  useEffect(() => {
-    if (user && !user.premium) {
-      setShowPremiumDialog(true)
-    }
-  }, [user])
 
   useEffect(() => {
     const loadTranscript = async () => {
@@ -507,8 +499,6 @@ export default function GPARankCalculator() {
   return (
     <div className="space-y-8 flex flex-col">
       {showTitle && <h1 className="text-4xl font-bold">GPA & Rank Calculator</h1>}
-
-      <PremiumDialog open={showPremiumDialog} onOpenChange={setShowPremiumDialog} />
 
       <ResizablePanelGroup direction="horizontal" className="space-x-2">
 

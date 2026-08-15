@@ -62,7 +62,6 @@ export interface User {
   numberDisplay?: 'decimal' | 'rounded' | 'letter' | 'letter+';
   animationsEnabled?: boolean;
   bellSchedules: BellSchedule[];
-  premium: boolean;
   lastLogin: Date | null;
   courseTypesByCourseName: Record<string, string>;
   deletedTranscriptCourses: string[];
@@ -199,7 +198,6 @@ const DEFAULT_USER: User = {
   numberDisplay: 'decimal',
   animationsEnabled: true,
   bellSchedules: [],
-  premium: false,
   lastLogin: null,
   courseTypesByCourseName: {},
   deletedTranscriptCourses: [],

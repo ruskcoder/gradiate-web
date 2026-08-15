@@ -33,7 +33,7 @@ import {
 } from '@/lib/constants';
 import { fetchAuthMethods, fetchDistrictDetails, login } from '@/lib/grades-api';
 import { useStore } from '@/lib/store';
-import { showWebNotificationsForUser, fetchReferralData } from '@/App';
+import { showWebNotificationsForUser, checkBlockedStatus } from '@/App';
 import MfaPrompt from '@/components/custom/mfa-prompt';
 
 const PLATFORM_LOGOS = {
@@ -337,7 +337,6 @@ export default function Login() {
         district: data.district || districtName,
         name: displayName,
         avatar: avatar || '',
-        premium: data.numReferrals >= 0,
         studentId,
         students: data.students || [],
       });
@@ -349,7 +348,7 @@ export default function Login() {
     try {
       showWebNotificationsForUser(newUser, true);
     } catch (_) {}
-    await fetchReferralData(newUser, useStore.getState().changeUserData);
+    await checkBlockedStatus(newUser);
 
     setMfaOpen(false);
     navigate('/dashboard');

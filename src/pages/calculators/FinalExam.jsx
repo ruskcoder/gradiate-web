@@ -21,7 +21,6 @@ import {
   ResizablePanel,
   ResizablePanelGroup,
 } from "@/components/ui/resizable"
-import { PremiumDialog } from '@/components/custom/premium-dialog'
 import { X } from 'lucide-react'
 
 export default function FinalExamCalculator() {
@@ -44,18 +43,11 @@ export default function FinalExamCalculator() {
   const [calculatedField, setCalculatedField] = React.useState(null)
   const [calculateError, setCalculateError] = React.useState('')
   const [isExempting, setIsExempting] = React.useState(false)
-  const [showPremiumDialog, setShowPremiumDialog] = React.useState(false)
 
   const loadedFromStorageRef = React.useRef(false)
 
   const user = useCurrentUser()
   const showTitle = user ? user.showPageTitles !== false : true
-
-  useEffect(() => {
-    if (user && !user.premium) {
-      setShowPremiumDialog(true)
-    }
-  }, [user])
 
   useEffect(() => {
     if (selectedClass && initialClassesData[currentTerm]) {
@@ -393,8 +385,6 @@ export default function FinalExamCalculator() {
   return (
     <div className="space-y-8 flex flex-col">
       {showTitle && <h1 className="text-4xl font-bold">Final Exam Calculator</h1>}
-
-      <PremiumDialog open={showPremiumDialog} onOpenChange={setShowPremiumDialog} />
 
       <ResizablePanelGroup direction="horizontal" className="space-x-2">
         { }

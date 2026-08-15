@@ -3,7 +3,6 @@ import { useState, useEffect } from 'react'
 import { useCurrentUser, useStore } from '@/lib/store'
 import { getColorThemes } from '@/lib/color-themes'
 import { applyColorTheme } from '@/lib/apply-color-theme'
-import { fetchReferralData } from '@/App'
 import { clearGradesStore } from '@/lib/grades-store'
 import {
   Select,
@@ -49,19 +48,10 @@ export default function Settings() {
   const user = useCurrentUser()
   const changeUserData = useStore((s) => s.changeUserData)
   const { setTheme } = useTheme()
-  const [referralStatus, setReferralStatus] = useState(null)
-  const [referralCode, setReferralCode] = useState(null)
-  const [loading, setLoading] = useState(false)
   const [colorThemes, setColorThemes] = useState([])
   const [themesLoading, setThemesLoading] = useState(true)
   const [isDarkMode, setIsDarkMode] = useState(false)
   const [showClearHistoryDialog, setShowClearHistoryDialog] = useState(false)
-
-  useEffect(() => {
-    if (user?.username) {
-      fetchReferralData(user, changeUserData, { setReferralCode, setReferralStatus, setLoading })
-    }
-  }, [])
 
   useEffect(() => {
     const loadThemes = async () => {
@@ -107,31 +97,6 @@ export default function Settings() {
       <p className="mt-2 text-muted-foreground">Application settings and preferences.</p>
 
       <div className="mt-6 space-y-8">
-        <section>
-          <h2 className="text-lg font-semibold">Referrals</h2>
-          <p className="text-sm text-muted-foreground mt-1">Share this code to others when they sign-in for the first time to gain more referrals.</p>
-
-          <div className="mt-4 flex items-center gap-10">
-            {referralCode && (
-              <div className="flex flex-col">
-                <Label className="text-sm">Your Referral Code</Label>
-                <p className="text-4xl font-bold font-mono mt-2">{referralCode}</p>
-              </div>
-            )}
-
-            {referralStatus !== null && (
-              <div className="flex flex-col">
-                <Label className="text-sm">Referral Status</Label>
-                <p className="text-4xl font-bold mt-2">{referralStatus}</p>
-              </div>
-            )}
-
-            <Button onClick={() => fetchReferralData(user, changeUserData, { setReferralCode, setReferralStatus, setLoading })} disabled={loading} className="self-end">
-              {loading ? 'Loading...' : 'Refresh'}
-            </Button>
-          </div>
-        </section>
-
         <section>
           <h2 className="text-lg font-semibold">Appearance</h2>
           <p className="text-sm text-muted-foreground mt-1 mb-4">Theme and visual preferences.</p>

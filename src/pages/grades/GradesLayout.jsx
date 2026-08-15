@@ -19,7 +19,6 @@ import { getClasses, getSingleClass } from '@/lib/grades-api'
 import { getLatestGradesLoad, getInitialTerm, getTermList, getTermTree, getHasSubterms, hasStorageData, addGradesLoad, reconstructAllInOneClassesFromHistory, reconstructClassDetailFromHistory, hasClassDetailInStorage } from '@/lib/grades-store'
 import { transformGroupsToCategories } from '@/lib/utils'
 import { flatForest, pathToLabel, barsForPath } from '@/lib/term-tree'
-import { PremiumDialog } from '@/components/custom/premium-dialog'
 import { ChevronLeft, GitCommitHorizontal, Loader2, HardDriveDownload } from 'lucide-react'
 
 // Matches the CSS `ease` used across the app so the term transition curve is
@@ -65,7 +64,6 @@ export function GradesLayout({ showTitle = true, pageTitle = 'Grades', element }
   const [loadingTerms, setLoadingTerms] = useState({});
   const [storageMode, setStorageMode] = useState({});
   const [lastLoadedDate, setLastLoadedDate] = useState({});
-  const [showPremiumDialog, setShowPremiumDialog] = useState(false);
 
   const user = useCurrentUser();
   const location = useLocation();
@@ -73,7 +71,6 @@ export function GradesLayout({ showTitle = true, pageTitle = 'Grades', element }
   const abortControllerRef = useRef({});
   const userHasSelectedTermRef = useRef(false);
   const animationsEnabled = user ? user.animationsEnabled !== false : true;
-  const isWhatIfMode = location.pathname === '/grades/whatif';
   const isTimeTravelMode = location.pathname === '/statistics/timetravel';
   const isTimelineMode = location.pathname === '/statistics/timeline';
 
@@ -151,12 +148,6 @@ export function GradesLayout({ showTitle = true, pageTitle = 'Grades', element }
   useEffect(() => {
     fetchClasses(null, { initial: true });
   }, []);
-
-  useEffect(() => {
-    if (isWhatIfMode && user && !user.premium) {
-      setShowPremiumDialog(true);
-    }
-  }, [isWhatIfMode, user]);
 
   const handleTabChange = (term) => {
     userHasSelectedTermRef.current = true;
@@ -496,10 +487,6 @@ export function GradesLayout({ showTitle = true, pageTitle = 'Grades', element }
               ) : null}
             </div>
             <div className='p-6 flex-1 overflow-y-auto'>
-              <PremiumDialog
-                open={showPremiumDialog}
-                onOpenChange={setShowPremiumDialog}
-              />
               {!selectedGrade ? (
                 <p className="text-muted-foreground text-center h-full flex items-center justify-center max-h-[46px]">
                   Select a grade to continue.

@@ -25,25 +25,19 @@ import { API_URL } from '@/lib/constants';
 import { Megaphone } from 'lucide-react';
 import { applyColorTheme } from '@/lib/apply-color-theme';
 
+/**
+ * Ask the API whether this account is blocked, and lock the page if so.
+ *
+ * This used to be `fetchReferralData` and also carried the referral code / count
+ * and the `premium` flag derived from them. The referral programme is gone; the
+ * blocked check is the only thing the endpoint still answers.
+ */
 // eslint-disable-next-line react-refresh/only-export-components
-export async function fetchReferralData(user, changeUserData, {
-  setReferralCode,
-  setReferralStatus,
-  setLoading,
-} = {}) {
+export async function checkBlockedStatus(user) {
   if (!user) return
-  if (setLoading) setLoading(true)
   try {
     const response = await fetch(`${API_URL}referral?username=${encodeURIComponent(user.username)}`)
     const data = await response.json()
-
-    const referralCode = data.referralCode || 'N/A'
-    const numReferrals = data.numReferrals ?? 0
-    if (setReferralCode) setReferralCode(referralCode)
-    if (setReferralStatus) setReferralStatus(numReferrals)
-
-    const isPremium = numReferrals >= 0
-    changeUserData('premium', isPremium)
 
     if (data?.blocked) {
       document.body.innerHTML = `
@@ -79,9 +73,7 @@ export async function fetchReferralData(user, changeUserData, {
       document.body.style.padding = "0";
     }
   } catch (error) {
-    console.error('Failed to fetch referral data:', error)
-  } finally {
-    if (setLoading) setLoading(false)
+    console.error('Failed to check blocked status:', error)
   }
 }
 
@@ -149,7 +141,7 @@ export default function App() {
     if (!currentUser) return;
 
     try {
-      fetchReferralData(currentUser, useStore.getState().changeUserData).catch(() => {});
+      checkBlockedStatus(currentUser).catch(() => {});
       showWebNotificationsForUser(currentUser);
     } catch (_e) {
       // 

@@ -80,8 +80,7 @@ function handleAuthError(response: Response, data: any, user: any): void {
 export async function login(
   platform: Platform,
   loginType: LoginType,
-  loginDetails: Record<string, string>,
-  referralCode: string = ''
+  loginDetails: Record<string, string>
 ) {
   const isClassLinkCreds = loginType === 'classlinkCredentials';
   const isMfaResume = isClassLinkCreds && !!loginDetails.clMFA;
@@ -90,9 +89,7 @@ export async function login(
   const body = {
     loginType: loginType,
     loginData: loginDetails,
-    options: {
-      referralCode: referralCode
-    },
+    options: {},
     session: session
   }
 
