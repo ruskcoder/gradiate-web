@@ -52,6 +52,10 @@ export interface User {
   avatar: string;
   district: string;
   school: string;
+  // Date of birth as the portal reports it (HAC/Skyward supply it from `/info`;
+  // PowerSchool's guardian home carries none, so it stays empty). Only used to
+  // fill the header of an exported unofficial transcript.
+  dob: string;
   colorTheme: string;
   theme: 'light' | 'dark';
   color: string;
@@ -188,6 +192,7 @@ const DEFAULT_USER: User = {
   avatar: '',
   district: '',
   school: '',
+  dob: '',
   colorTheme: 'default',
   theme: 'light',
   color: 'blue',

@@ -317,6 +317,9 @@ export default function Login() {
       useStore.getState().changeUserData('code', resolvedCode);
       if (data.link) useStore.getState().changeUserData('link', data.link);
       if (studentId) useStore.getState().changeUserData('studentId', studentId);
+      // Backfill DOB for accounts created before it was captured; only overwrite
+      // when the portal actually reported one.
+      if (data.dob) useStore.getState().changeUserData('dob', data.dob);
     } else {
       const avatar = (displayName || '')
         .split(/\s+/)
@@ -335,6 +338,7 @@ export default function Login() {
         mfaType: answeredMfa ? mfaType : '',
         school: data.school || '',
         district: data.district || districtName,
+        dob: data.dob || '',
         name: displayName,
         avatar: avatar || '',
         studentId,

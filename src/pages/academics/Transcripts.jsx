@@ -1,6 +1,9 @@
 import React from 'react'
+import { Download } from 'lucide-react'
 import { useCurrentUser } from '@/lib/store'
 import { getTranscript } from '@/lib/grades-api'
+import { exportUnofficialTranscript } from '@/lib/transcript-export'
+import { Button } from '@/components/ui/button'
 import { Spinner } from '@/components/ui/spinner'
 import {
   Table,
@@ -15,6 +18,7 @@ export default function Transcripts() {
   const [loading, setLoading] = React.useState(true)
   const [transcriptData, setTranscriptData] = React.useState({})
   const [error, setError] = React.useState(null)
+  const [exporting, setExporting] = React.useState(false)
 
   React.useEffect(() => {
     const fetchTranscript = async () => {
@@ -61,6 +65,17 @@ export default function Transcripts() {
       unweightedGPA: transcriptData['Unweighted GPA*'] || 'N/A'
     }
   }, [transcriptData])
+
+  const handleExport = async () => {
+    setExporting(true)
+    try {
+      await exportUnofficialTranscript(transcriptData, user)
+    } catch (err) {
+      console.error('Failed to export transcript:', err)
+    } finally {
+      setExporting(false)
+    }
+  }
 
   return (
     <div className="space-y-8 flex flex-col">
@@ -148,6 +163,13 @@ export default function Transcripts() {
                 </div>
               </div>
             ))}
+
+            <div className="flex justify-start pt-2">
+              <Button variant="outline" onClick={handleExport} disabled={exporting}>
+                {exporting ? <Spinner className="size-4" /> : <Download />}
+                Export Unofficial Transcript
+              </Button>
+            </div>
           </div>
         )}
       </div>
