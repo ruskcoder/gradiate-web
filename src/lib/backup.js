@@ -12,7 +12,8 @@ const PORTABLE_KEYS = [
   'hideColors', 'numberDisplay', 'animationsEnabled', 'bellSchedules',
   'courseTypesByCourseName', 'deletedTranscriptCourses', 'customCourses',
   'rankDataPoints', 'todos', 'shortcuts', 'goals', 'classNotes', 'alertSettings',
-  'autoTodoFromMissing', 'activeBellSchedule', 'gradesStore',
+  'autoTodoFromMissing', 'activeBellSchedule', 'changeAlerts', 'defaultPage',
+  'gradesStore',
 ]
 
 export function exportBackup(user) {

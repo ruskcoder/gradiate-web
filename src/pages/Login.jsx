@@ -32,7 +32,7 @@ import {
   PLATFORM_MAPPING,
 } from '@/lib/constants';
 import { fetchAuthMethods, fetchDistrictDetails, login } from '@/lib/grades-api';
-import { useStore } from '@/lib/store';
+import { useStore, homePath } from '@/lib/store';
 import { showWebNotificationsForUser, checkBlockedStatus } from '@/App';
 import MfaPrompt from '@/components/custom/mfa-prompt';
 
@@ -355,7 +355,7 @@ export default function Login() {
     await checkBlockedStatus(newUser);
 
     setMfaOpen(false);
-    navigate('/dashboard');
+    navigate(homePath());
   };
 
   const selectStudent = async (student) => {

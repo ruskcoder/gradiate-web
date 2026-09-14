@@ -25,8 +25,6 @@ export interface TodoItem {
 }
 
 export interface AlertSettings {
-  // Toast when a refresh finds changed averages or new assignments.
-  changeAlerts: boolean;
   // Also raise a system notification (needs browser permission).
   browserNotifications: boolean;
   // Background refresh interval while the app is open; 0 = off.
@@ -90,6 +88,12 @@ export interface User {
   // Free-form notes per class, keyed `${course}|${name}`.
   classNotes: Record<string, string>;
   alertSettings: AlertSettings;
+  // Popup when a load finds changed averages or new assignments (same field as mobile).
+  changeAlerts?: boolean;
+  // Page opened after login / at the app root.
+  defaultPage?: 'dashboard' | 'grades';
+  // Which built-in bell schedule set has been applied (see lib/bell-schedules).
+  bellSchedulesVersion?: number;
   // Create todos for missing assignments after each grades refresh.
   autoTodoFromMissing: boolean;
   // Name of the bell schedule the dashboard uses for "current period".
@@ -237,10 +241,12 @@ const DEFAULT_USER: User = {
   goals: {},
   classNotes: {},
   alertSettings: {
-    changeAlerts: true,
     browserNotifications: false,
     autoRefreshMinutes: 0,
   },
+  changeAlerts: true,
+  defaultPage: 'dashboard',
+  bellSchedulesVersion: 0,
   autoTodoFromMissing: false,
   activeBellSchedule: '',
   gradesStore: {
@@ -675,6 +681,10 @@ export const useCurrentUser = () => {
     return users[currentUserIndex];
   });
 };
+
+/** Route for the user's chosen start page. */
+export const homePath = (user: User | null | undefined = useStore.getState().currentUser()) =>
+  user?.defaultPage === 'grades' ? '/grades' : '/dashboard';
 
 export const currentUser = () => {
   return useStore.getState().currentUser();

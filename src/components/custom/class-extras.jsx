@@ -1,41 +1,36 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useMemo, useState } from 'react'
 import { useCurrentUser, useStore } from '@/lib/store'
 import { goalPlan, parseNum } from '@/lib/insights'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { Target, NotebookPen } from 'lucide-react'
 
-/** Goal target + per-class notes shown under a selected class on the Grades page. */
-export function ClassExtras({ grade }) {
+const keyOf = (grade) => `${grade.course}|${grade.name}`
+
+function HeaderButton({ icon: Icon, title, active }) {
+  return (
+    <Button size="sm" variant="outline" className="h-7 w-7 p-0 relative" title={title}>
+      <Icon size={16} />
+      {active && <span className="absolute -top-0.5 -right-0.5 size-2 rounded-full bg-primary" />}
+    </Button>
+  )
+}
+
+function GoalBody({ grade }) {
   const user = useCurrentUser()
   const changeUserData = useStore((s) => s.changeUserData)
-  const key = `${grade.course}|${grade.name}`
+  const key = keyOf(grade)
   const goal = user?.goals?.[key]
-  const [goalInput, setGoalInput] = useState(goal ?? '')
-  const [note, setNote] = useState(user?.classNotes?.[key] ?? '')
+  const [input, setInput] = useState(goal ?? '')
 
-  useEffect(() => {
-    setGoalInput(user?.goals?.[key] ?? '')
-    setNote(user?.classNotes?.[key] ?? '')
-    // Only reset when switching classes, not on every store write.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [key])
-
-  const saveGoal = (v) => {
+  const save = (v) => {
     const goals = { ...(user.goals || {}) }
     const n = parseFloat(v)
     if (Number.isFinite(n)) goals[key] = n
     else delete goals[key]
     changeUserData('goals', goals)
-    setGoalInput(Number.isFinite(n) ? n : '')
-  }
-
-  const saveNote = () => {
-    const notes = { ...(user.classNotes || {}) }
-    if (note.trim()) notes[key] = note
-    else delete notes[key]
-    changeUserData('classNotes', notes)
+    setInput(Number.isFinite(n) ? n : '')
   }
 
   const average = parseNum(grade.average)
@@ -45,64 +40,99 @@ export function ClassExtras({ grade }) {
   )
 
   return (
-    <div className="grid gap-4 mb-4 md:grid-cols-2">
-      <Card className="gap-3 py-4">
-        <CardHeader className="px-4">
-          <CardTitle className="text-base flex items-center gap-2"><Target className="size-4" /> Goal</CardTitle>
-        </CardHeader>
-        <CardContent className="px-4 flex flex-col gap-2">
-          <div className="flex gap-2">
-            <Input
-              type="number"
-              className="h-8"
-              placeholder="Target average"
-              value={goalInput}
-              onChange={(e) => setGoalInput(e.target.value)}
-              onKeyDown={(e) => e.key === 'Enter' && saveGoal(goalInput)}
-            />
-            <Button size="sm" variant="outline" onClick={() => saveGoal('89.5')}>A</Button>
-            <Button size="sm" variant="outline" onClick={() => saveGoal('79.5')}>B</Button>
-            <Button size="sm" onClick={() => saveGoal(goalInput)}>Set</Button>
-          </div>
-          {goal === undefined ? (
-            <p className="text-xs text-muted-foreground">Set a target to see what you need on upcoming work.</p>
-          ) : average !== null && average >= goal ? (
-            <p className="text-sm text-green-600">On track — {average.toFixed(2)} ≥ {goal}.</p>
-          ) : plan.length ? (
-            <div className="text-sm space-y-1">
-              {average !== null && <p className="text-red-600">{(goal - average).toFixed(2)} below goal.</p>}
-              {plan.map((p) => (
-                <p key={p.category}>
-                  Next <span className="font-medium">{p.category}</span>:{' '}
-                  <span className={`font-semibold tabular-nums ${p.needed > 100 ? 'text-red-600' : ''}`}>
-                    {p.needed > 100 ? `${p.needed.toFixed(1)}% (not reachable with one)` : `${Math.max(0, p.needed).toFixed(1)}%`}
-                  </span>
-                </p>
-              ))}
-            </div>
-          ) : (
-            <p className="text-xs text-muted-foreground">No category data for this class yet.</p>
-          )}
-          {goal !== undefined && (
-            <Button size="sm" variant="ghost" className="self-start px-0 h-6" onClick={() => saveGoal('')}>Clear goal</Button>
-          )}
-        </CardContent>
-      </Card>
-      <Card className="gap-3 py-4">
-        <CardHeader className="px-4">
-          <CardTitle className="text-base flex items-center gap-2"><NotebookPen className="size-4" /> Notes</CardTitle>
-        </CardHeader>
-        <CardContent className="px-4">
-          <textarea
-            value={note}
-            onChange={(e) => setNote(e.target.value)}
-            onBlur={saveNote}
-            placeholder="Test dates, teacher preferences, reminders…"
-            className="w-full min-h-[92px] rounded-md border bg-transparent px-3 py-2 text-sm outline-none focus-visible:ring-2 focus-visible:ring-ring/50 resize-y"
-          />
-          <p className="text-xs text-muted-foreground mt-1">Saved on this device when you click away.</p>
-        </CardContent>
-      </Card>
+    <div className="flex flex-col gap-2">
+      <p className="font-medium flex items-center gap-2"><Target size={16} /> Goal</p>
+      <div className="flex gap-2">
+        <Input
+          type="number"
+          className="h-8"
+          placeholder="Target average"
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          onKeyDown={(e) => e.key === 'Enter' && save(input)}
+        />
+        <Button size="sm" onClick={() => save(input)}>Set</Button>
+      </div>
+      <div className="flex gap-2">
+        <Button size="sm" variant="outline" onClick={() => save('89.5')}>A</Button>
+        <Button size="sm" variant="outline" onClick={() => save('79.5')}>B</Button>
+        {goal !== undefined && <Button size="sm" variant="ghost" onClick={() => save('')}>Clear</Button>}
+      </div>
+      {goal === undefined ? (
+        <p className="text-xs text-muted-foreground">Set a target to see what you need on upcoming work.</p>
+      ) : average !== null && average >= goal ? (
+        <p className="text-sm text-green-600">On track: {average.toFixed(2)} ≥ {goal}.</p>
+      ) : plan.length ? (
+        <div className="text-sm space-y-1">
+          {average !== null && <p className="text-red-600">{(goal - average).toFixed(2)} below goal.</p>}
+          {plan.map((p) => (
+            <p key={p.category}>
+              Next <span className="font-medium">{p.category}</span>:{' '}
+              <span className={`font-semibold tabular-nums ${p.needed > 100 ? 'text-red-600' : ''}`}>
+                {p.needed > 100 ? `${p.needed.toFixed(1)}% (not reachable with one)` : `${Math.max(0, p.needed).toFixed(1)}%`}
+              </span>
+            </p>
+          ))}
+        </div>
+      ) : (
+        <p className="text-xs text-muted-foreground">No category data for this class yet.</p>
+      )}
+    </div>
+  )
+}
+
+function NotesBody({ grade }) {
+  const user = useCurrentUser()
+  const changeUserData = useStore((s) => s.changeUserData)
+  const key = keyOf(grade)
+  const [note, setNote] = useState(user?.classNotes?.[key] ?? '')
+
+  // Closing the popover blurs the textarea first, so saving on blur is enough.
+  const save = () => {
+    const notes = { ...(user.classNotes || {}) }
+    if (note.trim()) notes[key] = note
+    else delete notes[key]
+    changeUserData('classNotes', notes)
+  }
+
+  return (
+    <div className="flex flex-col gap-2">
+      <p className="font-medium flex items-center gap-2"><NotebookPen size={16} /> Notes</p>
+      <textarea
+        autoFocus
+        value={note}
+        onChange={(e) => setNote(e.target.value)}
+        onBlur={save}
+        placeholder="Test dates, teacher preferences, reminders…"
+        className="w-full min-h-[120px] rounded-md border bg-transparent px-3 py-2 text-sm outline-none focus-visible:ring-2 focus-visible:ring-ring/50 resize-y"
+      />
+      <p className="text-xs text-muted-foreground">Saved on this device.</p>
+    </div>
+  )
+}
+
+/** Goal + Notes popover buttons for the selected class's title bar. */
+export function ClassHeaderActions({ grade }) {
+  const user = useCurrentUser()
+  const key = keyOf(grade)
+  return (
+    <div className="flex gap-1">
+      <Popover>
+        <PopoverTrigger asChild>
+          <span><HeaderButton icon={Target} title="Goal" active={user?.goals?.[key] !== undefined} /></span>
+        </PopoverTrigger>
+        <PopoverContent align="end" className="w-80">
+          <GoalBody key={key} grade={grade} />
+        </PopoverContent>
+      </Popover>
+      <Popover>
+        <PopoverTrigger asChild>
+          <span><HeaderButton icon={NotebookPen} title="Notes" active={!!user?.classNotes?.[key]} /></span>
+        </PopoverTrigger>
+        <PopoverContent align="end" className="w-80">
+          <NotesBody key={key} grade={grade} />
+        </PopoverContent>
+      </Popover>
     </div>
   )
 }

@@ -10,8 +10,6 @@ import {
 } from "@/components/ui/card"
 import { Slider } from "@/components/ui/slider"
 import { useCurrentUser } from '@/lib/store'
-import { ClassExtras } from '@/components/custom/class-extras'
-
 export function GradesView({ selectedGrade, timeTravel = false, term }) {
   const currentUser = useCurrentUser()
   const location = useLocation()
@@ -166,7 +164,6 @@ export function GradesView({ selectedGrade, timeTravel = false, term }) {
           </CardContent>
         </Card>
       )}
-      {!timeTravel && location.pathname === '/grades' && <ClassExtras grade={displayedGrade} />}
       <div className="flex gap-4 overflow-x-auto mb-4">
         <RingGradeStat grade={Number.isFinite(parseFloat(displayedGrade.average)) ? parseFloat(displayedGrade.average).toPrecision(4) : displayedGrade.average} />
         {!showGrouped && (

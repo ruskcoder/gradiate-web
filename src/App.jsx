@@ -19,7 +19,8 @@ import FinalExamCalculator from './pages/calculators/FinalExam';
 import GPARankCalculator from './pages/calculators/GPA-Rank';
 import MissingWork from './pages/statistics/MissingWork';
 import { useStore } from '@/lib/store';
-import { useCurrentUser } from '@/lib/store';
+import { useCurrentUser, homePath } from '@/lib/store';
+import { migrateBellSchedules, BELL_SCHEDULES_VERSION } from '@/lib/bell-schedules';
 import { toast } from "sonner"
 import { Toaster } from '@/components/ui/sonner';
 import { API_URL } from '@/lib/constants';
@@ -149,6 +150,15 @@ export default function App() {
     }
   }, []);
 
+  // Apply this year's built-in bell schedules once per account.
+  useEffect(() => {
+    const next = migrateBellSchedules(currentUser);
+    if (!next) return;
+    const { changeUserData } = useStore.getState();
+    changeUserData('bellSchedules', next);
+    changeUserData('bellSchedulesVersion', BELL_SCHEDULES_VERSION);
+  }, [currentUser?.username, currentUser?.bellSchedulesVersion]);
+
   useEffect(() => {
     if (!currentUser?.colorTheme) return;
 
@@ -174,7 +184,7 @@ export default function App() {
     <ThemeProvider defaultTheme="light" storageKey="gradiate-theme">
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={notLogged ? <Navigate to="/login" replace /> : <Navigate to="/dashboard" replace />} />
+          <Route path="/" element={notLogged ? <Navigate to="/login" replace /> : <Navigate to={homePath(currentUser)} replace />} />
           <Route path="/login" element={<Login />} />
           <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
           <Route path="/grades" element={<ProtectedRoute><Grades /></ProtectedRoute>} />

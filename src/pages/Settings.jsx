@@ -96,7 +96,6 @@ export default function Settings() {
   }
 
   const alertSettings = {
-    changeAlerts: true,
     browserNotifications: false,
     autoRefreshMinutes: 0,
     ...(user.alertSettings || {}),
@@ -258,6 +257,22 @@ export default function Settings() {
           <p className="text-sm text-muted-foreground mt-1">General app options.</p>
 
           <div className="mt-4 flex flex-col gap-4">
+            <div className="max-w-xs">
+              <Label>Default page</Label>
+              <div className="text-sm text-muted-foreground">Page that opens when you start the app.</div>
+              <div className="mt-2">
+                <Select
+                  value={user.defaultPage || 'dashboard'}
+                  onValueChange={(val) => changeUserData('defaultPage', val)}
+                >
+                  <SelectTrigger><SelectValue /></SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="dashboard">Dashboard</SelectItem>
+                    <SelectItem value="grades">Grades</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
             <div className="flex items-center gap-2">
               <Checkbox
                 checked={!!user.showPageTitles}
@@ -288,8 +303,8 @@ export default function Settings() {
           <div className="mt-4 flex flex-col gap-4">
             <div className="flex items-center gap-2">
               <Checkbox
-                checked={alertSettings.changeAlerts}
-                onCheckedChange={(checked) => setAlertSetting('changeAlerts', !!checked)}
+                checked={user.changeAlerts !== false}
+                onCheckedChange={(checked) => changeUserData('changeAlerts', !!checked)}
               />
               <div>
                 <Label>Grade change alerts</Label>

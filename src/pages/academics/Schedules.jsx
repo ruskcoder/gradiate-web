@@ -31,6 +31,7 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { Input } from '@/components/ui/input';
+import { CRHS_BELL_SCHEDULES } from '@/lib/bell-schedules';
 
 export default function Schedules() {
   const navigate = useNavigate();
@@ -58,94 +59,6 @@ export default function Schedules() {
     try {
       setLoading(true);
 
-      if (currentUser && bellSchedules.length === 0) {
-        setBellSchedules([
-          {
-            "name": "CRHS - A Lunch",
-            "periods": [
-              { "name": "Period 1", "startTime": "7:25 AM", "endTime": "8:05 AM" },
-              { "name": "Period 2", "startTime": "8:10 AM", "endTime": "8:55 AM" },
-              { "name": "Period 3", "startTime": "9:00 AM", "endTime": "9:45 AM" },
-              { "name": "A Lunch", "startTime": "9:50 AM", "endTime": "10:20 AM" },
-              { "name": "Period 4A", "startTime": "10:25 AM", "endTime": "11:35 AM" },
-              { "name": "Period 5", "startTime": "11:40 AM", "endTime": "12:25 PM" },
-              { "name": "Period 6", "startTime": "12:30 PM", "endTime": "1:15 PM" },
-              { "name": "Period 7", "startTime": "1:20 PM", "endTime": "2:05 PM" }
-            ]
-          },
-          {
-            "name": "CRHS - B Lunch",
-            "periods": [
-              { "name": "Period 1", "startTime": "7:25 AM", "endTime": "8:05 AM" },
-              { "name": "Period 2", "startTime": "8:10 AM", "endTime": "8:55 AM" },
-              { "name": "Period 3", "startTime": "9:00 AM", "endTime": "9:45 AM" },
-              { "name": "Period 4A", "startTime": "9:50 AM", "endTime": "10:20 AM" },
-              { "name": "B Lunch", "startTime": "10:20 AM", "endTime": "10:50 AM" },
-              { "name": "Period 4B", "startTime": "10:55 AM", "endTime": "11:35 AM" },
-              { "name": "Period 5", "startTime": "11:40 AM", "endTime": "12:25 PM" },
-              { "name": "Period 6", "startTime": "12:30 PM", "endTime": "1:15 PM" },
-              { "name": "Period 7", "startTime": "1:20 PM", "endTime": "2:05 PM" }
-            ]
-          }, 
-          {
-            "name": "CRHS - C Lunch",
-            "periods": [
-              { "name": "Period 1", "startTime": "7:25 AM", "endTime": "8:05 AM" },
-              { "name": "Period 2", "startTime": "8:10 AM", "endTime": "8:55 AM" },
-              { "name": "Period 3", "startTime": "9:00 AM", "endTime": "9:45 AM" },
-              { "name": "Period 4B", "startTime": "9:50 AM", "endTime": "11:05 AM" },
-              { "name": "C Lunch", "startTime": "11:05 AM", "endTime": "11:35 AM" },
-              { "name": "Period 5", "startTime": "11:40 AM", "endTime": "12:25 PM" },
-              { "name": "Period 6", "startTime": "12:30 PM", "endTime": "1:15 PM" },
-              { "name": "Period 7", "startTime": "1:20 PM", "endTime": "2:05 PM" }
-            ]
-          },
-          {
-            "name": "CRHS Pep Rally - A Lunch",
-            "periods": [
-              { "name": "Period 1", "startTime": "7:25 AM", "endTime": "8:04 AM" },
-              { "name": "Period 2", "startTime": "8:09 AM", "endTime": "8:53 AM" },
-              { "name": "Period 3", "startTime": "8:58 AM", "endTime": "9:42 AM" },
-              { "name": "A Lunch", "startTime": "9:47 AM", "endTime": "10:17 AM" },
-              { "name": "Period 4A", "startTime": "10:22 AM", "endTime": "11:32 AM" },
-              { "name": "Period 5", "startTime": "11:37 AM", "endTime": "12:21 PM" },
-              { "name": "Period 6", "startTime": "12:26 PM", "endTime": "1:10 PM" },
-              { "name": "Period 7", "startTime": "1:15 PM", "endTime": "2:00 PM" },
-              { "name": "Pep Rally", "startTime": "2:00 PM", "endTime": "2:35 PM" }
-            ]
-          },
-          {
-            "name": "CRHS Pep Rally - B Lunch",
-            "periods": [
-              { "name": "Period 1", "startTime": "7:25 AM", "endTime": "8:04 AM" },
-              { "name": "Period 2", "startTime": "8:09 AM", "endTime": "8:53 AM" },
-              { "name": "Period 3", "startTime": "8:58 AM", "endTime": "9:42 AM" },
-              { "name": "Period 4A", "startTime": "9:47 AM", "endTime": "10:17 AM" },
-              { "name": "B Lunch", "startTime": "10:17 AM", "endTime": "10:47 AM" },
-              { "name": "Period 4B", "startTime": "10:52 AM", "endTime": "11:32 AM" },
-              { "name": "Period 5", "startTime": "11:37 AM", "endTime": "12:21 PM" },
-              { "name": "Period 6", "startTime": "12:26 PM", "endTime": "1:10 PM" },
-              { "name": "Period 7", "startTime": "1:15 PM", "endTime": "2:00 PM" },
-              { "name": "Pep Rally", "startTime": "2:00 PM", "endTime": "2:35 PM" }
-            ]
-          },
-          {
-            "name": "CRHS Pep Rally - C Lunch",
-            "periods": [
-              { "name": "Period 1", "startTime": "7:25 AM", "endTime": "8:04 AM" },
-              { "name": "Period 2", "startTime": "8:09 AM", "endTime": "8:53 AM" },
-              { "name": "Period 3", "startTime": "8:58 AM", "endTime": "9:42 AM" },
-              { "name": "Period 4B", "startTime": "9:47 AM", "endTime": "11:02 AM" },
-              { "name": "C Lunch", "startTime": "11:02 AM", "endTime": "11:32 AM" },
-              { "name": "Period 5", "startTime": "11:37 AM", "endTime": "12:21 PM" },
-              { "name": "Period 6", "startTime": "12:26 PM", "endTime": "1:10 PM" },
-              { "name": "Period 7", "startTime": "1:15 PM", "endTime": "2:00 PM" },
-              { "name": "Pep Rally", "startTime": "2:00 PM", "endTime": "2:35 PM" }
-            ]
-          }
-        ]
-        );
-      }
 
       const data = await getSchedule(); 
       if (data.success && data.schedule) {
@@ -451,6 +364,14 @@ export default function Schedules() {
                     />
                   ))}
                 </ListItemsList>
+                {bellSchedules.length === 0 && (
+                  <div className='flex flex-col items-center gap-2 py-4 text-sm text-muted-foreground'>
+                    No bell schedules yet.
+                    <Button size="sm" variant="outline" onClick={() => setBellSchedules(CRHS_BELL_SCHEDULES)}>
+                      Load Cinco Ranch HS 2026–27 schedules
+                    </Button>
+                  </div>
+                )}
               </div>
             </>
           ) : (

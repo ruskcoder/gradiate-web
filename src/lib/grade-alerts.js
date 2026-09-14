@@ -18,7 +18,7 @@ function describe(change) {
 export function notifyGradeChanges(changes) {
   const user = useStore.getState().currentUser()
   const settings = user?.alertSettings
-  if (!changes.length || !settings?.changeAlerts) return
+  if (!changes.length || user?.changeAlerts === false) return
 
   const title = changes.length === 1 ? 'Grade updated' : `${changes.length} grades updated`
   const lines = changes.slice(0, 4).map(describe)
@@ -30,7 +30,7 @@ export function notifyGradeChanges(changes) {
     closeButton: true,
   })
 
-  if (settings.browserNotifications && typeof Notification !== 'undefined' &&
+  if (settings?.browserNotifications && typeof Notification !== 'undefined' &&
       Notification.permission === 'granted' && document.visibilityState === 'hidden') {
     try {
       new Notification(title, { body: lines.join('\n'), icon: '/logo-rounded.png', tag: 'grade-changes' })
