@@ -418,7 +418,9 @@ export function GradesLayout({ showTitle = true, pageTitle = 'Grades', element }
                       </Button>
                     </div>}
                     {!loadingTerms[currentTerm] && !loadingTerms.initial && displayClasses && (
-                      <div className="mt-2">
+                      <div className="mt-2 pt-2 px-2">
+                        {/* pt/px leave room for change badges that sit on item outlines,
+                            which the overflow-hidden stage above would otherwise clip. */}
                         {storageMode[currentTerm] && (
                           <div className="mb-4 p-3 bg-muted rounded-lg text-sm text-muted-foreground">
                             Last Loaded: {formatDate(lastLoadedDate[currentTerm])}

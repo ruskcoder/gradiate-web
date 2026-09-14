@@ -106,9 +106,9 @@ function DeltaBadge({ delta, className = '' }) {
   return (
     <span
       title="Change since you last opened this class"
-      className={`pointer-events-none z-10 absolute rounded-full px-1.5 py-0.5 text-[11px] font-semibold leading-none tabular-nums text-white shadow ${up ? 'bg-green-600' : 'bg-red-600'} ${className}`}
+      className={`pointer-events-none z-10 absolute rounded-full px-2 py-1 text-[13px] font-semibold leading-none tabular-nums text-white shadow ${up ? 'bg-green-600' : 'bg-red-600'} ${className}`}
     >
-      {up ? '+' : ''}{delta.toFixed(2)}
+      {up ? '+' : ''}{delta.toFixed(2)}%
     </span>
   )
 }
@@ -164,7 +164,7 @@ export function GradesItem({ courseName, id, grade, variant, change }) {
   ) : (
     <div className="relative">
     <NewAssignmentsBadge count={change?.newCount} />
-    <DeltaBadge delta={change?.delta} className="-top-2 -right-2" />
+    <DeltaBadge delta={change?.delta} className="-top-1.5 right-4" />
     <Item variant="outline" className="p-2 min-w-[250px] cursor-pointer hover:bg-accent transition-colors">
       <div className="flex w-full items-center justify-between">
         <ItemContent className="gap-0 ml-1 mr-3 min-w-0">
