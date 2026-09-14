@@ -20,6 +20,7 @@ import { getLatestGradesLoad, getInitialTerm, getTermList, getTermTree, getHasSu
 import { transformGroupsToCategories } from '@/lib/utils'
 import { flatForest, pathToLabel, barsForPath } from '@/lib/term-tree'
 import { ChevronLeft, GitCommitHorizontal, Loader2, HardDriveDownload } from 'lucide-react'
+import { ClassHeaderActions } from '@/components/custom/class-extras'
 
 // Matches the CSS `ease` used across the app so the term transition curve is
 // identical to the rest of the UI. A pure opacity cross-fade (no horizontal
@@ -190,6 +191,19 @@ export function GradesLayout({ showTitle = true, pageTitle = 'Grades', element }
   const visibleClasses = (displayClasses || []).filter((course) =>
     course && course.averages ? (effectiveTerm in course.averages) : true
   );
+
+  // Command palette deep link: select the requested class once it's loaded.
+  const pendingSelectRef = useRef(location.state?.selectCourse || null);
+  useEffect(() => {
+    if (!pendingSelectRef.current || !visibleClasses.length) return;
+    const match = visibleClasses.find((c) => `${c.course}|${c.name}` === pendingSelectRef.current);
+    pendingSelectRef.current = null;
+    if (match) setSelectedGrade(match);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [visibleClasses.length]);
+  useEffect(() => {
+    if (location.state?.selectCourse) pendingSelectRef.current = location.state.selectCourse;
+  }, [location.state]);
 
   // Averages-only portals (Skyward) hand back grades without assignment scores;
   // fetch the per-class detail on demand so every right-panel element (grades,
@@ -448,6 +462,8 @@ export function GradesLayout({ showTitle = true, pageTitle = 'Grades', element }
           <ResizableHandle />
           <ResizablePanel className='bg-card rounded-xl border flex flex-col min-w-[412px]'>
             <div className='flex items-center justify-between py-2 px-2 border-b'>
+              {/* Balance the Goal/Notes buttons on the right so the title stays centered. */}
+              {selectedGrade && !isTimeTravelMode && <div className={isTimelineMode ? 'w-7' : 'w-[60px]'} />}
               {isTimeTravelMode &&
                 <Button
                   size="sm"
@@ -476,13 +492,15 @@ export function GradesLayout({ showTitle = true, pageTitle = 'Grades', element }
               {/* The grade-detail "Load from Storage" control lives below the
                   loading spinner (mirroring the main grades page), not up here —
                   so this slot is just a spacer to keep the title centered. */}
-              {!isTimeTravelMode && !isTimelineMode && selectedGrade ? (
-                <div className="w-7"></div>
+              {selectedGrade && !isTimeTravelMode ? (
+                <ClassHeaderActions
+                  grade={{
+                    ...(enrichedGrade || selectedGrade),
+                    average: (enrichedGrade || selectedGrade).average ?? (enrichedGrade || selectedGrade).averages?.[effectiveTerm],
+                  }}
+                />
               ) : null}
               {isTimeTravelMode ? (
-                <div className="w-7"></div>
-              ) : null}
-              {isTimelineMode && selectedGrade ? (
                 <div className="w-7"></div>
               ) : null}
             </div>

@@ -10,7 +10,6 @@ import {
 } from "@/components/ui/card"
 import { Slider } from "@/components/ui/slider"
 import { useCurrentUser } from '@/lib/store'
-
 export function GradesView({ selectedGrade, timeTravel = false, term }) {
   const currentUser = useCurrentUser()
   const location = useLocation()
@@ -93,6 +92,24 @@ export function GradesView({ selectedGrade, timeTravel = false, term }) {
   const groupNames = groups ? Object.keys(groups).sort((a, b) => termRank(a) - termRank(b)) : []
   const showGrouped = groupNames.length > 1 && !timeTravel
 
+  // TimeTravel: compare the viewed snapshot with the latest one.
+  const travelComparison = useMemo(() => {
+    if (!timeTravel || history.length < 2) return null
+    const then = history[historyIndex]
+    const latest = history[history.length - 1]
+    if (!then || !latest) return null
+    const a = parseFloat(then.average)
+    const b = parseFloat(latest.average)
+    const thenNames = new Set((then.scores || []).map((s) => `${s.name}|${s.dateDue}`))
+    const added = (latest.scores || []).filter((s) => !thenNames.has(`${s.name}|${s.dateDue}`)).length
+    return {
+      delta: Number.isFinite(a) && Number.isFinite(b) ? b - a : null,
+      latest: Number.isFinite(b) ? b : null,
+      added,
+      isLatest: historyIndex === history.length - 1,
+    }
+  }, [timeTravel, history, historyIndex])
+
   if (!selectedGrade) {
     return (
       <p className="text-muted-foreground text-center h-full flex items-center justify-center max-h-[46px]">
@@ -126,6 +143,24 @@ export function GradesView({ selectedGrade, timeTravel = false, term }) {
               className={"w-full"}
               disabled={history.length === 0}
             />
+            {history.length > 1 && (
+              <div className="flex justify-between text-xs text-muted-foreground mt-2">
+                <span>{history.length} snapshots</span>
+                {travelComparison && !travelComparison.isLatest && (
+                  <span>
+                    Since then:{' '}
+                    {travelComparison.delta !== null && (
+                      <span className={travelComparison.delta >= 0 ? 'text-green-600' : 'text-red-600'}>
+                        {travelComparison.delta >= 0 ? '+' : ''}{travelComparison.delta.toFixed(2)}
+                      </span>
+                    )}
+                    {travelComparison.latest !== null && ` → ${travelComparison.latest.toFixed(2)} now`}
+                    {travelComparison.added > 0 && ` · ${travelComparison.added} new assignment${travelComparison.added === 1 ? '' : 's'}`}
+                  </span>
+                )}
+                {travelComparison?.isLatest && <span>Latest snapshot</span>}
+              </div>
+            )}
           </CardContent>
         </Card>
       )}

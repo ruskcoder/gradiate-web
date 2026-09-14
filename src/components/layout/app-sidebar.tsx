@@ -2,7 +2,8 @@
 
 import * as React from "react"
 import { Link, useLocation } from "react-router-dom"
-import { Cog } from "lucide-react"
+import { Cog, Search } from "lucide-react"
+import { OPEN_COMMAND_PALETTE } from "@/components/custom/command-palette"
 import { NavMain } from "@/components/layout/sidebar/nav-main"
 import { NavUser } from "@/components/layout/sidebar/nav-user"
 import {
@@ -73,6 +74,19 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <SidebarBrand collapsed={collapsed} />
       </SidebarHeader>
       <SidebarContent>
+        <SidebarMenu className="px-2 pt-2">
+          <SidebarMenuItem>
+            <SidebarMenuButton
+              tooltip="Search (Ctrl K)"
+              onClick={() => window.dispatchEvent(new Event(OPEN_COMMAND_PALETTE))}
+              className="text-muted-foreground"
+            >
+              <Search />
+              <span className="truncate flex-1">Search</span>
+              <kbd className="text-[10px] border rounded px-1">Ctrl K</kbd>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+        </SidebarMenu>
         <NavMain items={sidebarData.navMain} />
       </SidebarContent>
       <SidebarFooter>

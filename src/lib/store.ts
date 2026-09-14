@@ -19,6 +19,16 @@ export interface TodoItem {
   title: string;
   dueDate: Date | null;
   completed: boolean;
+  // Set on todos created automatically (e.g. from a missing assignment) so they
+  // can be deduped against later refreshes. Absent on user-created todos.
+  source?: string;
+}
+
+export interface AlertSettings {
+  // Also raise a system notification (needs browser permission).
+  browserNotifications: boolean;
+  // Background refresh interval while the app is open; 0 = off.
+  autoRefreshMinutes: number;
 }
 
 export interface Shortcut {
@@ -73,6 +83,21 @@ export interface User {
   rankDataPoints: Array<{ gpa: number | null; rank: number | null }>;
   todos: TodoItem[];
   shortcuts: Shortcut[];
+  // Target average per class, keyed `${course}|${name}`.
+  goals: Record<string, number>;
+  // Free-form notes per class, keyed `${course}|${name}`.
+  classNotes: Record<string, string>;
+  alertSettings: AlertSettings;
+  // Popup when a load finds changed averages or new assignments (same field as mobile).
+  changeAlerts?: boolean;
+  // Page opened after login / at the app root.
+  defaultPage?: 'dashboard' | 'grades';
+  // Which built-in bell schedule set has been applied (see lib/bell-schedules).
+  bellSchedulesVersion?: number;
+  // Create todos for missing assignments after each grades refresh.
+  autoTodoFromMissing: boolean;
+  // Name of the bell schedule the dashboard uses for "current period".
+  activeBellSchedule: string;
   gradesStore: {
     initialTerm: string;
     termList: string[];
@@ -213,6 +238,17 @@ const DEFAULT_USER: User = {
   ],
   todos: [],
   shortcuts: [],
+  goals: {},
+  classNotes: {},
+  alertSettings: {
+    browserNotifications: false,
+    autoRefreshMinutes: 0,
+  },
+  changeAlerts: true,
+  defaultPage: 'dashboard',
+  bellSchedulesVersion: 0,
+  autoTodoFromMissing: false,
+  activeBellSchedule: '',
   gradesStore: {
     initialTerm: '',
     termList: [],
@@ -247,6 +283,7 @@ interface UserStore {
   getCacheValue: (key: string) => any;
   setCacheValue: (key: string, value: any) => void;
   clearCache: () => void;
+  invalidateCache: (endpoint: string) => void;
   addTodo: (todo: Omit<TodoItem, 'id'>) => void;
   updateTodo: (id: string, updates: Partial<TodoItem>) => void;
   removeTodo: (id: string) => void;
@@ -353,6 +390,18 @@ export const useStore = create<UserStore>()(
 
       clearCache: () => {
         set({ cache: {}, cacheTimestamp: null });
+      },
+
+      // Drop cached responses for one endpoint (keys are `scope::endpoint:options`)
+      // so the next call re-fetches — used by background refresh.
+      invalidateCache: (endpoint: string) => {
+        set((state) => {
+          const cache: Record<string, any> = {};
+          for (const key of Object.keys(state.cache)) {
+            if (!key.includes(`::${endpoint}:`)) cache[key] = state.cache[key];
+          }
+          return { cache };
+        });
       },
 
       addTodo: (todo: Omit<TodoItem, 'id'>) => {
@@ -632,6 +681,10 @@ export const useCurrentUser = () => {
     return users[currentUserIndex];
   });
 };
+
+/** Route for the user's chosen start page. */
+export const homePath = (user: User | null | undefined = useStore.getState().currentUser()) =>
+  user?.defaultPage === 'grades' ? '/grades' : '/dashboard';
 
 export const currentUser = () => {
   return useStore.getState().currentUser();

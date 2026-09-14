@@ -2,6 +2,7 @@ import { LOGIN_TYPES, API_URL, API_PLATFORM_ENDPOINTS, LOGIN_ENDPOINT, DISTRICTS
 import { pathMerge } from "@/lib/utils";
 import { setSession, currentUser, getSession, useStore } from "@/lib/store";
 import { initializeGradesStore, addGradesLoad } from "@/lib/grades-store";
+import { withGradeChangeDetection } from "@/lib/grade-alerts";
 
 type Platform = typeof PLATFORMS[number];
 type LoginType = typeof LOGIN_TYPES[number];
@@ -239,6 +240,22 @@ export function getAttendance(date?: string) {
   return fetchEndpoint(ATTENDANCE_ENDPOINT, 'attendance', { date: date || '' });
 }
 
+/** Persist a /classes payload into history, alerting on anything that changed. */
+function storeClasses(data: any, term?: string) {
+  const storedTerm = term || data.term;
+  withGradeChangeDetection(storedTerm, data.classes, () => {
+    if (term) {
+      addGradesLoad(term, data.classes);
+    } else {
+      initializeGradesStore(data.term, data.termList, data.term, data.classes, {
+        termTree: data.termTree,
+        currentTerms: data.currentTerms,
+        hasSubterms: data.hasSubterms,
+      });
+    }
+  });
+}
+
 export async function* getClasses(term?: string) {
   const user = currentUser();
   const session = getSession();
@@ -317,17 +334,7 @@ export async function* getClasses(term?: string) {
           if (data.success === true) {
             if (data.session) setSession(data.session);
             setCachedValue(cacheKey, data);
-
-            if (term) {
-              addGradesLoad(term, data.classes);
-            } else {
-              initializeGradesStore(data.term, data.termList, data.term, data.classes, {
-                termTree: data.termTree,
-                currentTerms: data.currentTerms,
-                hasSubterms: data.hasSubterms,
-              });
-            }
-
+            storeClasses(data, term);
             yield data;
             return;
           }
@@ -341,15 +348,7 @@ export async function* getClasses(term?: string) {
       if (data.success === true) {
         if (data.session) setSession(data.session);
         setCachedValue(cacheKey, data);
-
-        if (term) {
-
-          addGradesLoad(term, data.classes);
-        } else {
-
-          initializeGradesStore(data.term, data.termList, data.term, data.classes);
-        }
-
+        storeClasses(data, term);
         yield data;
       }
     }
