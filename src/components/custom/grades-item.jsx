@@ -99,30 +99,30 @@ export function GradesList({ variant, children }) {
   )
 }
 
-// Pill showing how far a class average moved since it was last opened.
-function DeltaBadge({ delta, className = '' }) {
+// Inline pill after the course ID showing how far the average moved since the
+// class was last opened. Fixed 18px height so it never grows the text line.
+function DeltaBadge({ delta }) {
   if (delta === null || delta === undefined) return null
   const up = delta > 0
   return (
     <span
       title="Change since you last opened this class"
-      className={`pointer-events-none z-10 absolute rounded-full px-2 py-1 text-[13px] font-semibold leading-none tabular-nums text-white shadow ${up ? 'bg-green-600' : 'bg-red-600'} ${className}`}
+      className={`ml-1.5 inline-flex h-[18px] shrink-0 items-center rounded-full px-1.5 align-middle text-[12px] font-semibold leading-none tabular-nums text-white ${up ? 'bg-green-600' : 'bg-red-600'}`}
     >
       {up ? '+' : ''}{delta.toFixed(2)}%
     </span>
   )
 }
 
-// Star on the item's top-left corner when new assignments were posted.
+// Star centered on the item's top-left corner when new assignments were posted.
 function NewAssignmentsBadge({ count }) {
   if (!count) return null
   return (
     <span
       title={`${count} new assignment${count === 1 ? '' : 's'}`}
-      className="pointer-events-none z-10 absolute -top-2 -left-2 flex h-5 min-w-5 items-center justify-center gap-0.5 rounded-full bg-amber-400 px-1 text-[10px] font-bold leading-none text-amber-950 shadow"
+      className="pointer-events-none z-10 absolute -top-2.5 -left-2.5 flex size-5 items-center justify-center rounded-full bg-amber-400 text-amber-950 shadow"
     >
       <Star className="size-3 fill-current" />
-      {count > 1 && count}
     </span>
   )
 }
@@ -145,7 +145,6 @@ export function GradesItem({ courseName, id, grade, variant, change }) {
           aria-hidden
           className="z-1 absolute inset-0 pointer-events-none bg-black/30 dark:bg-black/60"
         />
-        <DeltaBadge delta={change?.delta} className="top-2 right-2" />
         <span className={`text-[2.5rem]/10 relative z-2 ${textColor}`}>
           {displayGrade}
         </span>
@@ -157,20 +156,23 @@ export function GradesItem({ courseName, id, grade, variant, change }) {
       </CardHeader>
       <CardContent className="px-3">
         <CardTitle className="truncate mb-[2px]">{courseName}</CardTitle>
-        <CardDescription className="truncate">{id}</CardDescription>
+        <CardDescription className="flex items-center min-w-0 h-5">
+          <span className="truncate">{id}</span>
+          <DeltaBadge delta={change?.delta} />
+        </CardDescription>
       </CardContent>
     </Card>
     </div>
   ) : (
     <div className="relative">
     <NewAssignmentsBadge count={change?.newCount} />
-    <DeltaBadge delta={change?.delta} className="-top-1.5 right-4" />
     <Item variant="outline" className="p-2 min-w-[250px] cursor-pointer hover:bg-accent transition-colors">
       <div className="flex w-full items-center justify-between">
         <ItemContent className="gap-0 ml-1 mr-3 min-w-0">
           <ItemTitle className="text-base font-semibold truncate block">{courseName}</ItemTitle>
-          <ItemDescription className="truncate block">
-            {id}
+          <ItemDescription className="flex items-center min-w-0 h-5">
+            <span className="truncate">{id}</span>
+            <DeltaBadge delta={change?.delta} />
           </ItemDescription>
         </ItemContent>
         <ItemActions className="flex-shrink-0">
