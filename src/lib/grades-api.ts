@@ -1,6 +1,6 @@
 import { LOGIN_TYPES, API_URL, API_PLATFORM_ENDPOINTS, LOGIN_ENDPOINT, DISTRICTS_ENDPOINT, AUTH_METHODS_ENDPOINT, PLATFORMS, CLASSES_ENDPOINT, SINGLE_CLASS_ENDPOINT, ATTENDANCE_ENDPOINT, SCHEDULE_ENDPOINT, BELL_SCHEDULE_ENDPOINT, TRANSCRIPT_ENDPOINT, REPORT_CARD_ENDPOINT, PROGRESS_REPORT_ENDPOINT, TEACHERS_ENDPOINT } from "@/lib/constants";
 import { pathMerge } from "@/lib/utils";
-import { setSession, currentUser, getSession, useStore } from "@/lib/store";
+import { setSession, currentUser, getSession, useStore, accountKey } from "@/lib/store";
 import { initializeGradesStore, addGradesLoad } from "@/lib/grades-store";
 import { withGradeChangeDetection } from "@/lib/grade-alerts";
 
@@ -13,8 +13,7 @@ type LoginType = typeof LOGIN_TYPES[number];
  *  grades until a manual refresh. */
 function userScope(): string {
   const u = currentUser();
-  if (!u) return 'anon';
-  return `${u.platform}|${u.link}|${u.username}|${u.studentId || ''}`;
+  return u ? accountKey(u) : 'anon';
 }
 
 function generateCacheKey(endpoint: string, options: Record<string, any> = {}): string {
