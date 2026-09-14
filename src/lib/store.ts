@@ -94,6 +94,8 @@ export interface User {
   defaultPage?: 'dashboard' | 'grades';
   // Which built-in bell schedule set has been applied (see lib/bell-schedules).
   bellSchedulesVersion?: number;
+  // Hash of the PIN guarding GPA/rank/transcripts; '' when off (see lib/privacy-pin).
+  privacyPinHash?: string;
   // Create todos for missing assignments after each grades refresh.
   autoTodoFromMissing: boolean;
   // Name of the bell schedule the dashboard uses for "current period".
@@ -247,6 +249,7 @@ const DEFAULT_USER: User = {
   changeAlerts: true,
   defaultPage: 'dashboard',
   bellSchedulesVersion: 0,
+  privacyPinHash: '',
   autoTodoFromMissing: false,
   activeBellSchedule: '',
   gradesStore: {
@@ -284,6 +287,9 @@ interface UserStore {
   setCacheValue: (key: string, value: any) => void;
   clearCache: () => void;
   invalidateCache: (endpoint: string) => void;
+  // Session-only (not persisted): privacy PIN entered this session.
+  privacyUnlocked: boolean;
+  setPrivacyUnlocked: (value: boolean) => void;
   addTodo: (todo: Omit<TodoItem, 'id'>) => void;
   updateTodo: (id: string, updates: Partial<TodoItem>) => void;
   removeTodo: (id: string) => void;
@@ -313,6 +319,8 @@ export const useStore = create<UserStore>()(
       session: {},
       cache: {},
       cacheTimestamp: null,
+      privacyUnlocked: false,
+      setPrivacyUnlocked: (value: boolean) => set({ privacyUnlocked: value }),
 
       currentUser: (): User | null => {
         const { users, currentUserIndex } = get();
@@ -327,7 +335,7 @@ export const useStore = create<UserStore>()(
       },
 
       setCurrentUserIndex: (index: number) => {
-        set({ currentUserIndex: index });
+        set({ currentUserIndex: index, privacyUnlocked: false });
       },
 
       addUser: (user?: Partial<User>) => {
@@ -354,6 +362,7 @@ export const useStore = create<UserStore>()(
             session: {},
             cache: {},
             cacheTimestamp: null,
+            privacyUnlocked: false,
           };
         });
       },

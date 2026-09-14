@@ -2,6 +2,7 @@ import React from 'react'
 import { useState, useEffect, useRef } from 'react'
 import { toast } from 'sonner'
 import { exportBackup, importBackup } from '@/lib/backup'
+import { PrivacyPinSettings } from '@/components/custom/pin-gate'
 import { useCurrentUser, useStore } from '@/lib/store'
 import { getColorThemes } from '@/lib/color-themes'
 import { applyColorTheme } from '@/lib/apply-color-theme'
@@ -357,6 +358,14 @@ export default function Settings() {
               </div>
             </div>
           </div>
+        </section>
+
+        <section>
+          <h2 className="text-lg font-semibold">Privacy PIN</h2>
+          <p className="text-sm text-muted-foreground mt-1">
+            Require a PIN before GPA, rank or transcripts can be viewed anywhere in the app. Stays unlocked until you reload or switch accounts.
+          </p>
+          <PrivacyPinSettings />
         </section>
 
         <section>

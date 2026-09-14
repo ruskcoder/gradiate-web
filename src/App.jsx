@@ -18,6 +18,7 @@ import ScheduleEditor from './pages/academics/ScheduleEditor';
 import FinalExamCalculator from './pages/calculators/FinalExam';
 import GPARankCalculator from './pages/calculators/GPA-Rank';
 import MissingWork from './pages/statistics/MissingWork';
+import { PinGate } from '@/components/custom/pin-gate';
 import { useStore } from '@/lib/store';
 import { useCurrentUser, homePath } from '@/lib/store';
 import { migrateBellSchedules, BELL_SCHEDULES_VERSION } from '@/lib/bell-schedules';
@@ -197,13 +198,13 @@ export default function App() {
           <Route path="/settings" element={<ProtectedRoute><Settings /></ProtectedRoute>} />
           <Route path="/academics/attendance" element={<ProtectedRoute><Attendance /></ProtectedRoute>} />
           <Route path="/academics/schedules" element={<ProtectedRoute><Schedules /></ProtectedRoute>} />
-          <Route path="/academics/transcripts" element={<ProtectedRoute><Transcripts /></ProtectedRoute>} />
+          <Route path="/academics/transcripts" element={<ProtectedRoute><PinGate title="Transcripts"><Transcripts /></PinGate></ProtectedRoute>} />
           <Route path="/academics/report-card" element={<ProtectedRoute><ReportCard /></ProtectedRoute>} />
           <Route path="/academics/progress-report" element={<ProtectedRoute><ProgressReport /></ProtectedRoute>} />
           <Route path="/academics/teachers" element={<ProtectedRoute><Teachers /></ProtectedRoute>} />
           <Route path="/academics/schedule-editor" element={<ProtectedRoute><ScheduleEditor /></ProtectedRoute>} />
           <Route path="/calculators/final-exam" element={<ProtectedRoute><FinalExamCalculator /></ProtectedRoute>} />
-          <Route path="/calculators/gpa-rank" element={<ProtectedRoute><GPARankCalculator /></ProtectedRoute>} />
+          <Route path="/calculators/gpa-rank" element={<ProtectedRoute><PinGate title="GPA & Rank"><GPARankCalculator /></PinGate></ProtectedRoute>} />
           <Route path="*" element={<div className="p-6">Not Found</div>} />
         </Routes>
       </BrowserRouter>

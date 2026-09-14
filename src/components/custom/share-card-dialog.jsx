@@ -8,6 +8,7 @@ import { Checkbox } from '@/components/ui/checkbox'
 import { Label } from '@/components/ui/label'
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from '@/components/ui/sheet'
 import { toast } from 'sonner'
+import { usePrivacyLock } from '@/components/custom/pin-gate'
 
 const W = 1080
 const H = 1350
@@ -95,6 +96,7 @@ export function ShareCardDialog({ open, onOpenChange, classes }) {
   const canvasRef = useRef(null)
   const [hideNumbers, setHideNumbers] = useState(true)
   const [showGpa, setShowGpa] = useState(false)
+  const { locked } = usePrivacyLock()
 
   useEffect(() => {
     if (!open) return
@@ -104,13 +106,13 @@ export function ShareCardDialog({ open, onOpenChange, classes }) {
       draw(canvasRef.current, {
         classes,
         hideNumbers,
-        showGpa,
+        showGpa: showGpa && !locked,
         gpa: projectGpa(user, classes, defaultGpaType(user)),
         name: user?.name,
       })
     })
     return () => cancelAnimationFrame(id)
-  }, [open, classes, hideNumbers, showGpa, user])
+  }, [open, classes, hideNumbers, showGpa, locked, user])
 
   const toBlob = () => new Promise((resolve) => canvasRef.current.toBlob(resolve, 'image/png'))
 
@@ -147,10 +149,12 @@ export function ShareCardDialog({ open, onOpenChange, classes }) {
             <Checkbox id="share-hide" checked={hideNumbers} onCheckedChange={(v) => setHideNumbers(!!v)} />
             <Label htmlFor="share-hide">Show letter grades instead of numbers</Label>
           </div>
-          <div className="flex items-center gap-2">
-            <Checkbox id="share-gpa" checked={showGpa} onCheckedChange={(v) => setShowGpa(!!v)} />
-            <Label htmlFor="share-gpa">Include projected GPA</Label>
-          </div>
+          {!locked && (
+            <div className="flex items-center gap-2">
+              <Checkbox id="share-gpa" checked={showGpa} onCheckedChange={(v) => setShowGpa(!!v)} />
+              <Label htmlFor="share-gpa">Include projected GPA</Label>
+            </div>
+          )}
           <div className="flex gap-2 pb-4">
             <Button className="flex-1" onClick={download}>Download</Button>
             <Button className="flex-1" variant="outline" onClick={copy}>Copy</Button>

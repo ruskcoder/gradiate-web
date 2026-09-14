@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { ArrowDown, ArrowUp, Bell, Target, AlertTriangle, GraduationCap } from 'lucide-react'
+import { ArrowDown, ArrowUp, Bell, Target, AlertTriangle, GraduationCap, Lock } from 'lucide-react'
+import { PinPromptDialog, usePrivacyLock } from '@/components/custom/pin-gate'
 import { useCurrentUser, useStore } from '@/lib/store'
 import { formatGrade } from '@/lib/grade-display'
 import { getTranscript } from '@/lib/grades-api'
@@ -70,6 +71,22 @@ export function GpaWidget({ classes }) {
     } finally {
       setLoading(false)
     }
+  }
+
+  const { locked } = usePrivacyLock()
+  const [promptOpen, setPromptOpen] = useState(false)
+  if (locked) {
+    return (
+      <Widget title="GPA Projection" icon={GraduationCap}>
+        <div className="flex items-center justify-between gap-2">
+          <p className="text-sm text-muted-foreground flex items-center gap-2">
+            <Lock className="size-4" /> Locked with your privacy PIN.
+          </p>
+          <Button size="sm" variant="outline" onClick={() => setPromptOpen(true)}>Unlock</Button>
+        </div>
+        <PinPromptDialog open={promptOpen} onOpenChange={setPromptOpen} />
+      </Widget>
+    )
   }
 
   const cumulative = transcript
