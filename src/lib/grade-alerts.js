@@ -1,6 +1,5 @@
-import { toast } from 'sonner'
 import { useStore } from '@/lib/store'
-import { diffGrades, getCurrentClasses, getMissingAssignments } from '@/lib/insights'
+import { diffGrades, getCurrentClasses, getMissingAssignments, mergeGradeChanges } from '@/lib/insights'
 
 const fmt = (n) => (n === null ? '···' : n.toFixed(2))
 
@@ -15,25 +14,27 @@ function describe(change) {
   return `${change.name} · ${parts.join(' · ')}`
 }
 
+/**
+ * Publish changes as badges on the grades list (see GradesItem). A system
+ * notification is still sent when the user opted in and the tab is hidden.
+ */
 export function notifyGradeChanges(changes) {
-  const user = useStore.getState().currentUser()
-  const settings = user?.alertSettings
+  const state = useStore.getState()
+  const user = state.currentUser()
   if (!changes.length || user?.changeAlerts === false) return
 
-  const title = changes.length === 1 ? 'Grade updated' : `${changes.length} grades updated`
-  const lines = changes.slice(0, 4).map(describe)
+  state.setGradeChanges(mergeGradeChanges(state.gradeChanges, changes))
 
-  toast(title, {
-    description: lines.join('\n'),
-    duration: 9000,
-    position: 'top-right',
-    closeButton: true,
-  })
-
+  const settings = user?.alertSettings
   if (settings?.browserNotifications && typeof Notification !== 'undefined' &&
       Notification.permission === 'granted' && document.visibilityState === 'hidden') {
+    const title = changes.length === 1 ? 'Grade updated' : `${changes.length} grades updated`
     try {
-      new Notification(title, { body: lines.join('\n'), icon: '/logo-rounded.png', tag: 'grade-changes' })
+      new Notification(title, {
+        body: changes.slice(0, 4).map(describe).join('\n'),
+        icon: '/logo-rounded.png',
+        tag: 'grade-changes',
+      })
     } catch {
       // Some browsers only allow notifications from a service worker.
     }
@@ -56,7 +57,7 @@ export function syncMissingTodos() {
 
 /**
  * Wrap a store merge of freshly-loaded classes: diff against what was stored
- * before, run the merge, then alert and sync todos.
+ * before, run the merge, then badge the changes and sync todos.
  */
 export function withGradeChangeDetection(term, classes, merge) {
   let changes = []

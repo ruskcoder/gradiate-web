@@ -24,6 +24,15 @@ export interface TodoItem {
   source?: string;
 }
 
+/** One class whose grade moved (or got new assignments) since it was last opened. */
+export interface GradeChange {
+  key: string; // `${course}|${name}`
+  name: string;
+  from: number | null;
+  to: number | null;
+  newAssignments: string[];
+}
+
 export interface AlertSettings {
   // Also raise a system notification (needs browser permission).
   browserNotifications: boolean;
@@ -287,6 +296,11 @@ interface UserStore {
   setCacheValue: (key: string, value: any) => void;
   clearCache: () => void;
   invalidateCache: (endpoint: string) => void;
+  // Session-only (not persisted): classes whose grade changed or got new
+  // assignments since they were last opened — drawn as badges on the grades list.
+  gradeChanges: GradeChange[];
+  setGradeChanges: (changes: GradeChange[]) => void;
+  dismissGradeChange: (key: string) => void;
   // Session-only (not persisted): privacy PIN entered this session.
   privacyUnlocked: boolean;
   setPrivacyUnlocked: (value: boolean) => void;
@@ -321,6 +335,10 @@ export const useStore = create<UserStore>()(
       cacheTimestamp: null,
       privacyUnlocked: false,
       setPrivacyUnlocked: (value: boolean) => set({ privacyUnlocked: value }),
+      gradeChanges: [],
+      setGradeChanges: (changes: GradeChange[]) => set({ gradeChanges: changes }),
+      dismissGradeChange: (key: string) =>
+        set((state) => ({ gradeChanges: state.gradeChanges.filter((c) => c.key !== key) })),
 
       currentUser: (): User | null => {
         const { users, currentUserIndex } = get();
@@ -335,7 +353,7 @@ export const useStore = create<UserStore>()(
       },
 
       setCurrentUserIndex: (index: number) => {
-        set({ currentUserIndex: index, privacyUnlocked: false });
+        set({ currentUserIndex: index, privacyUnlocked: false, gradeChanges: [] });
       },
 
       addUser: (user?: Partial<User>) => {

@@ -14,7 +14,8 @@ import {
   ResizablePanel,
   ResizablePanelGroup,
 } from "@/components/ui/resizable"
-import { useCurrentUser } from '@/lib/store'
+import { useCurrentUser, useStore } from '@/lib/store'
+import { changeBadge } from '@/lib/insights'
 import { getClasses, getSingleClass } from '@/lib/grades-api'
 import { getLatestGradesLoad, getInitialTerm, getTermList, getTermTree, getHasSubterms, hasStorageData, addGradesLoad, reconstructAllInOneClassesFromHistory, reconstructClassDetailFromHistory, hasClassDetailInStorage } from '@/lib/grades-store'
 import { transformGroupsToCategories } from '@/lib/utils'
@@ -67,6 +68,8 @@ export function GradesLayout({ showTitle = true, pageTitle = 'Grades', element }
   const [lastLoadedDate, setLastLoadedDate] = useState({});
 
   const user = useCurrentUser();
+  const gradeChanges = useStore((s) => s.gradeChanges);
+  const dismissGradeChange = useStore((s) => s.dismissGradeChange);
   const location = useLocation();
   const navigate = useNavigate();
   const abortControllerRef = useRef({});
@@ -434,16 +437,24 @@ export function GradesLayout({ showTitle = true, pageTitle = 'Grades', element }
                             <GradesList variant={user.gradesView}>
                               {visibleClasses.map((course, index) => {
                                 const grade = resolveGrade(course);
+                                const changeKey = `${course.course}|${course.name}`;
+                                const change = changeBadge(gradeChanges.find((c) => c.key === changeKey));
                                 return (
                                   <motion.div
                                     key={index}
                                     variants={animationsEnabled ? gradeItemVariants : undefined}
-                                    onClick={() => grade && setSelectedGrade(course)}
+                                    onClick={() => {
+                                      if (!grade) return;
+                                      setSelectedGrade(course);
+                                      // Opening a class marks its changes as seen.
+                                      if (change) dismissGradeChange(changeKey);
+                                    }}
                                   >
                                     <GradesItem
                                       courseName={course.name}
                                       id={course.course}
                                       grade={grade}
+                                      change={change}
                                     />
                                   </motion.div>
                                 );

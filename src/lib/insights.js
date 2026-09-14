@@ -225,10 +225,39 @@ export function diffGrades(termHistory, classes, term) {
       : []
     const avgChanged = from !== null && to !== null && Math.abs(from - to) >= 0.005
     if (avgChanged || newAssignments.length) {
-      changes.push({ name: c.name, from, to, newAssignments })
+      changes.push({ key: courseKeyOf(c), name: c.name, from: avgChanged ? from : null, to: avgChanged ? to : null, newAssignments })
     }
   }
   return changes
+}
+
+/**
+ * Fold freshly-detected changes into the ones still badged on screen: keep the
+ * original "from" so the badge shows the total move, and accumulate new
+ * assignments.
+ */
+export function mergeGradeChanges(existing, incoming) {
+  const byKey = new Map((existing || []).map((c) => [c.key, c]))
+  for (const c of incoming) {
+    const prev = byKey.get(c.key)
+    if (!prev) { byKey.set(c.key, c); continue }
+    byKey.set(c.key, {
+      ...c,
+      from: prev.from ?? c.from,
+      to: c.to ?? prev.to,
+      newAssignments: [...new Set([...prev.newAssignments, ...c.newAssignments])],
+    })
+  }
+  return [...byKey.values()]
+}
+
+/** Badge data for one class: average delta (or null) and new-assignment count. */
+export function changeBadge(change) {
+  if (!change) return null
+  const delta = change.from !== null && change.to !== null ? change.to - change.from : null
+  const newCount = change.newAssignments?.length || 0
+  if ((delta === null || Math.abs(delta) < 0.005) && !newCount) return null
+  return { delta: delta !== null && Math.abs(delta) >= 0.005 ? delta : null, newCount }
 }
 
 // ---- Bell schedule -------------------------------------------------------

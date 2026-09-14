@@ -309,7 +309,7 @@ export default function Settings() {
               />
               <div>
                 <Label>Grade change alerts</Label>
-                <div className="text-sm text-muted-foreground">Show a popup when a refresh finds new assignments or changed averages.</div>
+                <div className="text-sm text-muted-foreground">Badge classes with how much their average moved, and star classes with new assignments.</div>
               </div>
             </div>
             <div className="flex items-center gap-2">

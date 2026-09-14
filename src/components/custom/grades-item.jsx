@@ -26,7 +26,7 @@ import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
 import { useCurrentUser } from "@/lib/store"
 import { formatGrade } from "@/lib/grade-display"
-import { Trash2, Edit, Save } from 'lucide-react'
+import { Trash2, Edit, Save, Star } from 'lucide-react'
 
 // Scrim overlaid on a colored grade chip so the "hide colors" primary tint (and
 // the card header) reads as a rich muted tone rather than a flat vivid block —
@@ -99,13 +99,43 @@ export function GradesList({ variant, children }) {
   )
 }
 
-export function GradesItem({ courseName, id, grade, variant }) {
+// Pill showing how far a class average moved since it was last opened.
+function DeltaBadge({ delta, className = '' }) {
+  if (delta === null || delta === undefined) return null
+  const up = delta > 0
+  return (
+    <span
+      title="Change since you last opened this class"
+      className={`pointer-events-none z-10 absolute rounded-full px-1.5 py-0.5 text-[11px] font-semibold leading-none tabular-nums text-white shadow ${up ? 'bg-green-600' : 'bg-red-600'} ${className}`}
+    >
+      {up ? '+' : ''}{delta.toFixed(2)}
+    </span>
+  )
+}
+
+// Star on the item's top-left corner when new assignments were posted.
+function NewAssignmentsBadge({ count }) {
+  if (!count) return null
+  return (
+    <span
+      title={`${count} new assignment${count === 1 ? '' : 's'}`}
+      className="pointer-events-none z-10 absolute -top-2 -left-2 flex h-5 min-w-5 items-center justify-center gap-0.5 rounded-full bg-amber-400 px-1 text-[10px] font-bold leading-none text-amber-950 shadow"
+    >
+      <Star className="size-3 fill-current" />
+      {count > 1 && count}
+    </span>
+  )
+}
+
+export function GradesItem({ courseName, id, grade, variant, change }) {
   const currentUser = useCurrentUser()
   const hideColors = currentUser?.hideColors ?? false
   const numberDisplay = currentUser?.numberDisplay ?? 'decimal'
   const { grade: gradeValue, numericGrade, gradeColor, textColor, bgColor } = gradeAndColor(grade, null, hideColors)
   const displayGrade = displayGradeValue(gradeValue, numericGrade, numberDisplay)
   return variant === "card" ? (
+    <div className="relative">
+    <NewAssignmentsBadge count={change?.newCount} />
     <Card className="grade-card w-full pt-0 overflow-hidden pb-2 gap-3 max-w-[350px] min-w-[175px] cursor-pointer hover:bg-accent transition-colors">
       <CardHeader
         className="relative flex flex-col justify-center items-center m-0 p-4 py-5 overflow-hidden gap-2"
@@ -115,6 +145,7 @@ export function GradesItem({ courseName, id, grade, variant }) {
           aria-hidden
           className="z-1 absolute inset-0 pointer-events-none bg-black/30 dark:bg-black/60"
         />
+        <DeltaBadge delta={change?.delta} className="top-2 right-2" />
         <span className={`text-[2.5rem]/10 relative z-2 ${textColor}`}>
           {displayGrade}
         </span>
@@ -129,7 +160,11 @@ export function GradesItem({ courseName, id, grade, variant }) {
         <CardDescription className="truncate">{id}</CardDescription>
       </CardContent>
     </Card>
+    </div>
   ) : (
+    <div className="relative">
+    <NewAssignmentsBadge count={change?.newCount} />
+    <DeltaBadge delta={change?.delta} className="-top-2 -right-2" />
     <Item variant="outline" className="p-2 min-w-[250px] cursor-pointer hover:bg-accent transition-colors">
       <div className="flex w-full items-center justify-between">
         <ItemContent className="gap-0 ml-1 mr-3 min-w-0">
@@ -146,6 +181,7 @@ export function GradesItem({ courseName, id, grade, variant }) {
         </ItemActions>
       </div>
     </Item>
+    </div>
   )
 }
 
