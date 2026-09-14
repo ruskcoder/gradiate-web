@@ -2,8 +2,9 @@ import React from 'react'
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { useCurrentUser } from '@/lib/store'
-import { ChevronLeft } from 'lucide-react';
+import { useCurrentUser, useStore } from '@/lib/store'
+import { ChevronLeft, Trash2 } from 'lucide-react';
+import { toast } from 'sonner';
 import {
   Table,
   TableBody,
@@ -16,10 +17,14 @@ import {
 export default function ScheduleEditor() {
   const navigate = useNavigate();
   const location = useLocation();
+  const user = useCurrentUser();
+  const changeUserData = useStore((s) => s.changeUserData);
   const scheduleData = location.state?.scheduleData;
-  
+  const showTitle = user ? user.showPageTitles !== false : true;
+
+  const [name, setName] = React.useState(scheduleData?.name || '');
   const [periods, setPeriods] = React.useState(
-    scheduleData?.periods || [
+    scheduleData?.periods?.map((p) => ({ ...p })) || [
       { name: '', startTime: '', endTime: '' }
     ]
   );
@@ -30,20 +35,41 @@ export default function ScheduleEditor() {
 
   const handlePeriodChange = (index, field, value) => {
     const newPeriods = [...periods];
-    newPeriods[index][field] = value;
+    newPeriods[index] = { ...newPeriods[index], [field]: value };
     setPeriods(newPeriods);
   };
 
+  const handleDeletePeriod = (index) => {
+    setPeriods(periods.filter((_, i) => i !== index));
+  };
+
   const handleSave = () => {
-    // TODO: Save the schedule
-    console.log('Saving schedule:', periods);
+    const scheduleName = name.trim();
+    if (!scheduleName) {
+      toast('Give the bell schedule a name first');
+      return;
+    }
+    const cleaned = periods
+      .filter((p) => p.name.trim() || p.startTime || p.endTime)
+      .map((p, i) => ({ ...p, name: p.name.trim() || `Period ${i + 1}` }));
+
+    const schedules = [...(user?.bellSchedules || [])];
+    // Editing an existing schedule replaces it (even if renamed); a new name appends.
+    const originalName = scheduleData?.name;
+    const idx = schedules.findIndex((s) => s.name === (originalName ?? scheduleName));
+    const saved = { name: scheduleName, periods: cleaned };
+    if (idx >= 0) schedules[idx] = saved;
+    else schedules.push(saved);
+
+    changeUserData('bellSchedules', schedules);
+    toast(`Saved "${scheduleName}"`);
     navigate(-1);
   };
 
   return (
     <div className="flex flex-col h-screen">
       <div className='flex items-center gap-3 p-4 border-b bg-card'>
-        <Button 
+        <Button
           variant="ghost"
           size="sm"
           className='h-8 w-8 p-0'
@@ -51,19 +77,17 @@ export default function ScheduleEditor() {
         >
           <ChevronLeft size={20} />
         </Button>
-        {(() => {
-          const user = useCurrentUser();
-          const showTitle = user ? user.showPageTitles !== false : true;
-          return (
-            showTitle ? (
-              <h1 className='text-2xl font-bold flex-1'>
-                {scheduleData?.name || 'New Bell Schedule'}
-              </h1>
-            ) : (
-              <div className='flex-1' />
-            )
-          )
-        })()}
+        {showTitle ? (
+          <h1 className='text-2xl font-bold'>
+            {scheduleData?.name ? 'Edit Bell Schedule' : 'New Bell Schedule'}
+          </h1>
+        ) : null}
+        <Input
+          placeholder='Schedule name'
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          className='h-9 max-w-xs flex-1 ml-auto'
+        />
         <Button onClick={handleSave}>
           Save
         </Button>
@@ -77,6 +101,7 @@ export default function ScheduleEditor() {
                 <TableHead>Period Name</TableHead>
                 <TableHead>Start Time</TableHead>
                 <TableHead>End Time</TableHead>
+                <TableHead className="w-10"></TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -92,7 +117,7 @@ export default function ScheduleEditor() {
                   </TableCell>
                   <TableCell>
                     <Input
-                      placeholder='Start Time'
+                      placeholder='7:25 AM'
                       value={period.startTime}
                       onChange={(e) => handlePeriodChange(index, 'startTime', e.target.value)}
                       className='h-9'
@@ -100,11 +125,21 @@ export default function ScheduleEditor() {
                   </TableCell>
                   <TableCell>
                     <Input
-                      placeholder='End Time'
+                      placeholder='8:05 AM'
                       value={period.endTime}
                       onChange={(e) => handlePeriodChange(index, 'endTime', e.target.value)}
                       className='h-9'
                     />
+                  </TableCell>
+                  <TableCell>
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      className='h-9 w-9 p-0 text-destructive'
+                      onClick={() => handleDeletePeriod(index)}
+                    >
+                      <Trash2 size={16} />
+                    </Button>
                   </TableCell>
                 </TableRow>
               ))}

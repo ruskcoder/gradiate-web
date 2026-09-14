@@ -1,5 +1,7 @@
 import React from 'react'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
+import { toast } from 'sonner'
+import { exportBackup, importBackup } from '@/lib/backup'
 import { useCurrentUser, useStore } from '@/lib/store'
 import { getColorThemes } from '@/lib/color-themes'
 import { applyColorTheme } from '@/lib/apply-color-theme'
@@ -52,6 +54,8 @@ export default function Settings() {
   const [themesLoading, setThemesLoading] = useState(true)
   const [isDarkMode, setIsDarkMode] = useState(false)
   const [showClearHistoryDialog, setShowClearHistoryDialog] = useState(false)
+  const [showWipeDialog, setShowWipeDialog] = useState(false)
+  const importInputRef = useRef(null)
 
   useEffect(() => {
     const loadThemes = async () => {
@@ -90,6 +94,15 @@ export default function Settings() {
       </div>
     )
   }
+
+  const alertSettings = {
+    changeAlerts: true,
+    browserNotifications: false,
+    autoRefreshMinutes: 0,
+    ...(user.alertSettings || {}),
+  }
+  const setAlertSetting = (key, value) =>
+    changeUserData('alertSettings', { ...alertSettings, [key]: value })
 
   return (
     <div className="p-6">
@@ -269,10 +282,100 @@ export default function Settings() {
         </section>
 
         <section>
+          <h2 className="text-lg font-semibold">Alerts & Refresh</h2>
+          <p className="text-sm text-muted-foreground mt-1">Get told when your grades change.</p>
+
+          <div className="mt-4 flex flex-col gap-4">
+            <div className="flex items-center gap-2">
+              <Checkbox
+                checked={alertSettings.changeAlerts}
+                onCheckedChange={(checked) => setAlertSetting('changeAlerts', !!checked)}
+              />
+              <div>
+                <Label>Grade change alerts</Label>
+                <div className="text-sm text-muted-foreground">Show a popup when a refresh finds new assignments or changed averages.</div>
+              </div>
+            </div>
+            <div className="flex items-center gap-2">
+              <Checkbox
+                checked={alertSettings.browserNotifications}
+                disabled={typeof Notification === 'undefined'}
+                onCheckedChange={async (checked) => {
+                  if (checked && typeof Notification !== 'undefined' && Notification.permission !== 'granted') {
+                    const result = await Notification.requestPermission()
+                    if (result !== 'granted') return
+                  }
+                  setAlertSetting('browserNotifications', !!checked)
+                }}
+              />
+              <div>
+                <Label>Browser notifications</Label>
+                <div className="text-sm text-muted-foreground">Also send a system notification when the tab is in the background.</div>
+              </div>
+            </div>
+            <div className="max-w-xs">
+              <Label>Auto refresh</Label>
+              <div className="text-sm text-muted-foreground">Re-check grades while the app is open.</div>
+              <div className="mt-2">
+                <Select
+                  value={String(alertSettings.autoRefreshMinutes)}
+                  onValueChange={(val) => setAlertSetting('autoRefreshMinutes', parseInt(val))}
+                >
+                  <SelectTrigger><SelectValue /></SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="0">Off</SelectItem>
+                    <SelectItem value="15">Every 15 minutes</SelectItem>
+                    <SelectItem value="30">Every 30 minutes</SelectItem>
+                    <SelectItem value="60">Every hour</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+            <div className="flex items-center gap-2">
+              <Checkbox
+                checked={!!user.autoTodoFromMissing}
+                onCheckedChange={(checked) => changeUserData('autoTodoFromMissing', !!checked)}
+              />
+              <div>
+                <Label>Add missing work to todos</Label>
+                <div className="text-sm text-muted-foreground">Create a todo for each missing assignment found after a refresh.</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <h2 className="text-lg font-semibold">Backup & Restore</h2>
+          <p className="text-sm text-muted-foreground mt-1">
+            Save settings, todos, shortcuts, goals, notes, bell schedules and grade history to a file. Passwords are never included.
+          </p>
+          <div className="mt-4 flex gap-2">
+            <Button variant="outline" onClick={() => exportBackup(user)}>Export backup</Button>
+            <Button variant="outline" onClick={() => importInputRef.current?.click()}>Import backup</Button>
+            <input
+              ref={importInputRef}
+              type="file"
+              accept="application/json,.json"
+              className="hidden"
+              onChange={async (e) => {
+                const file = e.target.files?.[0]
+                e.target.value = ''
+                if (!file) return
+                try {
+                  toast(await importBackup(file))
+                } catch (err) {
+                  toast(err.message || 'Could not import backup')
+                }
+              }}
+            />
+          </div>
+        </section>
+
+        <section>
           <h2 className="text-lg font-semibold">Data Management</h2>
           <p className="text-sm text-muted-foreground mt-1">Manage your stored data.</p>
 
-          <div className="mt-4">
+          <div className="mt-4 flex flex-wrap gap-2">
             <Button 
               variant="destructive" 
               onClick={() => setShowClearHistoryDialog(true)}
@@ -296,6 +399,32 @@ export default function Settings() {
                     }}
                   >
                     Clear
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
+
+            <Button variant="destructive" onClick={() => setShowWipeDialog(true)}>
+              Remove all data from this device
+            </Button>
+            <AlertDialog open={showWipeDialog} onOpenChange={setShowWipeDialog}>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>Remove all data from this device?</AlertDialogTitle>
+                  <AlertDialogDescription>
+                    Signs out every account and deletes saved passwords, grade history, todos and settings stored in this browser. Export a backup first if you want to keep them.
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>Cancel</AlertDialogCancel>
+                  <AlertDialogAction
+                    onClick={() => {
+                      localStorage.clear()
+                      sessionStorage.clear()
+                      window.location.href = '/login'
+                    }}
+                  >
+                    Remove everything
                   </AlertDialogAction>
                 </AlertDialogFooter>
               </AlertDialogContent>

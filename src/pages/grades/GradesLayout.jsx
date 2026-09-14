@@ -191,6 +191,19 @@ export function GradesLayout({ showTitle = true, pageTitle = 'Grades', element }
     course && course.averages ? (effectiveTerm in course.averages) : true
   );
 
+  // Command palette deep link: select the requested class once it's loaded.
+  const pendingSelectRef = useRef(location.state?.selectCourse || null);
+  useEffect(() => {
+    if (!pendingSelectRef.current || !visibleClasses.length) return;
+    const match = visibleClasses.find((c) => `${c.course}|${c.name}` === pendingSelectRef.current);
+    pendingSelectRef.current = null;
+    if (match) setSelectedGrade(match);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [visibleClasses.length]);
+  useEffect(() => {
+    if (location.state?.selectCourse) pendingSelectRef.current = location.state.selectCourse;
+  }, [location.state]);
+
   // Averages-only portals (Skyward) hand back grades without assignment scores;
   // fetch the per-class detail on demand so every right-panel element (grades,
   // what-if, impacts, ...) receives a class enriched with scores + categories,

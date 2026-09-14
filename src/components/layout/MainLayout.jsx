@@ -5,10 +5,13 @@ import {
   SidebarTrigger,
 } from "@/components/ui/sidebar"
 import { useStore } from '@/lib/store';
+import { CommandPalette } from '@/components/custom/command-palette';
+import { useBackgroundRefresh } from '@/hooks/use-background-refresh';
 
 export default function MainLayout({ children }) {
   const currentUserIndex = useStore((state) => state.currentUserIndex);
   const users = useStore((state) => state.users);
+  useBackgroundRefresh();
 
   const notLogged = (currentUserIndex == -1 || users.length == 0);
 
@@ -23,6 +26,7 @@ export default function MainLayout({ children }) {
             {children}
           </div>
         </SidebarInset>
+        <CommandPalette />
       </SidebarProvider>}
     </>
   );

@@ -1,0 +1,13 @@
+{
+  "name": "Gradiate",
+  "short_name": "Gradiate",
+  "description": "Grades, GPA and school info in one place.",
+  "start_url": "/dashboard",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#103074",
+  "icons": [
+    { "src": "/logo-rounded.png", "sizes": "any", "type": "image/png", "purpose": "any" }
+  ]
+}

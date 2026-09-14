@@ -58,6 +58,7 @@ export const sidebarData: SidebarData = {
         { title: "History", url: "/statistics/history" },
         { title: "Timeline", url: "/statistics/timeline" },
         { title: "TimeTravel", url: "/statistics/timetravel" },
+        { title: "Missing Work", url: "/statistics/missing" },
       ],
     },
     {

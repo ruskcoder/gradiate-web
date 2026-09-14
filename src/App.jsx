@@ -17,6 +17,7 @@ import Teachers from './pages/academics/Teachers';
 import ScheduleEditor from './pages/academics/ScheduleEditor';
 import FinalExamCalculator from './pages/calculators/FinalExam';
 import GPARankCalculator from './pages/calculators/GPA-Rank';
+import MissingWork from './pages/statistics/MissingWork';
 import { useStore } from '@/lib/store';
 import { useCurrentUser } from '@/lib/store';
 import { toast } from "sonner"
@@ -182,6 +183,7 @@ export default function App() {
           <Route path="/statistics/timeline" element={<ProtectedRoute><Grades /></ProtectedRoute>} />
           <Route path="/statistics/timetravel" element={<ProtectedRoute><Grades /></ProtectedRoute>} />
           <Route path="/statistics/impacts" element={<ProtectedRoute><Grades /></ProtectedRoute>} />
+          <Route path="/statistics/missing" element={<ProtectedRoute><MissingWork /></ProtectedRoute>} />
           <Route path="/settings" element={<ProtectedRoute><Settings /></ProtectedRoute>} />
           <Route path="/academics/attendance" element={<ProtectedRoute><Attendance /></ProtectedRoute>} />
           <Route path="/academics/schedules" element={<ProtectedRoute><Schedules /></ProtectedRoute>} />
