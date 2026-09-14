@@ -34,11 +34,24 @@ export function pathToLabel(forest, label) {
 }
 
 /**
+ * The path to select when top tab `tab` is clicked. Group tabs (a letter family
+ * like PR, `group: true`) have no grade of their own, so drill into a child:
+ * `preferred` if it lives in the group, else the group's first column.
+ */
+export function pathForTab(forest, tab, preferred) {
+  const node = (forest || []).find((n) => n.label === tab);
+  if (!node || !node.group || !node.children?.length) return [tab];
+  const p = pathToLabel([node], preferred);
+  return p.length > 1 ? p : [tab, node.children[0].label];
+}
+
+/**
  * The stack of subtab bars to render for a selected path. One bar per level of
  * the path whose node has children; each bar offers the parent itself (its own
  * roll-up grade) plus its child columns, with the currently-selected child (or
  * the parent, if none deeper) marked.
- *   [{ parent, options: [childLabel, …], selected }]
+ * Group nodes omit the parent pill (`showParent: false`) — they aren't columns.
+ *   [{ parent, showParent, options: [childLabel, …], selected }]
  */
 export function barsForPath(forest, path) {
   const bars = [];
@@ -49,8 +62,9 @@ export function barsForPath(forest, path) {
     if (node.children && node.children.length) {
       bars.push({
         parent: path[i],
+        showParent: !node.group,
         options: node.children.map((c) => c.label),
-        selected: path[i + 1] ?? path[i],
+        selected: path[i + 1] ?? (node.group ? node.children[0].label : path[i]),
       });
     }
     level = node.children || [];

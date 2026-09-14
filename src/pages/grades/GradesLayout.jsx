@@ -19,7 +19,7 @@ import { changeBadge } from '@/lib/insights'
 import { getClasses, getSingleClass } from '@/lib/grades-api'
 import { getLatestGradesLoad, getInitialTerm, getTermList, getTermTree, getHasSubterms, hasStorageData, addGradesLoad, reconstructAllInOneClassesFromHistory, reconstructClassDetailFromHistory, hasClassDetailInStorage } from '@/lib/grades-store'
 import { transformGroupsToCategories } from '@/lib/utils'
-import { flatForest, pathToLabel, barsForPath } from '@/lib/term-tree'
+import { flatForest, pathToLabel, barsForPath, pathForTab } from '@/lib/term-tree'
 import { ChevronLeft, GitCommitHorizontal, Loader2, HardDriveDownload } from 'lucide-react'
 import { ClassHeaderActions } from '@/components/custom/class-extras'
 
@@ -59,6 +59,8 @@ export function GradesLayout({ showTitle = true, pageTitle = 'Grades', element }
   const [hasSubterms, setHasSubterms] = useState(false);
   // Root→node labels of the currently-selected column (last entry = shown grade).
   const [selectedPath, setSelectedPath] = useState([]);
+  // The API's current term, so clicking a letter-group tab lands on it.
+  const apiTermRef = useRef(null);
   const [allInOneClasses, setAllInOneClasses] = useState(null);
   const [progressByTerm, setProgressByTerm] = useState({});
   const [classesDataByTerm, setClassesDataByTerm] = useState({});
@@ -110,6 +112,7 @@ export function GradesLayout({ showTitle = true, pageTitle = 'Grades', element }
 
             // Default selection: the path to the API's current term (a leaf), so
             // the right top tab + every subtab down to it start selected.
+            apiTermRef.current = chunk.term;
             const path = pathToLabel(forest, chunk.term);
             const defaultPath = path.length ? path : [chunk.term];
             if (!userHasSelectedTermRef.current) {
@@ -156,8 +159,9 @@ export function GradesLayout({ showTitle = true, pageTitle = 'Grades', element }
   const handleTabChange = (term) => {
     userHasSelectedTermRef.current = true;
     setCurrentTerm(term);
-    // Reset the drill-down to the freshly-selected top tab.
-    setSelectedPath([term]);
+    // Reset the drill-down to the freshly-selected top tab (a letter group
+    // drills into one of its columns, since the group itself has no grade).
+    setSelectedPath(pathForTab(termTree, term, apiTermRef.current));
     setSelectedGrade(null);
     // All-in-one portals already hold every term's grades — just switch labels.
     if (allInOneClasses) return;
@@ -370,7 +374,7 @@ export function GradesLayout({ showTitle = true, pageTitle = 'Grades', element }
                   so the cascade shows as many rows as the district defines. */}
               {subtabBars.map((bar, level) => (
                 <div key={bar.parent} className="flex w-full gap-1 mt-2 rounded-lg bg-muted p-1">
-                  {[bar.parent, ...bar.options].map((sub) => {
+                  {(bar.showParent ? [bar.parent, ...bar.options] : bar.options).map((sub) => {
                     const active = bar.selected === sub;
                     return (
                       <button
