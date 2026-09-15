@@ -1,6 +1,11 @@
 // Offline shell for the installed app. Only same-origin GETs are handled; API
 // calls (a different origin, all POST) always go straight to the network.
-const CACHE = 'gradiate-v1'
+//
+// Bump CACHE whenever caching rules change: activate deletes every other cache.
+// v1 could cache the SPA's index.html under an /assets/*.js URL (a missing
+// hashed file after a deploy is rewritten to index.html with a 200), which then
+// failed forever with "Expected a JavaScript module script but got text/html".
+const CACHE = 'gradiate-v2'
 const SHELL = ['/', '/index.html', '/logo-rounded.png', '/manifest.webmanifest']
 
 self.addEventListener('install', (event) => {
@@ -16,10 +21,13 @@ self.addEventListener('activate', (event) => {
   )
 })
 
-const putInCache = (request, response) => {
-  if (response.ok) {
+const isHtml = (response) => (response.headers.get('content-type') || '').includes('text/html')
+
+/** Cache a successful response. Non-navigation requests never cache HTML. */
+const putInCache = (key, response, { allowHtml = false } = {}) => {
+  if (response.ok && (allowHtml || !isHtml(response))) {
     const copy = response.clone()
-    caches.open(CACHE).then((c) => c.put(request, copy))
+    caches.open(CACHE).then((c) => c.put(key, copy))
   }
   return response
 }
@@ -34,16 +42,19 @@ self.addEventListener('fetch', (event) => {
   if (request.mode === 'navigate') {
     event.respondWith(
       fetch(request)
-        .then((res) => putInCache('/index.html', res))
+        .then((res) => putInCache('/index.html', res, { allowHtml: true }))
         .catch(() => caches.match('/index.html'))
     )
     return
   }
 
-  // Hashed build assets never change: cache first.
+  // Hashed build assets never change: cache first. An HTML "hit" is a poisoned
+  // entry from an old deploy, so ignore it and go to the network.
   if (url.pathname.startsWith('/assets/')) {
     event.respondWith(
-      caches.match(request).then((hit) => hit || fetch(request).then((res) => putInCache(request, res)))
+      caches.match(request).then((hit) =>
+        hit && !isHtml(hit) ? hit : fetch(request).then((res) => putInCache(request, res))
+      )
     )
     return
   }
