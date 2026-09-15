@@ -9,9 +9,10 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 import { Slider } from "@/components/ui/slider"
-import { useCurrentUser } from '@/lib/store'
+import { useCurrentUser, useStore } from '@/lib/store'
 export function GradesView({ selectedGrade, timeTravel = false, term }) {
   const currentUser = useCurrentUser()
+  const viewedGradeChanges = useStore((s) => s.viewedGradeChanges)
   const location = useLocation()
   const [historyIndex, setHistoryIndex] = useState(0)
 
@@ -91,6 +92,15 @@ export function GradesView({ selectedGrade, timeTravel = false, term }) {
   }
   const groupNames = groups ? Object.keys(groups).sort((a, b) => termRank(a) - termRank(b)) : []
   const showGrouped = groupNames.length > 1 && !timeTravel
+
+  // Star assignments that appeared in the latest load (not in TimeTravel, where
+  // "new" would be relative to a past snapshot).
+  const newNames = new Set(
+    !timeTravel && selectedGrade
+      ? viewedGradeChanges[`${selectedGrade.course}|${selectedGrade.name}`]?.newAssignments || []
+      : []
+  )
+  const isNewScore = (score) => newNames.has(score.name)
 
   // TimeTravel: compare the viewed snapshot with the latest one.
   const travelComparison = useMemo(() => {
@@ -215,7 +225,7 @@ export function GradesView({ selectedGrade, timeTravel = false, term }) {
                   {(group.scores || []).length > 0 ? (
                     <ClassGradesList>
                       {group.scores.map((score, index) => (
-                        <ClassGradesItem key={index} scoreData={score} />
+                        <ClassGradesItem key={index} scoreData={score} isNew={isNewScore(score)} />
                       ))}
                     </ClassGradesList>
                   ) : (
@@ -229,7 +239,7 @@ export function GradesView({ selectedGrade, timeTravel = false, term }) {
       ) : (
         <ClassGradesList>
           {(displayedGrade.scores || []).map((score, index) => (
-            <ClassGradesItem key={index} scoreData={score} />
+            <ClassGradesItem key={index} scoreData={score} isNew={isNewScore(score)} />
           ))}
         </ClassGradesList>
       )}

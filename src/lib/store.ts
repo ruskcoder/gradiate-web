@@ -301,6 +301,9 @@ interface UserStore {
   gradeChanges: GradeChange[];
   setGradeChanges: (changes: GradeChange[]) => void;
   dismissGradeChange: (key: string) => void;
+  // Session-only: changes whose class has been opened, kept so the assignment
+  // list can still star that class's new assignments.
+  viewedGradeChanges: Record<string, GradeChange>;
   // Session-only (not persisted): privacy PIN entered this session.
   privacyUnlocked: boolean;
   setPrivacyUnlocked: (value: boolean) => void;
@@ -337,8 +340,22 @@ export const useStore = create<UserStore>()(
       setPrivacyUnlocked: (value: boolean) => set({ privacyUnlocked: value }),
       gradeChanges: [],
       setGradeChanges: (changes: GradeChange[]) => set({ gradeChanges: changes }),
+      viewedGradeChanges: {},
       dismissGradeChange: (key: string) =>
-        set((state) => ({ gradeChanges: state.gradeChanges.filter((c) => c.key !== key) })),
+        set((state) => {
+          const change = state.gradeChanges.find((c) => c.key === key);
+          if (!change) return {};
+          const prev = state.viewedGradeChanges[key];
+          return {
+            gradeChanges: state.gradeChanges.filter((c) => c.key !== key),
+            viewedGradeChanges: {
+              ...state.viewedGradeChanges,
+              [key]: prev
+                ? { ...change, newAssignments: [...new Set([...prev.newAssignments, ...change.newAssignments])] }
+                : change,
+            },
+          };
+        }),
 
       currentUser: (): User | null => {
         const { users, currentUserIndex } = get();
@@ -353,7 +370,7 @@ export const useStore = create<UserStore>()(
       },
 
       setCurrentUserIndex: (index: number) => {
-        set({ currentUserIndex: index, privacyUnlocked: false, gradeChanges: [] });
+        set({ currentUserIndex: index, privacyUnlocked: false, gradeChanges: [], viewedGradeChanges: {} });
       },
 
       addUser: (user?: Partial<User>) => {

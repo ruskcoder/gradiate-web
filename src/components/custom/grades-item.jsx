@@ -114,12 +114,11 @@ function DeltaBadge({ delta }) {
   )
 }
 
-// Star centered on the item's top-left corner when new assignments were posted.
-function NewAssignmentsBadge({ count }) {
-  if (!count) return null
+// Star centered on an assignment's top-left corner when it's new since last load.
+function NewAssignmentBadge() {
   return (
     <span
-      title={`${count} new assignment${count === 1 ? '' : 's'}`}
+      title="New assignment"
       className="pointer-events-none z-10 absolute -top-2.5 -left-2.5 flex size-5 items-center justify-center rounded-full bg-amber-400 text-amber-950 shadow"
     >
       <Star className="size-3 fill-current" />
@@ -135,7 +134,6 @@ export function GradesItem({ courseName, id, grade, variant, change }) {
   const displayGrade = displayGradeValue(gradeValue, numericGrade, numberDisplay)
   return variant === "card" ? (
     <div className="relative">
-    <NewAssignmentsBadge count={change?.newCount} />
     <Card className="grade-card w-full pt-0 overflow-hidden pb-2 gap-3 max-w-[350px] min-w-[175px] cursor-pointer hover:bg-accent transition-colors">
       <CardHeader
         className="relative flex flex-col justify-center items-center m-0 p-4 py-5 overflow-hidden gap-2"
@@ -165,7 +163,6 @@ export function GradesItem({ courseName, id, grade, variant, change }) {
     </div>
   ) : (
     <div className="relative">
-    <NewAssignmentsBadge count={change?.newCount} />
     <Item variant="outline" className="p-2 min-w-[250px] cursor-pointer hover:bg-accent transition-colors">
       <div className="flex w-full items-center justify-between">
         <ItemContent className="gap-0 ml-1 mr-3 min-w-0">
@@ -199,7 +196,7 @@ export function ClassGradesList({ children }) {
   )
 }
 
-export function ClassGradesItem({ scoreData, onRemove, onToggleExcluded, onEditPercentage, impactBadge }) {
+export function ClassGradesItem({ scoreData, onRemove, onToggleExcluded, onEditPercentage, impactBadge, isNew = false }) {
   const currentUser = useCurrentUser()
   const hideColors = currentUser?.hideColors ?? false
   const numberDisplay = currentUser?.numberDisplay ?? 'decimal'
@@ -264,6 +261,8 @@ export function ClassGradesItem({ scoreData, onRemove, onToggleExcluded, onEditP
   }
 
   return (
+    <div className="relative">
+    {isNew && <NewAssignmentBadge />}
     <Popover open={isOpen} onOpenChange={setIsOpen}>
       <PopoverTrigger asChild>
         <Item variant="outline" className="p-2 min-w-[275px] cursor-pointer hover:bg-accent transition-colors">
@@ -411,5 +410,6 @@ export function ClassGradesItem({ scoreData, onRemove, onToggleExcluded, onEditP
         </div>
       </PopoverContent>
     </Popover>
+    </div>
   )
 }
