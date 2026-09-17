@@ -271,6 +271,14 @@ const DEFAULT_USER: User = {
   },
 };
 
+/**
+ * Stable identity of a saved account. Two logins with the same key are the same
+ * account (re-adding one updates it instead of duplicating it). Matches the
+ * cache scope in grades-api.ts.
+ */
+export const accountKey = (u: Pick<User, 'platform' | 'link' | 'username'> & { studentId?: string }) =>
+  `${u.platform}|${u.link}|${u.username}|${u.studentId || ''}`;
+
 interface Session {
   loginTime?: number;
   lastActivity?: number;
@@ -288,7 +296,10 @@ interface UserStore {
 
   setUsers: (users: User[]) => void;
   setCurrentUserIndex: (index: number) => void;
-  addUser: (user?: Partial<User>) => void;
+  /** Adds an account (or updates the matching saved one) and returns its index. */
+  addUser: (user?: Partial<User>) => number;
+  /** Make another saved account active. */
+  switchUser: (index: number) => void;
   removeUser: (index: number) => void;
   changeUserData: (key: keyof User, value: any) => void;
   setSession: (session: Partial<Session>) => void;
@@ -374,29 +385,55 @@ export const useStore = create<UserStore>()(
       },
 
       addUser: (user?: Partial<User>) => {
-        set((state) => ({
-          users: [...state.users, { ...DEFAULT_USER, ...user }],
-        }));
+        const candidate = { ...DEFAULT_USER, ...user } as User;
+        const existing = get().users.findIndex((u) => accountKey(u) === accountKey(candidate));
+        if (existing !== -1) {
+          // Same account signed in again: refresh its login details but keep its
+          // history, todos and preferences.
+          set((state) => {
+            const users = [...state.users];
+            users[existing] = { ...users[existing], ...user } as User;
+            return { users };
+          });
+          return existing;
+        }
+        set((state) => ({ users: [...state.users, candidate] }));
+        return get().users.length - 1;
+      },
+
+      switchUser: (index: number) => {
+        const { users, currentUserIndex } = get();
+        if (index < 0 || index >= users.length || index === currentUserIndex) return;
+        // The API session belongs to the portal login of the previous account.
+        // The response cache is scoped per account, so it can stay.
+        set({ currentUserIndex: index, session: {} });
       },
 
       removeUser: (index: number) => {
         set((state) => {
+          if (index < 0 || index >= state.users.length) return {};
           const newUsers = state.users.filter((_, i) => i !== index);
+          const removingCurrent = index === state.currentUserIndex;
           let newIndex = state.currentUserIndex;
 
-          if (newIndex >= newUsers.length) {
-            newIndex = newUsers.length - 1;
-          }
+          // Removing an account listed before the active one shifts it down.
+          if (index < newIndex) newIndex -= 1;
+          if (newIndex >= newUsers.length) newIndex = newUsers.length - 1;
 
+          if (!removingCurrent) return { users: newUsers, currentUserIndex: newIndex };
+
+          const removedScope = `${accountKey(state.users[index]!)}::`;
+          const cache: Record<string, any> = {};
+          for (const key of Object.keys(state.cache)) {
+            if (!key.startsWith(removedScope)) cache[key] = state.cache[key];
+          }
           return {
             users: newUsers,
             currentUserIndex: newIndex,
-            // The API session cookies and response cache are global, not per-user;
-            // drop them on sign-out so a later sign-in can't ride the previous
-            // account's session or read its cached grades.
+            // The API session belongs to the removed account; drop it and its
+            // cached responses so nothing leaks into the next account.
             session: {},
-            cache: {},
-            cacheTimestamp: null,
+            cache,
             privacyUnlocked: false,
           };
         });

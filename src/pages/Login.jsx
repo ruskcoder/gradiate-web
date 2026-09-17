@@ -62,6 +62,8 @@ export default function Login() {
   const [searchParams] = useSearchParams();
 
   const isReauth = searchParams.get('reason') === 'password_expired';
+  // Signed in already, so this page is adding another account.
+  const hadAccounts = useStore((s) => s.users.length > 0 && s.currentUserIndex !== -1);
 
   // --- Wizard navigation -----------------------------------------------------
   const [step, setStep] = useState(isReauth ? 'form' : 'entry');
@@ -299,7 +301,7 @@ export default function Login() {
   const commitUser = async (data, chosen, answeredMfa) => {
     const existingUsers = useStore.getState().users;
     const existingUserIndex = existingUsers.findIndex(
-      (u) => u.username === (data.username || username)
+      (u) => u.username === (data.username || username) && u.platform === platform
     );
 
     const studentId = chosen?.id || data.studentId || '';
@@ -310,7 +312,7 @@ export default function Login() {
     let userIndex;
     if (isReauth && existingUserIndex !== -1) {
       userIndex = existingUserIndex;
-      useStore.getState().setCurrentUserIndex(userIndex);
+      useStore.getState().switchUser(userIndex);
       useStore.getState().changeUserData('password', password);
       useStore.getState().changeUserData('clMFA', answeredMfa);
       useStore.getState().changeUserData('mfaType', answeredMfa ? mfaType : '');
@@ -327,7 +329,7 @@ export default function Login() {
         .slice(0, 2)
         .map((n) => (n[0] || '').toUpperCase())
         .join('');
-      useStore.getState().addUser({
+      userIndex = useStore.getState().addUser({
         loginType,
         username: data.username || username,
         password,
@@ -344,8 +346,7 @@ export default function Login() {
         studentId,
         students: data.students || [],
       });
-      userIndex = Math.max(0, useStore.getState().users.length - 1);
-      useStore.getState().setCurrentUserIndex(userIndex);
+      useStore.getState().switchUser(userIndex);
     }
 
     const newUser = useStore.getState().users[userIndex];
@@ -355,7 +356,9 @@ export default function Login() {
     await checkBlockedStatus(newUser);
 
     setMfaOpen(false);
-    navigate(homePath());
+    // Full load so no page keeps the previously active account's data in memory.
+    if (hadAccounts) window.location.href = homePath();
+    else navigate(homePath());
   };
 
   const selectStudent = async (student) => {
@@ -378,6 +381,10 @@ export default function Login() {
     } else {
       setLoading(true);
     }
+
+    // A fresh attempt must not ride the active account's portal session (the
+    // ClassLink 2FA follow-up is the exception: it resumes its own challenge).
+    if (!answeredMfa) useStore.setState({ session: {} });
 
     try {
       const details = { username, password };
@@ -452,6 +459,11 @@ export default function Login() {
                 Custom
               </Button>
             </div>
+            {hadAccounts && !isReauth && (
+              <Button variant="ghost" className="w-full mt-2" onClick={() => navigate(homePath())}>
+                Back to Gradiate
+              </Button>
+            )}
           </div>
         );
 
