@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
-import { motion, AnimatePresence } from 'motion/react'
+import { motion } from 'motion/react'
 import { Progress } from "@/components/ui/progress"
 import { GradesItem, GradesList } from '@/components/custom/grades-item'
 import {
@@ -23,16 +23,9 @@ import { flatForest, pathToLabel, barsForPath, pathForTab } from '@/lib/term-tre
 import { ChevronLeft, GitCommitHorizontal, Loader2, HardDriveDownload } from 'lucide-react'
 import { ClassHeaderActions } from '@/components/custom/class-extras'
 
-// Matches the CSS `ease` used across the app so the term transition curve is
-// identical to the rest of the UI. A pure opacity cross-fade (no horizontal
-// slide) — the slide caused transformed content to spill past the scroll
-// container and flash scrollbars on every term switch.
+// Matches the CSS `ease` used across the app so the reveal curve is identical
+// to the rest of the UI.
 const TERM_EASE = [0.25, 0.1, 0.25, 1]
-const termPageVariants = {
-  enter: { opacity: 0 },
-  center: { opacity: 1 },
-  exit: { opacity: 0 },
-}
 // Staggered fade-up reveal for the grade list/cards, mirroring the mobile
 // cascade — each item rises a few px into place a beat after the previous. The
 // small y drift is clipped by the `overflow-hidden` stage wrapper below so it
@@ -396,18 +389,12 @@ export function GradesLayout({ showTitle = true, pageTitle = 'Grades', element }
                   so it can't extend the vertical scroll area either. */}
               <div className="flex-1 overflow-y-auto overflow-x-hidden relative">
                 <div className="overflow-hidden">
-                <AnimatePresence mode="wait" initial={false}>
-                  <motion.div
-                    // Key on the deepest selected label (effectiveTerm), not just
-                    // the top tab, so the fade + list cascade replays when ANY
-                    // level changes — top tab or a deeper subtab.
-                    key={effectiveTerm || currentTerm || 'initial'}
-                    variants={animationsEnabled ? termPageVariants : undefined}
-                    initial={animationsEnabled ? 'enter' : false}
-                    animate={animationsEnabled ? 'center' : undefined}
-                    exit={animationsEnabled ? 'exit' : undefined}
-                    transition={{ duration: 0.18, ease: TERM_EASE }}
-                  >
+                {/* Remount on the deepest selected label (effectiveTerm) so the list
+                    cascade replays for any tab or subtab switch. There is deliberately
+                    no wrapper cross-fade: AnimatePresence mode="wait" faded the old
+                    content out to nothing before mounting the new one, which read as a
+                    flash. The staggered item reveal below is the whole transition. */}
+                <div key={effectiveTerm || currentTerm || 'initial'}>
                     {(loadingTerms[currentTerm] || loadingTerms.initial) && <div className='flex flex-col items-center justify-center'>
                       <div className='w-full text-center my-2'>{progressByTerm[currentTerm]?.message || progressByTerm.initial?.message}</div>
                       <Progress value={progressByTerm[currentTerm]?.percent || progressByTerm.initial?.percent || 0} />
@@ -470,8 +457,7 @@ export function GradesLayout({ showTitle = true, pageTitle = 'Grades', element }
                         )}
                       </div>
                     )}
-                  </motion.div>
-                </AnimatePresence>
+                </div>
                 </div>
               </div>
             </Tabs>
