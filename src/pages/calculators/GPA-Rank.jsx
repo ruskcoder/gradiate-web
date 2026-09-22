@@ -24,7 +24,7 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { Trash2, Plus, RotateCcw, Paperclip } from 'lucide-react'
-import { GPA_CONFIGS } from '@/lib/GPAConfigs'
+import { GPA_CONFIGS, letterForGrade } from '@/lib/GPAConfigs'
 import { useStore, useCurrentUser } from '@/lib/store'
 
 export default function GPARankCalculator() {
@@ -34,9 +34,13 @@ export default function GPARankCalculator() {
   const [userRankGPA, setUserRankGPA] = useState('')
   const [transcriptGPA, setTranscriptGPA] = useState(null)
   const [unweightedTranscriptGPA, setUnweightedTranscriptGPA] = useState(null)
+  // `gpa` / `rank` hold the RAW TEXT typed into the field, not a parsed number.
+  // Parsing on every keystroke made a decimal GPA impossible to enter: a
+  // `type="number"` input reports "" for the half-typed "3.", which wrote null
+  // back and wiped the field. Parsing happens once, in `predictRank`.
   const [rankDataPoints, setRankDataPoints] = useState([
-    { id: 1, gpa: null, rank: null },
-    { id: 2, gpa: null, rank: null }
+    { id: 1, gpa: '', rank: '' },
+    { id: 2, gpa: '', rank: '' }
   ])
   const [nextCourseId, setNextCourseId] = useState(1)
   const [nextRankId, setNextRankId] = useState(3)
@@ -126,7 +130,8 @@ export default function GPARankCalculator() {
           if (currentUser?.rankDataPoints && currentUser.rankDataPoints.length > 0) {
             setRankDataPoints(currentUser.rankDataPoints.map((point, index) => ({
               id: nextRankId + index,
-              ...point
+              gpa: Number.isFinite(point?.gpa) ? String(point.gpa) : '',
+              rank: Number.isFinite(point?.rank) ? String(point.rank) : ''
             })))
             setNextRankId(nextRankId + currentUser.rankDataPoints.length)
           }
@@ -172,7 +177,15 @@ export default function GPARankCalculator() {
           source: 'transcript',
           courseCode,
           courseName,
-          grade: parseInt(gradeStr) || 0,
+          // Keep the raw value when the transcript reports a letter or credit
+          // grade ("A", "P"): parseInt turned those into 0, which
+          // `calculateGPA` then filtered out, so the course vanished from the
+          // GPA. `gradeToLetter` already understands letter grades.
+          grade: (() => {
+            const text = String(gradeStr ?? '').trim()
+            const n = parseFloat(text)
+            return Number.isFinite(n) ? n : text
+          })(),
           credit: parseFloat(credit),
           type: determineDefaultCourseType(courseCode, courseName),
           isDeleted: false,
@@ -217,16 +230,12 @@ export default function GPARankCalculator() {
       return grade.toUpperCase()
     }
 
-    const num = parseInt(grade)
+    // parseFloat, not parseInt: an 89.6 has to land in the same band the portal
+    // puts it in, and parseInt truncated it to 89.
+    const num = parseFloat(grade)
     if (isNaN(num)) return ''
 
-    for (const [letter, range] of Object.entries(labels)) {
-      const [min, max] = range.split('-').map(Number)
-      if (num >= min && num <= max) {
-        return letter
-      }
-    }
-    return ''
+    return letterForGrade(num, labels) ?? ''
   }
 
   const calculateCourseGPA = (grade, courseType) => {
@@ -242,10 +251,39 @@ export default function GPARankCalculator() {
     return gpaValue !== undefined ? gpaValue : null
   }
 
+  // Next free `c-<n>` id, derived from the courses that actually exist. The old
+  // version read the `nextCourseId` STATE, which was still at its pre-transcript
+  // value while the restored custom courses were being built — so the new id
+  // collided with an existing one, the `courseExists` guard returned the list
+  // unchanged, and "Add Course" silently did nothing.
+  const nextCustomUniqueId = (list) => {
+    let max = 0
+    for (const c of list) {
+      const m = /^c-(\d+)$/.exec(c.uniqueId || '')
+      if (m) max = Math.max(max, parseInt(m[1], 10))
+    }
+    return max + 1
+  }
+
+  // NOTE: the handlers below compute the next course list from `courses` and then
+  // call `setCourses` with that value, rather than writing to the store from
+  // inside a `setCourses(prev => ...)` updater. Updaters must be pure — React may
+  // run them twice (StrictMode, or a re-render during concurrent work), which
+  // double-wrote the persisted account data.
+  const persistCustomCourses = (list) => {
+    useStore.getState().changeUserData(
+      'customCourses',
+      list
+        .filter(c => c.source === 'custom' && !c.isDeleted)
+        .map(c => ({ courseName: c.courseName, grade: c.grade, type: c.type }))
+    )
+  }
+
   const addCustomCourse = () => {
+    const id = nextCustomUniqueId(courses)
     const newCourse = {
-      id: nextCourseId,
-      uniqueId: `c-${nextCourseId}`,
+      id,
+      uniqueId: `c-${id}`,
       source: 'custom',
       courseCode: '',
       courseName: '',
@@ -254,121 +292,64 @@ export default function GPARankCalculator() {
       type: '',
       isDeleted: false
     }
-    setCourses(prevCourses => {
-      const courseExists = prevCourses.some(c => c.uniqueId === newCourse.uniqueId)
-      if (courseExists) return prevCourses
-      const updated = [newCourse, ...prevCourses]
-      const customCourses = updated
-        .filter(c => c.source === 'custom' && !c.isDeleted)
-        .map(c => ({
-          courseName: c.courseName,
-          grade: c.grade,
-          type: c.type
-        }))
-
-      useStore.getState().changeUserData('customCourses', customCourses)
-
-      return updated
-    })
-    setNextCourseId(nextCourseId + 1)
+    const updated = [newCourse, ...courses]
+    setCourses(updated)
+    persistCustomCourses(updated)
+    setNextCourseId(id + 1)
   }
 
   const updateCourse = (courseId, field, value) => {
-    setCourses(prevCourses => {
-
-      if (field === 'type') {
-        const courseToUpdate = prevCourses.find(c => c.uniqueId === courseId)
-        if (courseToUpdate) {
-          const courseName = courseToUpdate.courseName
-          const updated = prevCourses.map(course => {
-            if (course.courseName === courseName && course.courseName !== '') {
-              return { ...course, [field]: String(value) }
-            }
-            if (course.uniqueId === courseId) {
-              return { ...course, [field]: String(value) }
-            }
-            return course
-          })
-
-          if (courseName !== '') {
-            const courseTypesByCourseName = useStore.getState().currentUser()?.courseTypesByCourseName || {}
-            useStore.getState().changeUserData('courseTypesByCourseName', {
-              ...courseTypesByCourseName,
-              [courseName]: String(value)
-            })
-          }
-
-          const customCourses = updated
-            .filter(c => c.source === 'custom' && !c.isDeleted)
-            .map(c => ({
-              courseName: c.courseName,
-              grade: c.grade,
-              type: c.type
-            }))
-          useStore.getState().changeUserData('customCourses', customCourses)
-
-          return updated
-        }
+    if (field === 'type') {
+      const courseToUpdate = courses.find(c => c.uniqueId === courseId)
+      const courseName = courseToUpdate?.courseName
+      if (courseToUpdate && courseName) {
+        const updated = courses.map(course =>
+          course.courseName === courseName || course.uniqueId === courseId
+            ? { ...course, [field]: String(value) }
+            : course
+        )
+        const courseTypesByCourseName = useStore.getState().currentUser()?.courseTypesByCourseName || {}
+        setCourses(updated)
+        useStore.getState().changeUserData('courseTypesByCourseName', {
+          ...courseTypesByCourseName,
+          [courseName]: String(value)
+        })
+        persistCustomCourses(updated)
+        return
       }
+    }
 
-      const updated = prevCourses.map(course => {
-        if (course.uniqueId === courseId) {
-          return { ...course, [field]: String(value) }
-        }
-        return course
-      })
-
-      const customCourses = updated
-        .filter(c => c.source === 'custom' && !c.isDeleted)
-        .map(c => ({
-          courseName: c.courseName,
-          grade: c.grade,
-          type: c.type
-        }))
-      useStore.getState().changeUserData('customCourses', customCourses)
-
-      return updated
-    })
+    const updated = courses.map(course =>
+      course.uniqueId === courseId ? { ...course, [field]: String(value) } : course
+    )
+    setCourses(updated)
+    persistCustomCourses(updated)
   }
 
   const toggleDeleteCourse = (courseId) => {
-    setCourses(prevCourses => {
-      const updated = prevCourses.map(course => {
-        if (course.uniqueId === courseId) {
-          if (course.source === 'custom') {
+    const updated = courses.map(course => {
+      if (course.uniqueId !== courseId) return course
+      // A custom course is removed outright; a transcript course is only
+      // struck through so it can be restored.
+      if (course.source === 'custom') return null
+      return { ...course, isDeleted: !course.isDeleted }
+    }).filter(c => c !== null)
 
-            return null
-          } else {
+    const deletedTranscriptCourses = updated
+      .filter(c => c.isDeleted && c.source === 'transcript')
+      .map(c => `${c.courseCode}-${c.courseName}-${c.schoolYear}`)
 
-            return { ...course, isDeleted: !course.isDeleted }
-          }
-        }
-        return course
-      }).filter(c => c !== null)
-
-      const deletedTranscriptCourses = updated
-        .filter(c => c.isDeleted && c.source === 'transcript')
-        .map(c => `${c.courseCode}-${c.courseName}-${c.schoolYear}`)
-
-      const customCourses = updated
-        .filter(c => c.source === 'custom')
-        .map(c => ({
-          courseName: c.courseName,
-          grade: c.grade,
-          type: c.type
-        }))
-
-      useStore.getState().changeUserData('deletedTranscriptCourses', deletedTranscriptCourses)
-      useStore.getState().changeUserData('customCourses', customCourses)
-
-      return updated
-    })
+    setCourses(updated)
+    useStore.getState().changeUserData('deletedTranscriptCourses', deletedTranscriptCourses)
+    persistCustomCourses(updated)
   }
 
   const calculateGPA = (coursesToCalc = courses, excludeDeleted = true) => {
     const validCourses = coursesToCalc.filter(c => {
       if (excludeDeleted && c.isDeleted) return false
-      if (!c.grade) return false
+      // `!c.grade` also threw away a literal 0, which is a real failing grade,
+      // not a missing one. Only blanks are missing.
+      if (c.grade === '' || c.grade === null || c.grade === undefined) return false
       return true
     })
 
@@ -404,14 +385,20 @@ export default function GPARankCalculator() {
     return calculateGPA(courses, true)
   }
 
+  /** No rank is better than 1st, or worse than last in the class. */
+  const clampRank = (rank) => {
+    if (!Number.isFinite(rank)) return null
+    const floored = Math.max(1, rank)
+    return classSize && classSize > 0 ? Math.min(floored, classSize) : floored
+  }
+
   const predictRank = (targetGPA) => {
     const validPoints = rankDataPoints
-      .filter(p => p.gpa !== null && p.rank !== null)
-      .map(p => ({ gpa: parseFloat(p.gpa), rank: parseInt(p.rank) }))
-      .filter(p => !isNaN(p.gpa) && !isNaN(p.rank))
+      .map(p => ({ gpa: parseFloat(p.gpa), rank: parseInt(p.rank, 10) }))
+      .filter(p => Number.isFinite(p.gpa) && Number.isFinite(p.rank))
 
     if (validPoints.length === 0) return null
-    if (validPoints.length === 1) return validPoints[0].rank
+    if (validPoints.length === 1) return clampRank(validPoints[0].rank)
 
     const n = validPoints.length
     const sumX = validPoints.reduce((sum, p) => sum + p.gpa, 0)
@@ -422,7 +409,7 @@ export default function GPARankCalculator() {
     const denominator = n * sumX2 - sumX * sumX
     if (denominator === 0) {
 
-      return Math.round(sumY / n)
+      return clampRank(Math.round(sumY / n))
     }
 
     const slope = (n * sumXY - sumX * sumY) / denominator
@@ -430,34 +417,43 @@ export default function GPARankCalculator() {
 
     const predictedRank = Math.round(slope * targetGPA + intercept)
 
-    return predictedRank < 1 ? 1 : predictedRank
+    return clampRank(predictedRank)
+  }
+
+  // The persisted shape stays numeric (`{ gpa: number | null, rank: number | null }`)
+  // so the mobile app and older sessions keep reading it; the raw text lives only
+  // in component state. It also no longer persists the internal `id`.
+  const persistRankDataPoints = (points) => {
+    useStore.getState().changeUserData(
+      'rankDataPoints',
+      points.map(p => {
+        const gpa = parseFloat(p.gpa)
+        const rank = parseInt(p.rank, 10)
+        return {
+          gpa: Number.isFinite(gpa) ? gpa : null,
+          rank: Number.isFinite(rank) ? rank : null
+        }
+      })
+    )
   }
 
   const updateRankDataPoint = (pointId, field, value) => {
-    setRankDataPoints(points => {
-      const updated = points.map(p =>
-        p.id === pointId
-          ? { ...p, [field]: field === 'gpa' ? (value === '' ? null : parseFloat(value)) : (value === '' ? null : parseInt(value)) }
-          : p
-      )
-
-      useStore.getState().changeUserData('rankDataPoints', updated)
-
-      return updated
-    })
+    const updated = rankDataPoints.map(p => (p.id === pointId ? { ...p, [field]: value } : p))
+    setRankDataPoints(updated)
+    persistRankDataPoints(updated)
   }
 
   const addRankDataPoint = () => {
-    const newPoints = [...rankDataPoints, { id: nextRankId, gpa: null, rank: null }]
+    const newPoints = [...rankDataPoints, { id: nextRankId, gpa: '', rank: '' }]
     setRankDataPoints(newPoints)
-    useStore.getState().changeUserData('rankDataPoints', newPoints)
+    persistRankDataPoints(newPoints)
     setNextRankId(nextRankId + 1)
   }
 
   const deleteRankDataPoint = (pointId) => {
     const updated = rankDataPoints.filter(p => p.id !== pointId)
     setRankDataPoints(updated)
-    useStore.getState().changeUserData('rankDataPoints', updated)
+    persistRankDataPoints(updated)
   }
 
   const usePredictedGPA = () => {
@@ -491,8 +487,10 @@ export default function GPARankCalculator() {
 
       return a.courseName.localeCompare(b.courseName)
     })
-  const userGPANum = userRankGPA ? parseFloat(userRankGPA) : null
-  const predictedRank = userGPANum ? predictRank(userGPANum) : null
+  // `userGPANum ? ...` treated a GPA of 0 as "not entered".
+  const parsedUserGPA = parseFloat(userRankGPA)
+  const userGPANum = Number.isFinite(parsedUserGPA) ? parsedUserGPA : null
+  const predictedRank = userGPANum !== null ? predictRank(userGPANum) : null
   const weightedButtonText = defaultGPAType === 'cyFairWeighted' ? 'Weighted - Cy-Fair ISD' : 'Weighted - Katy ISD'
   const isWeightedSelected = gpaType === 'katyWeighted' || gpaType === 'cyFairWeighted'
 
@@ -540,9 +538,15 @@ export default function GPARankCalculator() {
               </Button>
             </div>
 
-            {displayCourses.length > 0 && (
-              <div className="flex flex-col gap-2 w-full">
+            <div className="flex flex-col gap-2 w-full">
 
+              {displayCourses.length === 0 && (
+                <p className="text-muted-foreground text-sm">
+                  No transcript courses found — add your own below.
+                </p>
+              )}
+
+              {displayCourses.length > 0 && (
                 <div className="border rounded-lg overflow-y-auto" style={{ maxHeight: '250px' }}>
                   <Table className="w-full">
                     <TableHeader className="sticky top-0">
@@ -562,7 +566,7 @@ export default function GPARankCalculator() {
                           <TableRow key={course.uniqueId} className={course.isDeleted ? 'opacity-60' : ''}>
                             <TableCell className="">
                               <Select
-                                value={String(course.type)}
+                                value={course.type ? String(course.type) : undefined}
                                 onValueChange={(value) => updateCourse(course.uniqueId, 'type', value)}
                                 disabled={gpaType === 'unweighted' || course.isDeleted}
                               >
@@ -634,16 +638,16 @@ export default function GPARankCalculator() {
                     </TableBody>
                   </Table>
                 </div>
+              )}
 
-
-                <Button
-                  variant="outline"
-                  onClick={addCustomCourse}
-                  className="w-full"
-                >
-                  <Plus size={16} className="mr-1" />
-                  Add Course
-                </Button>
+              <Button
+                variant="outline"
+                onClick={addCustomCourse}
+                className="w-full"
+              >
+                <Plus size={16} className="mr-1" />
+                Add Course
+              </Button>
 
 
                 <div className="grid grid-cols-2 gap-4 w-full mt-2">
@@ -678,8 +682,7 @@ export default function GPARankCalculator() {
                     </div>
                   )}
                 </div>
-              </div>
-            )}
+            </div>
           </div>
         </ResizablePanel>
 
@@ -714,25 +717,23 @@ export default function GPARankCalculator() {
                       <TableRow key={point.id}>
                         <TableCell>
                           <Input
-                            type="number"
+                            type="text"
+                            inputMode="decimal"
                             placeholder="3.8"
-                            value={point.gpa ?? ''}
+                            value={point.gpa}
                             onChange={(e) => updateRankDataPoint(point.id, 'gpa', e.target.value)}
                             className="h-8 text-xs"
-                            step="0.01"
-                            min="0"
-                            max="5"
                           />
                         </TableCell>
                         <TableCell>
                           <div className="flex gap-4">
                             <Input
-                              type="number"
+                              type="text"
+                              inputMode="numeric"
                               placeholder="15"
-                              value={point.rank ?? ''}
+                              value={point.rank}
                               onChange={(e) => updateRankDataPoint(point.id, 'rank', e.target.value)}
                               className="h-8 text-xs"
-                              min="1"
                             />
                             {rankDataPoints.length > 1 && (
                               <Button
@@ -767,14 +768,12 @@ export default function GPARankCalculator() {
               <label className="text-sm font-medium">Your GPA</label>
               <div className="flex gap-1 mt-1">
                 <Input
-                  type="number"
+                  type="text"
+                  inputMode="decimal"
                   placeholder="Enter your GPA"
                   value={userRankGPA}
                   onChange={(e) => setUserRankGPA(e.target.value)}
                   className="h-9 text-sm"
-                  step="0.01"
-                  min="0"
-                  max="5"
                 />
                 <Button
                   size="sm"
@@ -801,9 +800,9 @@ export default function GPARankCalculator() {
                 <p className="text-xs text-orange-700 dark:text-orange-200 font-medium mb-1">Predicted Rank</p>
                 <div className="flex items-center gap-1">
                   <p className="text-xl font-bold text-orange-900 dark:text-orange-100">
-                    {predictedRank && classSize ? `${predictedRank} / ${classSize}` : '--'}
+                    {predictedRank !== null && classSize ? `${predictedRank} / ${classSize}` : '--'}
                   </p>
-                  {predictedRank && currentRank && (
+                  {predictedRank !== null && currentRank !== null && (
                     (() => {
                       const rankDiff = predictedRank - currentRank
                       let badgeColor = 'bg-gray-200 text-gray-700 dark:bg-gray-700 dark:text-gray-200'

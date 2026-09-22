@@ -40,18 +40,40 @@ export function transformGroupsToCategories(classData: any) {
     if (!group) continue;
     const catKey = (catName: string) => (multi ? `${groupName} - ${catName}` : catName);
 
-    if (group.categories && typeof group.categories === "object") {
-      for (const [catName, catData] of Object.entries(group.categories)) {
-        categories[catKey(catName)] = { ...(catData as any) };
-      }
+    // Each group's category weights are relative to THAT group, so they can't
+    // just be copied side by side into one flat map — a 40/40/20 term split
+    // would come out as though every term were equally weighted. Rescale them
+    // so a category's flat weight is `groupWeight * (catWeight / groupTotal)`.
+    const groupWeight = parseFloat(group.weight);
+    const groupCats =
+      group.categories && typeof group.categories === "object"
+        ? Object.entries<any>(group.categories)
+        : [];
+    const groupCatTotal = groupCats.reduce(
+      (sum, [, c]) => sum + (parseFloat(c?.categoryWeight) || 0),
+      0
+    );
+    const rescale = (catWeight: number) =>
+      Number.isFinite(groupWeight) && groupWeight > 0 && groupCatTotal > 0
+        ? (groupWeight * catWeight) / groupCatTotal
+        : catWeight;
+
+    for (const [catName, catData] of groupCats) {
+      const catWeight = parseFloat(catData?.categoryWeight) || 0;
+      categories[catKey(catName)] = {
+        ...(catData as any),
+        categoryWeight: rescale(catWeight).toFixed(4),
+      };
     }
 
     const groupScores = Array.isArray(group.scores) ? group.scores : [];
     for (const sc of groupScores) {
       const cat = catKey(sc.category || "Other");
       if (!categories[cat]) {
+        // An assignment in a category the group never declared: it has no
+        // weight of its own, so it carries the group's.
         categories[cat] = {
-          categoryWeight: (parseFloat(group.weight) || 0).toFixed(2),
+          categoryWeight: (Number.isFinite(groupWeight) ? groupWeight : 0).toFixed(4),
           percent: "0.000",
           studentsPoints: "0",
           maximumPoints: "0",

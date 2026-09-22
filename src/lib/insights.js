@@ -2,7 +2,7 @@
 // missing-work tracker, GPA projection and change alerts all read from here so
 // they work offline and never trigger extra network calls.
 
-import { GPA_CONFIGS } from '@/lib/GPAConfigs'
+import { GPA_CONFIGS, letterForGrade } from '@/lib/GPAConfigs'
 
 export const courseKeyOf = (c) => `${c.course}|${c.name}`
 
@@ -53,8 +53,11 @@ export function getCurrentClasses(user) {
 
 const usableScore = (s) => {
   const v = parseFloat(s.score)
-  const dropped = s.badges && s.badges.includes('dropped')
-  return !isNaN(v) && s.score !== '···' && s.score !== '' && !s.excluded && !dropped
+  // Exempt work is excluded from the average exactly like dropped work — the
+  // What-If calculator already did this, so leaving it in here made the goal
+  // plan and the missing-work gain disagree with What-If.
+  const exemptOrDropped = s.badges && (s.badges.includes('dropped') || s.badges.includes('exempt'))
+  return !isNaN(v) && s.score !== '···' && s.score !== '' && !s.excluded && !exemptOrDropped
 }
 
 /** Category-weighted average — same math as the What-If calculator. */
@@ -86,15 +89,22 @@ export function recalculateAverage(categories, scores) {
 export function neededOnNext(categories, target, category, weight = 1) {
   const cats = categories || {}
   if (!cats[category]) return null
+  // Only categories that currently feed the average count toward the
+  // denominator — `recalculateAverage` skips the ones with no assignments, so
+  // counting an empty category here would solve for a different average than
+  // the app shows. The target category always counts: the hypothetical new
+  // assignment is what gives it points.
   let totalWeight = 0
   let other = 0
   for (const [name, c] of Object.entries(cats)) {
+    if (name !== category && !(parseFloat(c.maximumPoints) > 0)) continue
     const w = parseFloat(c.categoryWeight) || 1
     totalWeight += w
     if (name !== category) other += (parseFloat(c.percent) || 0) * w
   }
   const cat = cats[category]
   const catWeight = parseFloat(cat.categoryWeight) || 1
+  if (!(totalWeight > 0) || !(catWeight > 0)) return null
   const requiredCatPercent = (target * totalWeight - other) / catWeight
   const maxPts = parseFloat(cat.maximumPoints) || 0
   const stuPts = parseFloat(cat.studentsPoints) || 0
@@ -138,7 +148,10 @@ export function getMissingAssignments(classes) {
         if (after !== null && before !== null) gain = after - before
       }
       out.push({
-        id: `${cls.key || courseKeyOf(cls)}|${s.name}|${s.dateDue || ''}`,
+        // `idx` disambiguates two assignments that share a name AND a due
+        // date (a "Daily Work" pair, say), which otherwise produced the same
+        // id and so duplicate React keys / colliding auto-todo sources.
+        id: `${cls.key || courseKeyOf(cls)}|${s.name}|${s.dateDue || ''}|${idx}`,
         classKey: cls.key || courseKeyOf(cls),
         className: cls.name,
         name: s.name,
@@ -158,12 +171,7 @@ export function defaultGpaType(user) {
 }
 
 function letterFor(grade, labels) {
-  const n = Math.round(grade)
-  for (const [letter, range] of Object.entries(labels)) {
-    const [min, max] = range.split('-').map(Number)
-    if (n >= min && n <= max) return letter
-  }
-  return null
+  return letterForGrade(Math.round(grade), labels)
 }
 
 function guessType(name, types) {
@@ -211,7 +219,7 @@ export function combineWithTranscript(transcriptGpa, transcriptCourses, projecte
 
 /** Compare a stored term history with a freshly-loaded class list. */
 export function diffGrades(termHistory, classes, term) {
-  if (!termHistory || !classes) return []
+  if (!termHistory || !Array.isArray(classes)) return []
   const changes = []
   for (const c of classes) {
     const entries = termHistory[courseKeyOf(c)]
@@ -220,7 +228,11 @@ export function diffGrades(termHistory, classes, term) {
     const from = parseNum(prev.average)
     const to = parseNum(c.average ?? c.averages?.[term])
     const prevNames = new Set((prev.scores || []).map((s) => `${s.name}|${s.dateDue}`))
-    const newAssignments = Array.isArray(c.scores) && prev.scores?.length
+    // `prev.scores?.length` used to gate this, so the FIRST assignments to ever
+    // land in a class were never announced — only later ones were. An absent
+    // `scores` array on the previous snapshot still means "we have no detail to
+    // diff against", but an empty one means "there genuinely were none".
+    const newAssignments = Array.isArray(c.scores) && Array.isArray(prev.scores)
       ? c.scores.filter((s) => !prevNames.has(`${s.name}|${s.dateDue}`)).map((s) => s.name)
       : []
     const avgChanged = from !== null && to !== null && Math.abs(from - to) >= 0.005
@@ -290,6 +302,9 @@ export function periodStatus(schedule, now = new Date()) {
     next,
     minutesLeft: current ? Math.ceil(current.end - t) : null,
     minutesUntilNext: next ? Math.ceil(next.start - t) : null,
-    progress: current ? (t - current.start) / (current.end - current.start) : null,
+    // A malformed period whose start equals its end would divide by zero here.
+    progress: current && current.end > current.start
+      ? (t - current.start) / (current.end - current.start)
+      : null,
   }
 }

@@ -113,7 +113,11 @@ export default function FinalExamCalculator() {
     }
 
     fetchInitial()
-  }, [selectedClass])
+    // Deliberately runs ONCE. It used to depend on `selectedClass`, so simply
+    // picking a class re-ran the whole network load, re-showed the spinner and
+    // reset the term selection back to just the current term.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   const handleFetchData = async () => {
     if (!selectedClass) {
@@ -121,10 +125,12 @@ export default function FinalExamCalculator() {
       return
     }
 
-    const termsToFetch = Array.from(selectedTerms).filter((t) => t !== currentTerm)
+    // Skip any term already cached in this session (not just the current one),
+    // and fall back to a real fetch for the rest.
+    const termsToFetch = Array.from(selectedTerms).filter((t) => !cachedTermData[t]?.length)
 
     if (termsToFetch.length === 0) {
-      setCalculateError('No additional terms to fetch')
+      setCalculateError('All selected terms already loaded')
       return
     }
 
@@ -226,26 +232,44 @@ export default function FinalExamCalculator() {
     }
   }
 
+  const sortedTermKeys = React.useMemo(() => {
+    return Array.from(selectedTerms).sort((a, b) => termList.indexOf(a) - termList.indexOf(b))
+  }, [selectedTerms, termList])
+
   const handleCalculate = () => {
     setCalculateError('')
 
-    const termAvgValues = Object.keys(calculatorTermAverages)
-      .sort((a, b) => termList.indexOf(a) - termList.indexOf(b))
-      .map((key) => {
-        const parsed = parseFloat(calculatorTermAverages[key])
-        return isNaN(parsed) ? null : parsed
-      })
+    // Drive the math off the terms that are actually SELECTED, in term order —
+    // not off whatever keys happen to be left in `calculatorTermAverages`.
+    // Reading the map's keys meant a deselected term still counted toward the
+    // mean, and a term that was selected but never filled in was silently left
+    // out of it.
+    const sortedKeys = sortedTermKeys
+    if (sortedKeys.length === 0) {
+      setCalculateError('Select at least one term first')
+      return
+    }
+    const termAvgValues = sortedKeys.map((key) => {
+      const parsed = parseFloat(calculatorTermAverages[key] ?? '')
+      return isNaN(parsed) ? null : parsed
+    })
 
     const desired = desiredAverage ? parseFloat(desiredAverage) : null
+
+    // N blank term averages used to count as a single blank, so with two or more
+    // blanks the calculator happily solved for the first one and wrote a
+    // meaningless number. Count and name each blank term instead.
+    const blankTerms = sortedKeys.filter((_, i) => termAvgValues[i] === null)
+    const filledTermCount = termAvgValues.length - blankTerms.length
 
     if (isExempting) {
 
       let emptyCount = 0
       let blankFieldNames = []
 
-      if (termAvgValues.some(v => v === null)) {
-        emptyCount++
-        blankFieldNames.push('term average(s)')
+      if (blankTerms.length > 0) {
+        emptyCount += blankTerms.length
+        blankFieldNames.push(...blankTerms.map((t) => `Term ${t}`))
       }
       if (desired === null) {
         emptyCount++
@@ -263,6 +287,10 @@ export default function FinalExamCalculator() {
       }
 
       if (desired === null) {
+        if (filledTermCount === 0) {
+          setCalculateError('Enter at least one term average first')
+          return
+        }
 
         const validTermAvgs = termAvgValues.filter((v) => v !== null)
         const sumTerms = validTermAvgs.reduce((a, b) => a + b, 0)
@@ -277,7 +305,7 @@ export default function FinalExamCalculator() {
 
         const calculated = desired * termAvgValues.length - sumValidTerms
 
-        const termKey = Object.keys(calculatorTermAverages).sort((a, b) => termList.indexOf(a) - termList.indexOf(b))[blankIndex]
+        const termKey = sortedKeys[blankIndex]
         setCalculatorTermAverages((prev) => ({
           ...prev,
           [termKey]: calculated.toFixed(2),
@@ -293,13 +321,19 @@ export default function FinalExamCalculator() {
       }
 
       const finalExam = finalExamGrade ? parseFloat(finalExamGrade) : null
+      // Solving for the exam grade divides by the weight, so a 0% exam has no
+      // answer — every grade satisfies it. Say so instead of printing Infinity.
+      if (finalExam === null && weight === 0) {
+        setCalculateError('A 0% weight exam cannot change the average - give it a weight above 0')
+        return
+      }
 
       let emptyCount = 0
       let blankFieldNames = []
 
-      if (termAvgValues.some(v => v === null)) {
-        emptyCount++
-        blankFieldNames.push('term average(s)')
+      if (blankTerms.length > 0) {
+        emptyCount += blankTerms.length
+        blankFieldNames.push(...blankTerms.map((t) => `Term ${t}`))
       }
       if (finalExam === null) {
         emptyCount++
@@ -321,6 +355,11 @@ export default function FinalExamCalculator() {
       }
 
       const totalWeight = 100 - weight
+
+      if ((desired === null || finalExam === null) && filledTermCount === 0) {
+        setCalculateError('Enter at least one term average first')
+        return
+      }
 
       if (desired === null) {
 
@@ -349,7 +388,7 @@ export default function FinalExamCalculator() {
         const calculated =
           (desired * 100 - finalExam * weight) * termAvgValues.length / totalWeight - sumValidTerms
 
-        const termKey = Object.keys(calculatorTermAverages).sort((a, b) => termList.indexOf(a) - termList.indexOf(b))[blankIndex]
+        const termKey = sortedKeys[blankIndex]
         setCalculatorTermAverages((prev) => ({
           ...prev,
           [termKey]: calculated.toFixed(2),
@@ -358,10 +397,6 @@ export default function FinalExamCalculator() {
       }
     }
   }
-
-  const sortedTermKeys = React.useMemo(() => {
-    return Array.from(selectedTerms).sort((a, b) => termList.indexOf(a) - termList.indexOf(b))
-  }, [selectedTerms, termList])
 
   const allTermsHaveStorage = React.useMemo(() => {
     return Array.from(selectedTerms).every(term => hasStorageData(term))
@@ -373,14 +408,16 @@ export default function FinalExamCalculator() {
   }, [])
 
   const exemptingAverage = React.useMemo(() => {
-    const validAverages = Object.values(termAverages)
-      .map(val => parseFloat(val))
+    // Only the SELECTED terms - `termAverages` keeps entries for terms that have
+    // since been deselected, and averaging those in silently skewed the number.
+    const validAverages = sortedTermKeys
+      .map((term) => parseFloat(termAverages[term] ?? ''))
       .filter(val => !isNaN(val))
 
     if (validAverages.length === 0) return null
     const avg = validAverages.reduce((a, b) => a + b, 0) / validAverages.length
     return avg.toFixed(2)
-  }, [termAverages])
+  }, [termAverages, sortedTermKeys])
 
   return (
     <div className="space-y-8 flex flex-col">
@@ -416,16 +453,21 @@ export default function FinalExamCalculator() {
               <Select value={selectedClass} onValueChange={(classValue) => {
                 setSelectedClass(classValue)
 
+                // Rebuild every selected term's average for the new class in one
+                // pass. This used to only WRITE when the new class had an
+                // average, so a term where it has none kept showing the previous
+                // class's number - and the calculator then used it.
+                const next = {}
                 selectedTerms.forEach((term) => {
-                  if (cachedTermData[term]) {
-                    const selectedClassData = cachedTermData[term].find(cls => cls.course === classValue)
-                    if (selectedClassData && selectedClassData.average !== undefined && selectedClassData.average !== '') {
-                      const classAverage = parseFloat(selectedClassData.average)
-                      setTermAverages((prev) => ({ ...prev, [term]: classAverage.toFixed(2) }))
-                      setCalculatorTermAverages((prev) => ({ ...prev, [term]: classAverage.toFixed(2) }))
-                    }
-                  }
+                  const selectedClassData = cachedTermData[term]?.find(cls => cls.course === classValue)
+                  next[term] =
+                    selectedClassData && selectedClassData.average !== undefined && selectedClassData.average !== ''
+                      ? parseFloat(selectedClassData.average).toFixed(2)
+                      : ''
                 })
+                setTermAverages((prev) => ({ ...prev, ...next }))
+                setCalculatorTermAverages((prev) => ({ ...prev, ...next }))
+                setCalculatedField(null)
               }}>
                 <SelectTrigger>
                   <SelectValue placeholder="Choose a class" />
@@ -457,6 +499,18 @@ export default function FinalExamCalculator() {
                         }
                         return next
                       })
+                      if (!pressed) {
+                        // Drop the deselected term's values outright - leaving
+                        // them behind meant they still fed the averages.
+                        const drop = (prev) => {
+                          if (!(term in prev)) return prev
+                          const rest = { ...prev }
+                          delete rest[term]
+                          return rest
+                        }
+                        setTermAverages(drop)
+                        setCalculatorTermAverages(drop)
+                      }
                     }}
                     className="flex-1"
                   >
@@ -483,7 +537,7 @@ export default function FinalExamCalculator() {
             <div className="space-y-2 mt-2 pt-4 border-t">
               <Label className="text-sm font-medium">Grade</Label>
               <div className="flex flex-col gap-2">
-                {Array.from(selectedTerms).map((term) => (
+                {sortedTermKeys.map((term) => (
                   <div key={term} className="flex items-center gap-2">
                     <span className="text-sm whitespace-nowrap">Term {term}:</span>
                     {loadingTerms[term] ? (
@@ -495,7 +549,7 @@ export default function FinalExamCalculator() {
                     )}
                   </div>
                 ))}
-                {Array.from(selectedTerms).length === 0 && (
+                {sortedTermKeys.length === 0 && (
                   <span className="text-sm text-muted-foreground">Select terms to load</span>
                 )}
               </div>

@@ -61,9 +61,12 @@ export function GpaWidget({ classes }) {
         if (['rank', 'quartile', 'Weighted GPA*', 'Unweighted GPA*'].includes(k)) continue
         courses += Math.max(0, (sem?.data?.length || 1) - 1)
       }
+      // `|| null` also discarded a legitimate 0.0.
+      const weightedGpa = parseFloat(t['Weighted GPA*'])
+      const unweightedGpa = parseFloat(t['Unweighted GPA*'])
       setTranscript({
-        weighted: parseFloat(t['Weighted GPA*']) || null,
-        unweighted: parseFloat(t['Unweighted GPA*']) || null,
+        weighted: Number.isFinite(weightedGpa) ? weightedGpa : null,
+        unweighted: Number.isFinite(unweightedGpa) ? unweightedGpa : null,
         courses,
       })
     } catch (e) {
@@ -133,7 +136,9 @@ function GoalEditor({ cls, goal }) {
   const user = useCurrentUser()
   const [value, setValue] = useState(goal ?? '')
   const save = (v) => {
-    const goals = { ...(user.goals || {}) }
+    // `useCurrentUser()` returns null when no account is selected, so this has
+    // to be optional — it used to throw reading `.goals` of null.
+    const goals = { ...(user?.goals || {}) }
     const n = parseFloat(v)
     if (Number.isFinite(n)) goals[cls.key] = n
     else delete goals[cls.key]

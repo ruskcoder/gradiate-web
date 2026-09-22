@@ -14,7 +14,10 @@ export function formatGrade(grade, displayMode = 'decimal') {
 
   switch (displayMode) {
     case 'decimal':
-      return numeric.toPrecision(4);
+      // toFixed, not toPrecision: `toPrecision(4)` counts SIGNIFICANT digits, so
+      // a 7% average rendered as "7.000" and a 100 as "100.0" while an 88.5
+      // rendered as "88.50". Two decimals is consistent at every magnitude.
+      return numeric.toFixed(2);
     case 'rounded':
       return Math.round(numeric).toString();
     case 'letter':
@@ -22,7 +25,7 @@ export function formatGrade(grade, displayMode = 'decimal') {
     case 'letter+':
       return numericToLetterPlus(numeric);
     default:
-      return numeric.toPrecision(4);
+      return numeric.toFixed(2);
   }
 }
 

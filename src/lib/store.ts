@@ -117,7 +117,20 @@ export interface User {
     termTree: any[];
     currentTerms: string[];
     hasSubterms: boolean;
-    history: Record<string, Record<string, Array<{ loadedAt: number; average: any; categories: any; scores: any[] }>>>;
+    history: Record<
+      string,
+      Record<
+        string,
+        Array<{
+          loadedAt: number;
+          average: any;
+          categories: any;
+          scores: any[];
+          // Present only for a multi-term semester roll-up (Skyward SM1/SM2).
+          groups?: Record<string, any>;
+        }>
+      >
+    >;
   };
 }
 
@@ -134,10 +147,12 @@ type GradesHistory = User['gradesStore']['history'];
  * Push one snapshot into a term's per-course history, deduping against an
  * identical latest entry (refresh its timestamp instead of appending).
  */
+type Snapshot = GradesHistory[string][string][number];
+
 function pushSnapshot(
-  termBucket: Record<string, Array<{ loadedAt: number; average: any; categories: any; scores: any[] }>>,
+  termBucket: Record<string, Array<Snapshot>>,
   courseKey: string,
-  snapshot: { loadedAt: number; average: any; categories: any; scores: any[] }
+  snapshot: Snapshot
 ): void {
   const courseHistory = termBucket[courseKey] ? [...termBucket[courseKey]] : [];
   termBucket[courseKey] = courseHistory;
@@ -146,7 +161,8 @@ function pushSnapshot(
     latest &&
     JSON.stringify(latest.average) === JSON.stringify(snapshot.average) &&
     JSON.stringify(latest.categories) === JSON.stringify(snapshot.categories) &&
-    JSON.stringify(latest.scores) === JSON.stringify(snapshot.scores);
+    JSON.stringify(latest.scores) === JSON.stringify(snapshot.scores) &&
+    JSON.stringify(latest.groups) === JSON.stringify(snapshot.groups);
   if (unchanged) courseHistory[courseHistory.length - 1] = snapshot;
   else courseHistory.push(snapshot);
 }
@@ -205,6 +221,12 @@ function mergeClassesIntoHistory(
         average,
         categories: classData.categories,
         scores: classData.scores,
+        // Carried through so a class rebuilt from storage still knows it is a
+        // multi-term semester roll-up. Without it, the "What-If isn't available
+        // for a full semester" guard silently failed for any cached class and
+        // What-If ran on a semester with the wrong math.
+        groups:
+          classData.groups && typeof classData.groups === 'object' ? classData.groups : undefined,
       });
     }
   }
@@ -406,7 +428,19 @@ export const useStore = create<UserStore>()(
         if (index < 0 || index >= users.length || index === currentUserIndex) return;
         // The API session belongs to the portal login of the previous account.
         // The response cache is scoped per account, so it can stay.
-        set({ currentUserIndex: index, session: {} });
+        //
+        // The privacy unlock and the change badges are per-account too: leaving
+        // `privacyUnlocked` set meant switching accounts exposed the new
+        // account's GPA, rank and transcript WITHOUT asking for its PIN, and the
+        // outgoing account's change badges stayed painted on the new account's
+        // class list.
+        set({
+          currentUserIndex: index,
+          session: {},
+          privacyUnlocked: false,
+          gradeChanges: [],
+          viewedGradeChanges: {},
+        });
       },
 
       removeUser: (index: number) => {
@@ -642,18 +676,20 @@ export const useStore = create<UserStore>()(
               newHistory[term] = { ...newHistory[term] };
 
               for (const courseKey in newHistory[term]) {
-                const courseHistory = newHistory[term][courseKey];
-                if (courseHistory && courseHistory.length > 0) {
-                  const latestEntry = courseHistory[courseHistory.length - 1];
-                  if (latestEntry) {
-                    courseHistory[courseHistory.length - 1] = {
-                      loadedAt: Date.now(),
-                      average: latestEntry.average,
-                      categories: latestEntry.categories,
-                      scores: latestEntry.scores,
-                    };
-                  }
+                const existing = newHistory[term][courseKey];
+                if (!existing || existing.length === 0) continue;
+                // Copy the array before writing into it. Assigning straight into
+                // `existing` mutated the array still held by the PREVIOUS state
+                // object, so anything comparing old and new saw them as equal.
+                const courseHistory = [...existing];
+                const latestEntry = courseHistory[courseHistory.length - 1];
+                if (latestEntry) {
+                  courseHistory[courseHistory.length - 1] = {
+                    ...latestEntry,
+                    loadedAt: Date.now(),
+                  };
                 }
+                newHistory[term][courseKey] = courseHistory;
               }
               newUsers[state.currentUserIndex] = {
                 ...currentUser,

@@ -31,6 +31,65 @@ import { Label } from '@/components/ui/label'
 import { RingGradeStat, CategoryGradeStat, CategoryGradeList } from '@/components/custom/grades-stats'
 import { Plus } from 'lucide-react'
 
+// Category-weighted recompute, shared by every What-If edit. Module scope, not
+// a component const: the effects above used to call it before its `const` was
+// initialised, which only worked by accident of effect ordering.
+function recalculateGrades(categories, scores) {
+  const updatedCategories = { ...categories }
+  
+  Object.keys(updatedCategories).forEach((categoryName) => {
+    const categoryScores = scores.filter(s => {
+      if (s.category !== categoryName) return false
+      const scoreVal = parseFloat(s.score)
+      // Exempt work counts no more than dropped work does — the portal leaves
+      // both out of the average, so the what-if must too.
+      const isExemptOrDropped = s.badges && (s.badges.includes('dropped') || s.badges.includes('exempt'))
+      return !isNaN(scoreVal) && s.score !== '···' && s.score !== '' && !s.excluded && !isExemptOrDropped
+    })
+    
+    let totalWeightedStudentPoints = 0
+    let totalWeightedMaxPoints = 0
+    
+    if (categoryScores.length > 0) {
+      categoryScores.forEach(s => {
+        const weight = parseFloat(s.weight) || 1
+        const studentPoints = parseFloat(s.score) || 0
+        const maxPoints = parseFloat(s.totalPoints) || 0
+        
+        totalWeightedStudentPoints += studentPoints * weight
+        totalWeightedMaxPoints += maxPoints * weight
+      })
+    }
+
+    const percentValue = totalWeightedMaxPoints > 0 ? (totalWeightedStudentPoints / totalWeightedMaxPoints) * 100 : 0
+
+    updatedCategories[categoryName] = {
+      ...updatedCategories[categoryName],
+      percent: percentValue.toFixed(3),
+      studentsPoints: totalWeightedStudentPoints.toFixed(4),
+      maximumPoints: totalWeightedMaxPoints.toFixed(2),
+    }
+  })
+
+  // Calculate final grade: sum(categoryPercent * categoryWeight) for categories with assignments
+  let weightedSum = 0
+  let totalWeight = 0
+  
+  Object.values(updatedCategories).forEach((cat) => {
+    const hasAssignments = parseFloat(cat.maximumPoints) > 0
+    if (hasAssignments) {
+      const weight = parseFloat(cat.categoryWeight) || 1
+      const percent = parseFloat(cat.percent) || 0
+      weightedSum += percent * weight
+      totalWeight += weight
+    }
+  })
+
+  const average = totalWeight > 0 ? weightedSum / totalWeight : 0
+
+  return { categories: updatedCategories, average }
+}
+
 export const WhatIf = ({ selectedGrade }) => {
   const [current, setCurrent] = useState(selectedGrade || {})
   const [isAdding, setIsAdding] = useState(false)
@@ -84,16 +143,14 @@ export const WhatIf = ({ selectedGrade }) => {
 
     // Get current state of all categories
     const categoryStates = {}
-    let totalWeight = 0
-    
+
     Object.entries(current.categories || {}).forEach(([catName, catData]) => {
       const weight = parseFloat(catData.categoryWeight) || 1
       const percent = parseFloat(catData.percent) || 0
       const maxPoints = parseFloat(catData.maximumPoints) || 0
       const studentPoints = parseFloat(catData.studentsPoints) || 0
-      
+
       categoryStates[catName] = { weight, percent, maxPoints, studentPoints }
-      totalWeight += weight
     })
 
     // Calculate what the target category's percentage needs to be
@@ -101,17 +158,27 @@ export const WhatIf = ({ selectedGrade }) => {
     // Formula: targetAvg = sum(catPercent * catWeight) / totalWeight
     // We need to solve for: catPercent where catName = targetCategory
     
-    // Calculate the contribution from all OTHER categories
+    // Only the categories that actually feed the average may count toward the
+    // denominator. `recalculateGrades` skips categories with no assignments, so
+    // including an empty one here (a "Final Exam" bucket, a just-added category)
+    // solved for a different average than the app then displays — the suggested
+    // score never actually reached the target. The target category always
+    // counts: the new assignment is what gives it points.
+    let totalWeight = 0
     let otherContribution = 0
     Object.entries(categoryStates).forEach(([catName, catState]) => {
-      if (catName !== targetCategory) {
-        otherContribution += catState.percent * catState.weight
-      }
+      if (catName !== targetCategory && !(catState.maxPoints > 0)) return
+      totalWeight += catState.weight
+      if (catName !== targetCategory) otherContribution += catState.percent * catState.weight
     })
 
     // Rearrange: targetAvg * totalWeight = otherContribution + targetCatPercent * targetCatWeight
     // targetCatPercent = (targetAvg * totalWeight - otherContribution) / targetCatWeight
     const targetCatWeight = categoryStates[targetCategory].weight
+    if (!(totalWeight > 0) || !(targetCatWeight > 0)) {
+      setTargetRequired(null)
+      return
+    }
     const requiredTargetCatPercent = (targetAvgVal * totalWeight - otherContribution) / targetCatWeight
 
     // Now calculate what score is needed in the new assignment to achieve this percent
@@ -167,62 +234,9 @@ export const WhatIf = ({ selectedGrade }) => {
     if (typeof closePopover === 'function') closePopover()
   }
 
-  const recalculateGrades = (categories, scores) => {
-    const updatedCategories = { ...categories }
-    
-    Object.keys(updatedCategories).forEach((categoryName) => {
-      const categoryScores = scores.filter(s => {
-        if (s.category !== categoryName) return false
-        const scoreVal = parseFloat(s.score)
-        const isDropped = s.badges && s.badges.includes('dropped')
-        return !isNaN(scoreVal) && s.score !== '···' && s.score !== '' && !s.excluded && !isDropped
-      })
-      
-      let totalWeightedStudentPoints = 0
-      let totalWeightedMaxPoints = 0
-      
-      if (categoryScores.length > 0) {
-        categoryScores.forEach(s => {
-          const weight = parseFloat(s.weight) || 1
-          const studentPoints = parseFloat(s.score) || 0
-          const maxPoints = parseFloat(s.totalPoints) || 0
-          
-          totalWeightedStudentPoints += studentPoints * weight
-          totalWeightedMaxPoints += maxPoints * weight
-        })
-      }
-
-      const percentValue = totalWeightedMaxPoints > 0 ? (totalWeightedStudentPoints / totalWeightedMaxPoints) * 100 : 0
-
-      updatedCategories[categoryName] = {
-        ...updatedCategories[categoryName],
-        percent: percentValue.toFixed(3),
-        studentsPoints: totalWeightedStudentPoints.toFixed(4),
-        maximumPoints: totalWeightedMaxPoints.toFixed(2),
-      }
-    })
-
-    // Calculate final grade: sum(categoryPercent * categoryWeight) for categories with assignments
-    let weightedSum = 0
-    let totalWeight = 0
-    
-    Object.values(updatedCategories).forEach((cat) => {
-      const hasAssignments = parseFloat(cat.maximumPoints) > 0
-      if (hasAssignments) {
-        const weight = parseFloat(cat.categoryWeight) || 1
-        const percent = parseFloat(cat.percent) || 0
-        weightedSum += percent * weight
-        totalWeight += weight
-      }
-    })
-
-    const average = totalWeight > 0 ? weightedSum / totalWeight : 0
-
-    return { categories: updatedCategories, average }
-  }
 
   const handleRemoveGrade = (index) => {
-    const updatedScores = current.scores.filter((_, i) => i !== index)
+    const updatedScores = (current.scores || []).filter((_, i) => i !== index)
     const { categories: updatedCategories, average } = recalculateGrades(current.categories || {}, updatedScores)
 
     setCurrent({
@@ -234,7 +248,8 @@ export const WhatIf = ({ selectedGrade }) => {
   }
 
   const handleToggleExcluded = (index) => {
-    const updatedScores = [...current.scores]
+    const updatedScores = [...(current.scores || [])]
+    if (!updatedScores[index]) return
     updatedScores[index] = {
       ...updatedScores[index],
       excluded: !updatedScores[index].excluded,
@@ -250,7 +265,8 @@ export const WhatIf = ({ selectedGrade }) => {
   }
 
   const handleEditPercentage = (index, newPercentage) => {
-    const updatedScores = [...current.scores]
+    const updatedScores = [...(current.scores || [])]
+    if (!updatedScores[index]) return
     if (newPercentage === '' || newPercentage === null) {
       updatedScores[index] = {
         ...updatedScores[index],

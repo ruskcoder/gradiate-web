@@ -144,3 +144,27 @@ export const GPA_CONFIGS = {
 		}
 	}
 }
+
+/**
+ * The letter band a numeric grade falls in.
+ *
+ * Grades that fall outside every band — extra credit above the top bound (a 101
+ * against an `A: '90-100'` band) or a negative — clamp to the nearest band
+ * instead of returning null. Returning null here silently dropped the course
+ * from the GPA entirely, which is far worse than rounding it into the top band.
+ */
+export function letterForGrade(num, labels) {
+	if (!Number.isFinite(num)) return null
+	let highest = null
+	let lowest = null
+	for (const [letter, range] of Object.entries(labels)) {
+		const [min, max] = range.split('-').map(Number)
+		if (!Number.isFinite(min) || !Number.isFinite(max)) continue
+		if (num >= min && num <= max) return letter
+		if (!highest || max > highest.max) highest = { letter, max }
+		if (!lowest || min < lowest.min) lowest = { letter, min }
+	}
+	if (highest && num > highest.max) return highest.letter
+	if (lowest && num < lowest.min) return lowest.letter
+	return null
+}

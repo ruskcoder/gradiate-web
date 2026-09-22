@@ -11,7 +11,19 @@ export interface GradesStore {
   termTree: any[];
   currentTerms: string[];
   hasSubterms: boolean;
-  history: Record<string, Record<string, Array<{ loadedAt: number; average: any; categories: any; scores: any[] }>>>;
+  history: Record<
+    string,
+    Record<
+      string,
+      Array<{
+        loadedAt: number;
+        average: any;
+        categories: any;
+        scores: any[];
+        groups?: Record<string, any>;
+      }>
+    >
+  >;
 }
 
 export function initializeGradesStore(
@@ -55,6 +67,9 @@ export function reconstructClassesFromHistory(term: string): any[] {
       average: latestEntry.average,
       categories: latestEntry.categories,
       scores: latestEntry.scores,
+      // Kept so a class restored from storage is still recognisable as a
+      // multi-term semester roll-up (see the What-If semester guard).
+      groups: latestEntry.groups,
     });
   }
 
@@ -91,6 +106,7 @@ export function reconstructAllInOneClassesFromHistory(): any[] {
           c._detailAt = latest.loadedAt;
           c.scores = latest.scores;
           c.categories = latest.categories;
+          c.groups = latest.groups;
         }
       }
       byCourse[courseKey] = c;
@@ -170,6 +186,7 @@ export function getGradesLoadHistory(term: string): GradesLoad[] {
           average: entryAtTime.average,
           categories: entryAtTime.categories,
           scores: entryAtTime.scores,
+          groups: entryAtTime.groups,
         });
       }
     }
@@ -192,7 +209,7 @@ export function reconstructClassDetailFromHistory(
   term: string,
   course: string,
   name: string
-): { average: any; categories: any; scores: any[] } | null {
+): { average: any; categories: any; scores: any[]; groups?: Record<string, any> } | null {
   const { history } = getGradesStore();
   const termHistory = history[term];
   if (!termHistory) return null;
@@ -204,6 +221,9 @@ export function reconstructClassDetailFromHistory(
     average: latest.average,
     categories: latest.categories || {},
     scores: latest.scores || [],
+    // Kept so a class restored from storage is still recognisable as a
+    // multi-term semester roll-up (see the What-If semester guard).
+    groups: latest.groups,
   };
 }
 

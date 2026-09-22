@@ -53,8 +53,9 @@ export const ImpactsPage = ({ selectedGrade, term }) => {
       const categoryScores = scores.filter(s => {
         if (s.category !== categoryName) return false
         const scoreVal = parseFloat(s.score)
-        const isDropped = s.badges && s.badges.includes('dropped')
-        return !isNaN(scoreVal) && s.score !== '···' && s.score !== '' && !s.excluded && !isDropped
+        // Exempt work is left out of the average just like dropped work.
+        const isExemptOrDropped = s.badges && (s.badges.includes('dropped') || s.badges.includes('exempt'))
+        return !isNaN(scoreVal) && s.score !== '···' && s.score !== '' && !s.excluded && !isExemptOrDropped
       })
 
       let totalWeightedStudentPoints = 0
@@ -104,13 +105,17 @@ export const ImpactsPage = ({ selectedGrade, term }) => {
 
     const originalCategories = selectedGrade.categories || {}
     const originalScores = selectedGrade.scores || []
-    const originalAverage = parseFloat(selectedGrade.average) || 0
+    // The baseline has to come from the SAME math as the "with this assignment
+    // removed" recompute below. Using the portal-reported average instead
+    // offset every single impact by a constant (portal average − locally
+    // computed average), which is often a few tenths.
+    const { average: baselineAverage } = recalculateGrades(originalCategories, originalScores)
 
     return originalScores.map((score, idx) => {
-      const isDropped = score.badges && score.badges.includes('dropped')
+      const isExemptOrDropped = score.badges && (score.badges.includes('dropped') || score.badges.includes('exempt'))
       const isExcluded = score.excluded
 
-      if (isDropped || isExcluded) {
+      if (isExemptOrDropped || isExcluded) {
         return {
           ...score,
           impactBadge: 0,
@@ -121,7 +126,7 @@ export const ImpactsPage = ({ selectedGrade, term }) => {
 
       const { average: newAverage } = recalculateGrades(originalCategories, scoresWithoutThis)
 
-      const impact = originalAverage - newAverage
+      const impact = baselineAverage - newAverage
 
       return {
         ...score,

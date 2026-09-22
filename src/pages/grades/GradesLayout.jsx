@@ -428,16 +428,25 @@ export function GradesLayout({ showTitle = true, pageTitle = 'Grades', element }
                             animate={animationsEnabled ? 'show' : undefined}
                           >
                             <GradesList variant={user.gradesView}>
-                              {visibleClasses.map((course, index) => {
+                              {visibleClasses.map((course) => {
                                 const grade = resolveGrade(course);
                                 const changeKey = `${course.course}|${course.name}`;
                                 const change = changeBadge(gradeChanges.find((c) => c.key === changeKey));
+                                // A grade is "reported" whenever the portal sent
+                                // anything for it. `!grade` also refused a
+                                // legitimate 0 average (and any letter average),
+                                // so those classes could not be opened at all.
+                                const openable =
+                                  grade !== undefined && grade !== null && String(grade).trim() !== '';
                                 return (
                                   <motion.div
-                                    key={index}
+                                    // Keyed by course identity, not list position,
+                                    // so switching terms can't reuse the previous
+                                    // term's animation state for a different class.
+                                    key={changeKey}
                                     variants={animationsEnabled ? gradeItemVariants : undefined}
                                     onClick={() => {
-                                      if (!grade) return;
+                                      if (!openable) return;
                                       setSelectedGrade(course);
                                       // Opening a class marks its changes as seen.
                                       if (change) dismissGradeChange(changeKey);

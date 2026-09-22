@@ -33,13 +33,34 @@ import { Trash2, Edit, Save, Star } from 'lucide-react'
 // mirrors the mobile app. 30% black in light mode, 60% in dark.
 const GRADE_SCRIM = "bg-black/30 dark:bg-black/60"
 
+
+/**
+ * The color band for a letter average, for portals that report one instead of a
+ * number. Anything unrecognised stays neutral rather than being painted red.
+ */
+const LETTER_BANDS = {
+  A: { gradeColor: "bg-green-500", bgColor: "#22c55e" },
+  B: { gradeColor: "bg-blue-500", bgColor: "#3b82f6" },
+  C: { gradeColor: "bg-yellow-500", bgColor: "#eab308" },
+  D: { gradeColor: "bg-red-500", bgColor: "#ef4444" },
+  F: { gradeColor: "bg-red-500", bgColor: "#ef4444" },
+}
+
 export const gradeAndColor = (grade, badges = null, hideColors = false) => {
   let numericGrade = null
   if (grade === null || typeof grade === 'undefined' || grade === '') {
     grade = "···"
   } else {
-    numericGrade = parseFloat(grade)
-    grade = numericGrade.toPrecision(4)
+    const parsed = parseFloat(grade)
+    if (Number.isFinite(parsed)) {
+      numericGrade = parsed
+      grade = parsed.toPrecision(4)
+    } else {
+      // A letter or credit average ("A", "P", "INC") is not a number.
+      // `NaN.toPrecision(4)` painted a red chip reading literally "NaN" — show
+      // the portal's own value instead.
+      grade = String(grade).trim()
+    }
   }
 
   if (grade === "···") return { grade, numericGrade, gradeColor: "bg-gray-400", textColor: "text-white", bgColor: "#9ca3af" };
@@ -58,6 +79,20 @@ export const gradeAndColor = (grade, badges = null, hideColors = false) => {
 
   if (hideColors) {
     return { grade, numericGrade, gradeColor: "bg-primary", textColor: "text-white", bgColor: "var(--primary)" }
+  }
+
+  // Non-numeric average: band it by its leading letter when we recognise one,
+  // otherwise leave it neutral. Falling through to the numeric comparisons below
+  // would have made every one of them red.
+  if (numericGrade === null) {
+    const band = LETTER_BANDS[grade.trim().charAt(0).toUpperCase()]
+    return {
+      grade,
+      numericGrade,
+      gradeColor: band?.gradeColor ?? "bg-gray-400",
+      textColor: "text-white",
+      bgColor: band?.bgColor ?? "#9ca3af",
+    }
   }
 
   if (grade >= 90) return { grade, numericGrade, gradeColor: "bg-green-500", textColor: "text-white", bgColor: "#22c55e" }

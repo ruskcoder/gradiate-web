@@ -36,14 +36,31 @@ export function exportBackup(user) {
   URL.revokeObjectURL(url)
 }
 
-/** Union two per-course snapshot histories, deduped by timestamp. */
+/** True for a plain object — `typeof null` is also 'object', and an array isn't one. */
+function isPlainObject(v) {
+  return !!v && typeof v === 'object' && !Array.isArray(v)
+}
+
+/**
+ * Union two per-course snapshot histories, deduped by timestamp.
+ *
+ * A backup file is untrusted input — it can be hand-edited or truncated — so
+ * every level is shape-checked before it is walked. Anything malformed is
+ * skipped rather than merged in as junk (or thrown on).
+ */
 function mergeHistory(current = {}, incoming = {}) {
-  const out = { ...current }
+  const out = isPlainObject(current) ? { ...current } : {}
+  if (!isPlainObject(incoming)) return out
   for (const term of Object.keys(incoming)) {
-    out[term] = { ...(out[term] || {}) }
-    for (const course of Object.keys(incoming[term] || {})) {
+    const incomingTerm = incoming[term]
+    if (!isPlainObject(incomingTerm)) continue
+    out[term] = isPlainObject(out[term]) ? { ...out[term] } : {}
+    for (const course of Object.keys(incomingTerm)) {
+      const mine = Array.isArray(out[term][course]) ? out[term][course] : []
+      const theirs = Array.isArray(incomingTerm[course]) ? incomingTerm[course] : []
       const byTime = new Map()
-      for (const e of [...(out[term][course] || []), ...(incoming[term][course] || [])]) {
+      for (const e of [...mine, ...theirs]) {
+        if (!isPlainObject(e) || typeof e.loadedAt !== 'number') continue
         byTime.set(e.loadedAt, e)
       }
       out[term][course] = [...byTime.values()].sort((a, b) => a.loadedAt - b.loadedAt)
@@ -54,8 +71,15 @@ function mergeHistory(current = {}, incoming = {}) {
 
 /** Restore a backup file into the current account. Returns a summary string. */
 export async function importBackup(file) {
-  const payload = JSON.parse(await file.text())
-  if (payload?.format !== FORMAT || typeof payload.data !== 'object') {
+  let payload
+  try {
+    payload = JSON.parse(await file.text())
+  } catch {
+    throw new Error('This is not a valid backup file.')
+  }
+  // `typeof null === 'object'`, so a `"data": null` payload used to pass this
+  // check and then throw on the first property read.
+  if (payload?.format !== FORMAT || !isPlainObject(payload.data)) {
     throw new Error('This is not a valid backup file.')
   }
   const { changeUserData, currentUser } = useStore.getState()
@@ -67,12 +91,18 @@ export async function importBackup(file) {
     const value = payload.data[k]
     if (value === undefined) continue
     if (k === 'gradesStore') {
+      // A hand-edited backup can carry anything here; only merge a real object.
+      if (!isPlainObject(value)) continue
       const cur = user.gradesStore
       changeUserData('gradesStore', {
         ...cur,
         ...value,
-        initialTerm: cur.initialTerm || value.initialTerm,
-        termList: cur.termList?.length ? cur.termList : value.termList,
+        initialTerm: cur.initialTerm || value.initialTerm || '',
+        termList: cur.termList?.length
+          ? cur.termList
+          : Array.isArray(value.termList)
+            ? value.termList
+            : [],
         history: mergeHistory(cur.history, value.history),
       })
     } else {

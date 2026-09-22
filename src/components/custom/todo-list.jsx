@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect, useRef } from 'react';
 import { useCurrentUser, useStore } from '@/lib/store';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -18,6 +18,16 @@ export default function TodoList() {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [completedOpen, setCompletedOpen] = useState(false);
   const [animatingTodos, setAnimatingTodos] = useState(new Set());
+  // Completion animations are deferred with setTimeout; without this the timers
+  // kept firing (and toggling todos) after the list unmounted.
+  const completionTimers = useRef(new Set());
+  useEffect(
+    () => () => {
+      completionTimers.current.forEach(clearTimeout);
+      completionTimers.current.clear();
+    },
+    []
+  );
 
   const todos = user?.todos || [];
 
@@ -78,7 +88,8 @@ export default function TodoList() {
     const todo = todos.find((t) => t.id === id);
     if (todo && !todo.completed) {
       setAnimatingTodos((prev) => new Set([...prev, id]));
-      setTimeout(() => {
+      const timer = setTimeout(() => {
+        completionTimers.current.delete(timer);
         toggleTodoComplete(id);
         setAnimatingTodos((prev) => {
           const next = new Set(prev);
@@ -86,12 +97,16 @@ export default function TodoList() {
           return next;
         });
       }, 300);
+      completionTimers.current.add(timer);
     } else {
       toggleTodoComplete(id);
     }
   };
 
-  const handleRemoveTodo = (id) => {
+  const handleRemoveTodo = (e, id) => {
+    // The delete button sits INSIDE a row whose own onClick toggles the todo,
+    // so without this the click both removed the todo and re-toggled it.
+    e.stopPropagation();
     removeTodo(id);
   };
 
@@ -216,7 +231,7 @@ export default function TodoList() {
                 <Button
                   variant="ghost"
                   size="sm"
-                  onClick={() => handleRemoveTodo(todo.id)}
+                  onClick={(e) => handleRemoveTodo(e, todo.id)}
                   className="flex-shrink-0 h-6 w-6 p-0 hover:text-destructive"
                 >
                   <Trash2 className="w-3 h-3" />
