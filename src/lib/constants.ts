@@ -5,7 +5,9 @@ export const PLATFORM_MAPPING: Record<string, string> = {
     'skyward-legacy': 'Skyward Legacy',
     powerschool: 'PowerSchool'
 };
-export const DISTRICTS_URL = '/districts.json';
+// The district list lives on the splash site. This app's own /districts.json is
+// only a fallback (and still serves older mobile builds that fetch it directly).
+export const DISTRICTS_URLS = ['https://gradiate.app/districts.json', '/districts.json'];
 // Microsoft SSO is mobile-only (it needs a WebView cookie handoff a browser SPA
 // can't do), so the web app offers credentials + ClassLink only.
 export const LOGIN_TYPES = ['credentials', 'classlink', 'classlinkCredentials'] as const;

@@ -57,7 +57,7 @@ export async function checkBlockedStatus(user) {
           text-align: center;
         ">
           <div>
-        <strong>You have been blocked. <br/> Please contact info@gradiate.com for assistance.</strong>
+        <strong>You have been blocked. <br/> Please contact info@gradiate.app for assistance.</strong>
           
           </div>
           <button style="

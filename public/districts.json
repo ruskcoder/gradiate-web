@@ -3,13 +3,17 @@
     "name": "Katy ISD",
     "platform": "hac",
     "link": "https://homeaccess.katyisd.org/",
-    "loginType": "credentials/classlink:katyisd"
+    "loginType": "credentials/classlink:katyisd",
+    "state": "Texas",
+    "counties": ["Harris County", "Fort Bend County", "Waller County"]
   },
   {
     "name": "Conroe ISD",
     "platform": "hac",
     "link": "https://launchpad.classlink.com/conroeisd",
-    "loginType": "classlink:conroeisd"
+    "loginType": "classlink:conroeisd",
+    "state": "Texas",
+    "counties": ["Montgomery County"]
   },
   {
     "name": "Houston ISD",
@@ -19,2862 +23,3816 @@
     "loginTitles": {
       "credentials": "Parent Login",
       "microsoft": "Student Login"
-    }
+    },
+    "state": "Texas",
+    "counties": ["Harris County"]
   },
   {
     "name": "Spring Branch ISD",
     "platform": "skyward-legacy",
     "link": "https://skyward.springbranchisd.com/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Texas",
+    "counties": ["Harris County"]
   },
   {
     "name": "Cypress Fairbanks ISD",
     "platform": "hac",
     "link": "https://home-access.cfisd.net/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Texas",
+    "counties": ["Harris County"]
   },
   {
     "name": "Frisco ISD",
     "platform": "hac",
     "link": "https://hac.friscoisd.org/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Texas",
+    "counties": ["Collin County", "Denton County"]
   },
   {
     "name": "McKinney ISD",
     "platform": "hac",
     "link": "https://hac.mckinneyisd.net/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Texas",
+    "counties": ["Collin County"]
   },
   {
     "name": "Round Rock ISD",
     "platform": "hac",
     "link": "https://accesscenter.roundrockisd.org/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Texas",
+    "counties": ["Williamson County", "Travis County"]
   },
   {
     "name": "Irving ISD",
     "platform": "hac",
     "link": "https://esphac.irvingisd.net/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Texas",
+    "counties": ["Dallas County"]
   },
   {
     "name": "Leander ISD",
     "platform": "hac",
     "link": "https://lis-hac.eschoolplus.powerschool.com/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Texas",
+    "counties": ["Williamson County", "Travis County"]
   },
   {
     "name": "Tomball ISD",
     "platform": "hac",
     "link": "https://grades.tomballisd.net/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Texas",
+    "counties": ["Harris County", "Montgomery County"]
   },
   {
     "name": "Northside ISD",
     "platform": "hac",
     "link": "https://hac.nisd.net/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Texas",
+    "counties": ["Bexar County", "Medina County", "Bandera County"]
   },
   {
     "name": "Denton ISD",
     "platform": "hac",
     "link": "https://denhac.dentonisd.org/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Texas",
+    "counties": ["Denton County"]
   },
   {
     "name": "Coppell ISD",
     "platform": "hac",
     "link": "https://hac.coppellisd.com/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Texas",
+    "counties": ["Dallas County", "Denton County"]
   },
   {
     "name": "Killeen ISD",
     "platform": "hac",
     "link": "https://esphac.killeenisd.org/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Texas",
+    "counties": ["Bell County", "Coryell County"]
   },
   {
     "name": "Aldine ISD",
     "platform": "hac",
     "link": "https://hac.aldineisd.org/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Texas",
+    "counties": ["Harris County"]
   },
   {
     "name": "HEB ISD",
     "platform": "hac",
     "link": "https://homeaccess.hebisd.edu/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Texas",
+    "counties": ["Tarrant County"]
   },
   {
     "name": "Central Dauphin Schools",
     "platform": "hac",
     "link": "https://hac.cdschools.org/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Pennsylvania",
+    "counties": ["Dauphin County"]
   },
   {
     "name": "Akron Public Schools",
     "platform": "hac",
     "link": "https://homeaccess.akron.k12.oh.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Ohio",
+    "counties": ["Summit County"]
   },
   {
     "name": "East Meadow SD",
     "platform": "hac",
     "link": "https://homeaccess.emufsd.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "New York",
+    "counties": ["Nassau County"]
   },
   {
     "name": "San Angelo ISD",
     "platform": "hac",
     "link": "https://homeaccess.saisd.org/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Texas",
+    "counties": ["Tom Green County"]
   },
   {
     "name": "Parma City SD",
     "platform": "hac",
     "link": "https://homeaccess.parmacityschools.org/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Ohio",
+    "counties": ["Cuyahoga County"]
   },
   {
     "name": "St. Mary's County Public Schools",
     "platform": "hac",
     "link": "https://hac.smcps.org/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Maryland",
+    "counties": ["St. Mary's County"]
   },
   {
     "name": "Chula Vista Elementary SD",
     "platform": "hac",
     "link": "https://homeaccesscenter.cvesd.org/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "California",
+    "counties": ["San Diego County"]
   },
   {
     "name": "Hinsdale Central",
     "platform": "hac",
     "link": "https://portal.hinsdale86.org/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Illinois",
+    "counties": ["DuPage County", "Cook County"]
   },
   {
     "name": "Harford County Public Schools",
     "platform": "hac",
     "link": "https://hac.hcps.org/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Maryland",
+    "counties": ["Harford County"]
   },
   {
     "name": "Midway ISD",
     "platform": "hac",
     "link": "https://hac.midwayisd.org/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Texas",
+    "counties": ["McLennan County"]
   },
   {
     "name": "Lakota Local SD",
     "platform": "hac",
     "link": "https://hac.lakotainline.com/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Ohio",
+    "counties": ["Butler County"]
   },
   {
     "name": "Carroll County Public Schools",
     "platform": "hac",
     "link": "https://mystudent.carrollk12.org/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Maryland",
+    "counties": ["Carroll County"]
   },
   {
     "name": "Tamalpais Union High SD",
     "platform": "hac",
     "link": "https://home.tamdistrict.org/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "California",
+    "counties": ["Marin County"]
   },
   {
     "name": "St. Johns County SD",
     "platform": "hac",
     "link": "https://homeaccess.stjohns.k12.fl.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Florida",
+    "counties": ["St. Johns County"]
   },
   {
     "name": "Tacoma Public Schools",
     "platform": "hac",
     "link": "https://espha.tacoma.k12.wa.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Washington",
+    "counties": ["Pierce County"]
   },
   {
     "name": "Community High SD 99",
     "platform": "hac",
     "link": "https://hac.csd99.org/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Illinois",
+    "counties": ["DuPage County"]
   },
   {
     "name": "St. Charles District 303",
     "platform": "hac",
     "link": "https://istudent.d303.org/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Illinois",
+    "counties": ["Kane County", "DuPage County"]
   },
   {
     "name": "Geneva CUSD",
     "platform": "hac",
     "link": "https://eschooIhac.geneva304.org/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Illinois",
+    "counties": ["Kane County"]
   },
   {
     "name": "Neshaminy SD",
     "platform": "hac",
     "link": "https://hac.neshaminy.org/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Pennsylvania",
+    "counties": ["Bucks County"]
   },
   {
     "name": "Dayton Public School",
     "platform": "hac",
     "link": "https://hac4.dps.k12.oh.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Ohio",
+    "counties": ["Montgomery County"]
   },
   {
     "name": "Plainfield SD",
     "platform": "hac",
     "link": "https://esp-has-I.psd202.org/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Illinois",
+    "counties": ["Will County", "Kendall County"]
   },
   {
     "name": "Brownsville ISD",
     "platform": "hac",
     "link": "https://hac.bisd.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Texas",
+    "counties": ["Cameron County"]
   },
   {
     "name": "State College ASD",
     "platform": "hac",
     "link": "https://homeaccess.scasd.org/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Pennsylvania",
+    "counties": ["Centre County"]
   },
   {
     "name": "Alief ISD",
     "platform": "hac",
     "link": "https://aliefhacl.aliefisd.net/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Texas",
+    "counties": ["Harris County", "Fort Bend County"]
   },
   {
     "name": "College Station ISD",
     "platform": "hac",
     "link": "https://hac.csisd.org/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Texas",
+    "counties": ["Brazos County"]
   },
   {
     "name": "Los Fresnos Consolidated ISD",
     "platform": "hac",
     "link": "https://eschoolhac.lfcisd.net/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Texas",
+    "counties": ["Cameron County"]
   },
   {
     "name": "Humble ISD",
     "platform": "hac",
     "link": "https://eshac.humbleisd.net/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Texas",
+    "counties": ["Harris County"]
   },
   {
     "name": "Ysleta ISD",
     "platform": "hac",
     "link": "https://hac2.yisd.net/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Texas",
+    "counties": ["El Paso County"]
   },
   {
     "name": "Kingsville ISD",
     "platform": "hac",
     "link": "https://hac.kingsvilleisd.com/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Texas",
+    "counties": ["Kleberg County"]
   },
   {
     "name": "Mount Pleasant ISD",
     "platform": "hac",
     "link": "https://hac.mpisd.net/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Texas",
+    "counties": ["Titus County"]
   },
   {
     "name": "Everett Public Schools",
     "platform": "hac",
     "link": "https://hac.everett.k12.wa.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Washington",
+    "counties": ["Snohomish County"]
   },
   {
     "name": "Alum Rock USD",
     "platform": "hac",
     "link": "https://hac.arusd.org/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "California",
+    "counties": ["Santa Clara County"]
   },
   {
     "name": "Interboro SD",
     "platform": "hac",
     "link": "https://hac.interborosd.org/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Pennsylvania",
+    "counties": ["Delaware County"]
   },
   {
     "name": "Harlingen Consolidated ISD",
     "platform": "hac",
     "link": "https://harhac.hcisd.org/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Texas",
+    "counties": ["Cameron County"]
   },
   {
     "name": "Corpus Christi ISD",
     "platform": "hac",
     "link": "https://hac.ccisd.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Texas",
+    "counties": ["Nueces County", "Kleberg County"]
   },
   {
     "name": "Calvert County Public Schools",
     "platform": "hac",
     "link": "https://hac.calvertnet.k12.md.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Maryland",
+    "counties": ["Calvert County"]
   },
   {
     "name": "Centerville City SD",
     "platform": "hac",
     "link": "https://hac.centerville.k12.oh.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Ohio",
+    "counties": ["Montgomery County"]
   },
   {
     "name": "Rockford Public Schools District 205",
     "platform": "hac",
     "link": "https://hac.rps205.com/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Illinois",
+    "counties": ["Winnebago County"]
   },
   {
     "name": "Suffolk Public Schools",
     "platform": "hac",
     "link": "https://hac.spsk12.net/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Virginia",
+    "counties": ["Suffolk city"]
   },
   {
     "name": "Northwest ISD",
     "platform": "hac",
     "link": "https://hac.nisdtx.org/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Texas",
+    "counties": ["Tarrant County", "Denton County", "Wise County"]
   },
   {
     "name": "Champaign Unit 4 SD",
     "platform": "hac",
     "link": "https://hac.champaignschools.org/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Illinois",
+    "counties": ["Champaign County"]
   },
   {
     "name": "Mastery Charter School",
     "platform": "hac",
     "link": "https://hacnj.masterycharter.org/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "New Jersey",
+    "counties": ["Camden County", "Philadelphia County, PA"]
   },
   {
     "name": "Victoria ISD",
     "platform": "hac",
     "link": "https://visdgrades.visd.net/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Texas",
+    "counties": ["Victoria County"]
   },
   {
     "name": "Hilliard City Schools",
     "platform": "hac",
     "link": "https://homeaccess.hboe.org/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Ohio",
+    "counties": ["Franklin County"]
   },
   {
     "name": "Spring ISD",
     "platform": "hac",
     "link": "https://hac4.springisd.org/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Texas",
+    "counties": ["Harris County"]
   },
   {
     "name": "Bryan ISD",
     "platform": "hac",
     "link": "https://hac.bryanisd.org/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Texas",
+    "counties": ["Brazos County"]
   },
   {
     "name": "LaSalle-Peru Township High School District 120",
     "platform": "hac",
     "link": "https://ehome.lphs.org/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Illinois",
+    "counties": ["LaSalle County"]
   },
   {
     "name": "Evanston Township High School District 202",
     "platform": "hac",
     "link": "https://hac.eths.k12.il.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Illinois",
+    "counties": ["Cook County"]
   },
   {
     "name": "Leyden Community High School District 212",
     "platform": "hac",
     "link": "https://hac.Ieyden212.org/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Illinois",
+    "counties": ["Cook County"]
   },
   {
     "name": "LaPorte ISD",
     "platform": "hac",
     "link": "https://hac.lpisd.org/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Texas",
+    "counties": ["Harris County"]
   },
   {
     "name": "Pharr-San Juan-Alamo Independent School District",
     "platform": "hac",
     "link": "https://homeaccess.psjaisd.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Texas",
+    "counties": ["Hidalgo County"]
   },
   {
     "name": "Lake Park High School District 108",
     "platform": "hac",
     "link": "https://ehome.lphs.org/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Illinois",
+    "counties": ["DuPage County"]
   },
   {
     "name": "Bethel Park SD",
     "platform": "hac",
     "link": "https://bpk-hac.eschoolplus.powerschool.com/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Pennsylvania",
+    "counties": ["Allegheny County"]
   },
   {
     "name": "San Marcos Consolidated ISD",
     "platform": "hac",
     "link": "https://homeaccess.smcisd.net/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Texas",
+    "counties": ["Hays County", "Caldwell County", "Guadalupe County"]
   },
   {
     "name": "Conroe ISD",
     "platform": "hac",
     "link": "https://hac.conroeisd.net/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Texas",
+    "counties": ["Montgomery County"]
   },
   {
     "name": "Cleveland ISD",
     "platform": "hac",
     "link": "https://eshac.ctxisd.org/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Texas",
+    "counties": ["Liberty County", "Montgomery County"]
   },
   {
     "name": "Irvington UFSD",
     "platform": "hac",
     "link": "https://hac.lhric.org/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "New York",
+    "counties": ["Westchester County"]
   },
   {
     "name": "Eastchester",
     "platform": "hac",
     "link": "https://hac.lhric.org/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "New York",
+    "counties": ["Westchester County"]
   },
   {
     "name": "Lakeland CSD",
     "platform": "hac",
     "link": "https://hac.lhric.org/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "New York",
+    "counties": ["Westchester County"]
   },
   {
     "name": "MtVernonCSD",
     "platform": "hac",
     "link": "https://hac.lhric.org/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "New York",
+    "counties": ["Westchester County"]
   },
   {
     "name": "Nanuet UFSD",
     "platform": "hac",
     "link": "https://hac.lhric.org/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "New York",
+    "counties": ["Rockland County"]
   },
   {
     "name": "New Rochelle CSD",
     "platform": "hac",
     "link": "https://hac.lhric.org/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "New York",
+    "counties": ["Westchester County"]
   },
   {
     "name": "Port Chester UFSD",
     "platform": "hac",
     "link": "https://hac.lhric.org/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "New York",
+    "counties": ["Westchester County"]
   },
   {
     "name": "GreenburghCSD",
     "platform": "hac",
     "link": "https://hac.lhric.org/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "New York",
+    "counties": ["Westchester County"]
   },
   {
     "name": "Greenburghl 1",
     "platform": "hac",
     "link": "https://hac.lhric.org/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "New York",
+    "counties": ["Westchester County"]
   },
   {
     "name": "GreenburghNorthCastIeUFSD",
     "platform": "hac",
     "link": "https://hac.lhric.org/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "New York",
+    "counties": ["Westchester County"]
   },
   {
     "name": "Hawthorne Cedar Knolls UFSD",
     "platform": "hac",
     "link": "https://hac.lhric.org/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "New York",
+    "counties": ["Westchester County"]
   },
   {
     "name": "PITeSchool Live",
     "platform": "hac",
     "link": "https://hac40.pps.k12.pa.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Pennsylvania",
+    "counties": ["Allegheny County"]
   },
   {
     "name": "Blachly Live",
     "platform": "hac",
     "link": "https://wi141hac.eschoolplus.powerschool.com/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Oregon",
+    "counties": ["Lane County"]
   },
   {
     "name": "Creswell Live",
     "platform": "hac",
     "link": "https://wi141hac.eschoolplus.powerschool.com/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Oregon",
+    "counties": ["Lane County"]
   },
   {
     "name": "Crow-Applegate Live",
     "platform": "hac",
     "link": "https://wi141hac.eschoolplus.powerschool.com/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Oregon",
+    "counties": ["Lane County"]
   },
   {
     "name": "Dallas Live",
     "platform": "hac",
     "link": "https://wi141hac.eschoolplus.powerschool.com/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Oregon",
+    "counties": ["Polk County"]
   },
   {
     "name": "Dayton SD Live",
     "platform": "hac",
     "link": "https://wi141hac.eschoolplus.powerschool.com/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Oregon",
+    "counties": ["Yamhill County"]
   },
   {
     "name": "Fern Ridge Live",
     "platform": "hac",
     "link": "https://wi141hac.eschoolplus.powerschool.com/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Oregon",
+    "counties": ["Lane County"]
   },
   {
     "name": "Junction City Live",
     "platform": "hac",
     "link": "https://wi141hac.eschoolplus.powerschool.com/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Oregon",
+    "counties": ["Lane County"]
   },
   {
     "name": "Klamath Live",
     "platform": "hac",
     "link": "https://wi141hac.eschoolplus.powerschool.com/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Oregon",
+    "counties": ["Klamath County"]
   },
   {
     "name": "Lane ESD Live",
     "platform": "hac",
     "link": "https://wi141hac.eschoolplus.powerschool.com/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Oregon",
+    "counties": ["Lane County"]
   },
   {
     "name": "Lowell Live",
     "platform": "hac",
     "link": "https://wi141hac.eschoolplus.powerschool.com/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Oregon",
+    "counties": ["Lane County"]
   },
   {
     "name": "Mapleton Live",
     "platform": "hac",
     "link": "https://wi141hac.eschoolplus.powerschool.com/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Oregon",
+    "counties": ["Lane County"]
   },
   {
     "name": "Mckenzie Live",
     "platform": "hac",
     "link": "https://wi141hac.eschoolplus.powerschool.com/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Oregon",
+    "counties": ["Lane County"]
   },
   {
     "name": "McMinnville Live",
     "platform": "hac",
     "link": "https://wi141hac.eschoolplus.powerschool.com/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Oregon",
+    "counties": ["Yamhill County"]
   },
   {
     "name": "Muslim Eductional Trust Live",
     "platform": "hac",
     "link": "https://wi141hac.eschoolplus.powerschool.com/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Oregon",
+    "counties": ["Washington County"]
   },
   {
     "name": "North Wasco Live",
     "platform": "hac",
     "link": "https://wi141hac.eschoolplus.powerschool.com/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Oregon",
+    "counties": ["Wasco County"]
   },
   {
     "name": "Oakridge Live",
     "platform": "hac",
     "link": "https://wi141hac.eschoolplus.powerschool.com/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Oregon",
+    "counties": ["Lane County"]
   },
   {
     "name": "Pendleton Live",
     "platform": "hac",
     "link": "https://wi141hac.eschoolplus.powerschool.com/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Oregon",
+    "counties": ["Umatilla County"]
   },
   {
     "name": "Perrydale Live",
     "platform": "hac",
     "link": "https://wi141hac.eschoolplus.powerschool.com/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Oregon",
+    "counties": ["Polk County"]
   },
   {
     "name": "Sheridan Live",
     "platform": "hac",
     "link": "https://wi141hac.eschoolplus.powerschool.com/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Oregon",
+    "counties": ["Yamhill County"]
   },
   {
     "name": "South Lane Live",
     "platform": "hac",
     "link": "https://wi141hac.eschoolplus.powerschool.com/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Oregon",
+    "counties": ["Lane County"]
   },
   {
     "name": "St. Paul Live",
     "platform": "hac",
     "link": "https://wi141hac.eschoolplus.powerschool.com/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Oregon",
+    "counties": ["Marion County"]
   },
   {
     "name": "Ukiah Live",
     "platform": "hac",
     "link": "https://wi141hac.eschoolplus.powerschool.com/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Oregon",
+    "counties": ["Umatilla County"]
   },
   {
     "name": "WESD El/ECSE Live",
     "platform": "hac",
     "link": "https://wi141hac.eschoolplus.powerschool.com/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Oregon",
+    "counties": ["Polk County"]
   },
   {
     "name": "Willamette Career Academy Live",
     "platform": "hac",
     "link": "https://wi141hac.eschoolplus.powerschool.com/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Oregon",
+    "counties": ["Marion County"]
   },
   {
     "name": "Willamette ESD Template41",
     "platform": "hac",
     "link": "https://wi141hac.eschoolplus.powerschool.com/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Oregon",
+    "counties": ["Marion County", "Polk County"]
   },
   {
     "name": "Willamina Live",
     "platform": "hac",
     "link": "https://wi141hac.eschoolplus.powerschool.com/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Oregon",
+    "counties": ["Yamhill County", "Polk County"]
   },
   {
     "name": "Alamo Heights Live",
     "platform": "hac",
     "link": "https://esp41pwhac.eschoolplus.powerschool.com/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Texas",
+    "counties": ["Bexar County"]
   },
   {
     "name": "Bethel SD Live",
     "platform": "hac",
     "link": "https://esp41pwhac.eschoolplus.powerschool.com/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Washington",
+    "counties": ["Pierce County"]
   },
   {
     "name": "Buckeye Union SD Live",
     "platform": "hac",
     "link": "https://esp41pwhac.eschoolplus.powerschool.com/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "California",
+    "counties": ["El Dorado County"]
   },
   {
     "name": "Cleveland ISD Live",
     "platform": "hac",
     "link": "https://esp41pwhac.eschoolplus.powerschool.com/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Texas",
+    "counties": ["Liberty County", "Montgomery County"]
   },
   {
     "name": "Denison ISD Live",
     "platform": "hac",
     "link": "https://esp41pwhac.eschoolplus.powerschool.com/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Texas",
+    "counties": ["Grayson County"]
   },
   {
     "name": "Granada Hills Charter SD",
     "platform": "hac",
     "link": "https://esp41pwhac.eschoolplus.powerschool.com/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "California",
+    "counties": ["Los Angeles County"]
   },
   {
     "name": "Hood River County SD Live",
     "platform": "hac",
     "link": "https://esp41pwhac.eschoolplus.powerschool.com/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Oregon",
+    "counties": ["Hood River County"]
   },
   {
     "name": "Huntsville ISD Live",
     "platform": "hac",
     "link": "https://esp41pwhac.eschoolplus.powerschool.com/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Texas",
+    "counties": ["Walker County"]
   },
   {
     "name": "Kingsville ISD Live",
     "platform": "hac",
     "link": "https://esp41pwhac.eschoolplus.powerschool.com/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Texas",
+    "counties": ["Kleberg County"]
   },
   {
     "name": "Melissa ISD Live",
     "platform": "hac",
     "link": "https://esp41pwhac.eschoolplus.powerschool.com/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Texas",
+    "counties": ["Collin County"]
   },
   {
     "name": "Nacogdoches ISD Live",
     "platform": "hac",
     "link": "https://esp41pwhac.eschoolplus.powerschool.com/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Texas",
+    "counties": ["Nacogdoches County"]
   },
   {
     "name": "Nederland ISD Live",
     "platform": "hac",
     "link": "https://esp41pwhac.eschoolplus.powerschool.com/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Texas",
+    "counties": ["Jefferson County"]
   },
   {
     "name": "RES PHS Live",
     "platform": "hac",
     "link": "https://esp41pwhac.eschoolplus.powerschool.com/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Pennsylvania",
+    "counties": ["Montgomery County"]
   },
   {
     "name": "RES TCP Live",
     "platform": "hac",
     "link": "https://esp41pwhac.eschoolplus.powerschool.com/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Pennsylvania",
+    "counties": ["Montgomery County"]
   },
   {
     "name": "Texans Can Academies Live",
     "platform": "hac",
     "link": "https://esp41pwhac.eschoolplus.powerschool.com/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Texas",
+    "counties": ["Dallas County", "Harris County", "Tarrant County"]
   },
   {
     "name": "Tuloso-Midway ISD Live",
     "platform": "hac",
     "link": "https://esp41pwhac.eschoolplus.powerschool.com/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Texas",
+    "counties": ["Nueces County"]
   },
   {
     "name": "Vanguard Academy Live",
     "platform": "hac",
     "link": "https://esp41pwhac.eschoolplus.powerschool.com/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Texas",
+    "counties": ["Hidalgo County"]
   },
   {
     "name": "Aurora West SD Live",
     "platform": "hac",
     "link": "https://esp41pehac.eschoolplus.powerschool.com/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Illinois",
+    "counties": ["Kane County"]
   },
   {
     "name": "Belvidere Community Unit School Dist#100",
     "platform": "hac",
     "link": "https://esp41pehac.eschoolplus.powerschool.com/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Illinois",
+    "counties": ["Boone County"]
   },
   {
     "name": "Brookville ASD Live",
     "platform": "hac",
     "link": "https://esp41pehac.eschoolplus.powerschool.com/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Pennsylvania",
+    "counties": ["Jefferson County"]
   },
   {
     "name": "Carmel Live",
     "platform": "hac",
     "link": "https://esp41pehac.eschoolplus.powerschool.com/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Indiana",
+    "counties": ["Hamilton County"]
   },
   {
     "name": "Chester Upland SD Live",
     "platform": "hac",
     "link": "https://esp41pehac.eschoolplus.powerschool.com/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Pennsylvania",
+    "counties": ["Delaware County"]
   },
   {
     "name": "Chester Upland 2020",
     "platform": "hac",
     "link": "https://esp41pehac.eschoolplus.powerschool.com/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Pennsylvania",
+    "counties": ["Delaware County"]
   },
   {
     "name": "Coatesville Area SD Live",
     "platform": "hac",
     "link": "https://esp41pehac.eschoolplus.powerschool.com/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Pennsylvania",
+    "counties": ["Chester County"]
   },
   {
     "name": "Conneaut SD Live",
     "platform": "hac",
     "link": "https://esp41pehac.eschoolplus.powerschool.com/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Pennsylvania",
+    "counties": ["Crawford County"]
   },
   {
     "name": "Council Rock SD",
     "platform": "hac",
     "link": "https://esp41pehac.eschoolplus.powerschool.com/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Pennsylvania",
+    "counties": ["Bucks County"]
   },
   {
     "name": "CSMI-AtIantic City Charter Live",
     "platform": "hac",
     "link": "https://esp41pehac.eschoolplus.powerschool.com/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "New Jersey",
+    "counties": ["Atlantic County"]
   },
   {
     "name": "CSMI-Camden Charter Live",
     "platform": "hac",
     "link": "https://esp41pehac.eschoolplus.powerschool.com/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "New Jersey",
+    "counties": ["Camden County"]
   },
   {
     "name": "CSMI-Chester Community Charter Live",
     "platform": "hac",
     "link": "https://esp41pehac.eschoolplus.powerschool.com/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Pennsylvania",
+    "counties": ["Delaware County"]
   },
   {
     "name": "Franklin Regional Live",
     "platform": "hac",
     "link": "https://esp41pehac.eschoolplus.powerschool.com/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Pennsylvania",
+    "counties": ["Westmoreland County"]
   },
   {
     "name": "Greater Latrobe SD Live",
     "platform": "hac",
     "link": "https://esp41pehac.eschoolplus.powerschool.com/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Pennsylvania",
+    "counties": ["Westmoreland County"]
   },
   {
     "name": "Hudson City Schools",
     "platform": "hac",
     "link": "https://esp41pehac.eschoolplus.powerschool.com/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Ohio",
+    "counties": ["Summit County"]
   },
   {
     "name": "Jefferson County Dubois Live",
     "platform": "hac",
     "link": "https://esp41pehac.eschoolplus.powerschool.com/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Pennsylvania",
+    "counties": ["Jefferson County"]
   },
   {
     "name": "Lower Moreland Live",
     "platform": "hac",
     "link": "https://esp41pehac.eschoolplus.powerschool.com/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Pennsylvania",
+    "counties": ["Montgomery County"]
   },
   {
     "name": "Parkland SD Live",
     "platform": "hac",
     "link": "https://esp41pehac.eschoolplus.powerschool.com/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Pennsylvania",
+    "counties": ["Lehigh County"]
   },
   {
     "name": "Pennsbury SD Live",
     "platform": "hac",
     "link": "https://esp41pehac.eschoolplus.powerschool.com/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Pennsylvania",
+    "counties": ["Bucks County"]
   },
   {
     "name": "Pottstown Live",
     "platform": "hac",
     "link": "https://esp41pehac.eschoolplus.powerschool.com/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Pennsylvania",
+    "counties": ["Montgomery County"]
   },
   {
     "name": "Radnor Township SD Live",
     "platform": "hac",
     "link": "https://esp41pehac.eschoolplus.powerschool.com/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Pennsylvania",
+    "counties": ["Delaware County"]
   },
   {
     "name": "Riverview SD",
     "platform": "hac",
     "link": "https://esp41pehac.eschoolplus.powerschool.com/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Pennsylvania",
+    "counties": ["Allegheny County"]
   },
   {
     "name": "Rose Tree Live",
     "platform": "hac",
     "link": "https://esp41pehac.eschoolplus.powerschool.com/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Pennsylvania",
+    "counties": ["Delaware County"]
   },
   {
     "name": "Scranton City SD Live",
     "platform": "hac",
     "link": "https://esp41pehac.eschoolplus.powerschool.com/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Pennsylvania",
+    "counties": ["Lackawanna County"]
   },
   {
     "name": "Souderton Area SD",
     "platform": "hac",
     "link": "https://esp41pehac.eschoolplus.powerschool.com/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Pennsylvania",
+    "counties": ["Montgomery County"]
   },
   {
     "name": "Speed SEJA SD #802 Live",
     "platform": "hac",
     "link": "https://esp41pehac.eschoolplus.powerschool.com/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Illinois",
+    "counties": ["Cook County"]
   },
   {
     "name": "Springfield SD Live",
     "platform": "hac",
     "link": "https://esp41pehac.eschoolplus.powerschool.com/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Pennsylvania",
+    "counties": ["Delaware County"]
   },
   {
     "name": "Springfield Township Live",
     "platform": "hac",
     "link": "https://esp41pehac.eschoolplus.powerschool.com/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Pennsylvania",
+    "counties": ["Montgomery County"]
   },
   {
     "name": "Union Area SD Live",
     "platform": "hac",
     "link": "https://esp41pehac.eschoolplus.powerschool.com/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Pennsylvania",
+    "counties": ["Lawrence County"]
   },
   {
     "name": "Upper Darby SD",
     "platform": "hac",
     "link": "https://esp41pehac.eschoolplus.powerschool.com/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Pennsylvania",
+    "counties": ["Delaware County"]
   },
   {
     "name": "Upper Moreland Township SD",
     "platform": "hac",
     "link": "https://esp41pehac.eschoolplus.powerschool.com/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Pennsylvania",
+    "counties": ["Montgomery County"]
   },
   {
     "name": "Wayland PS Live",
     "platform": "hac",
     "link": "https://esp41pehac.eschoolplus.powerschool.com/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Michigan",
+    "counties": ["Allegan County"]
   },
   {
     "name": "West Chicago ESD #33 Live",
     "platform": "hac",
     "link": "https://esp41pehac.eschoolplus.powerschool.com/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Illinois",
+    "counties": ["DuPage County"]
   },
   {
     "name": "William Penn SD Live",
     "platform": "hac",
     "link": "https://esp41pehac.eschoolplus.powerschool.com/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Pennsylvania",
+    "counties": ["Delaware County"]
   },
   {
     "name": "Windham Public Schools",
     "platform": "hac",
     "link": "https://esp41pehac.eschoolplus.powerschool.com/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Connecticut",
+    "counties": ["Windham County"]
   },
   {
     "name": "Yonkers Public Schools Live",
     "platform": "hac",
     "link": "https://esp41pehac.eschoolplus.powerschool.com/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "New York",
+    "counties": ["Westchester County"]
   },
   {
     "name": "Carlynton SD Live",
     "platform": "hac",
     "link": "https://esp41pehac.eschoolplus.powerschool.com/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Pennsylvania",
+    "counties": ["Allegheny County"]
   },
   {
     "name": "Enfield Live",
     "platform": "hac",
     "link": "https://esp41pehac.eschoolplus.powerschool.com/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Connecticut",
+    "counties": ["Hartford County"]
   },
   {
     "name": "Great Oaks Bridgeport Live",
     "platform": "hac",
     "link": "https://esp41pehac.eschoolplus.powerschool.com/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Connecticut",
+    "counties": ["Fairfield County"]
   },
   {
     "name": "Jserra Catholic HS Live",
     "platform": "hac",
     "link": "https://esp41pehac.eschoolplus.powerschool.com/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "California",
+    "counties": ["Orange County"]
   },
   {
     "name": "Rockford Charter School Live",
     "platform": "hac",
     "link": "https://esp41pehac.eschoolplus.powerschool.com/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Illinois",
+    "counties": ["Winnebago County"]
   },
   {
     "name": "South Park SD Live",
     "platform": "hac",
     "link": "https://esp41pehac.eschoolplus.powerschool.com/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Pennsylvania",
+    "counties": ["Allegheny County"]
   },
   {
     "name": "Toledo SD Live",
     "platform": "hac",
     "link": "https://esp41pehac.eschoolplus.powerschool.com/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Washington",
+    "counties": ["Lewis County"]
   },
   {
     "name": "Alliance City",
     "platform": "hac",
     "link": "https://hac.sparcc.org/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Ohio",
+    "counties": ["Stark County"]
   },
   {
     "name": "Brown Local",
     "platform": "hac",
     "link": "https://hac.sparcc.org/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Ohio",
+    "counties": ["Stark County"]
   },
   {
     "name": "Canton City SD",
     "platform": "hac",
     "link": "https://hac.sparcc.org/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Ohio",
+    "counties": ["Stark County"]
   },
   {
     "name": "Canton Local",
     "platform": "hac",
     "link": "https://hac.sparcc.org/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Ohio",
+    "counties": ["Stark County"]
   },
   {
     "name": "Crestwood Local",
     "platform": "hac",
     "link": "https://hac.sparcc.org/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Ohio",
+    "counties": ["Portage County"]
   },
   {
     "name": "Fairless Local",
     "platform": "hac",
     "link": "https://hac.sparcc.org/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Ohio",
+    "counties": ["Stark County"]
   },
   {
     "name": "Field Local",
     "platform": "hac",
     "link": "https://hac.sparcc.org/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Ohio",
+    "counties": ["Portage County"]
   },
   {
     "name": "Jackson Local",
     "platform": "hac",
     "link": "https://hac.sparcc.org/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Ohio",
+    "counties": ["Stark County"]
   },
   {
     "name": "Lake Local",
     "platform": "hac",
     "link": "https://hac.sparcc.org/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Ohio",
+    "counties": ["Stark County"]
   },
   {
     "name": "Louisville City",
     "platform": "hac",
     "link": "https://hac.sparcc.org/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Ohio",
+    "counties": ["Stark County"]
   },
   {
     "name": "Marlington Local",
     "platform": "hac",
     "link": "https://hac.sparcc.org/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Ohio",
+    "counties": ["Stark County"]
   },
   {
     "name": "Mason City Schools",
     "platform": "hac",
     "link": "https://hac.sparcc.org/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Ohio",
+    "counties": ["Warren County"]
   },
   {
     "name": "Massillon City",
     "platform": "hac",
     "link": "https://hac.sparcc.org/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Ohio",
+    "counties": ["Stark County"]
   },
   {
     "name": "Massillon Digital",
     "platform": "hac",
     "link": "https://hac.sparcc.org/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Ohio",
+    "counties": ["Stark County"]
   },
   {
     "name": "Minerva Local",
     "platform": "hac",
     "link": "https://hac.sparcc.org/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Ohio",
+    "counties": ["Stark County", "Carroll County", "Columbiana County"]
   },
   {
     "name": "North Canton",
     "platform": "hac",
     "link": "https://hac.sparcc.org/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Ohio",
+    "counties": ["Stark County"]
   },
   {
     "name": "Northwest Local",
     "platform": "hac",
     "link": "https://hac.sparcc.org/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Ohio",
+    "counties": ["Stark County"]
   },
   {
     "name": "Perry Local",
     "platform": "hac",
     "link": "https://hac.sparcc.org/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Ohio",
+    "counties": ["Stark County"]
   },
   {
     "name": "Plain Local",
     "platform": "hac",
     "link": "https://hac.sparcc.org/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Ohio",
+    "counties": ["Stark County"]
   },
   {
     "name": "R.G. Drage Career Ed",
     "platform": "hac",
     "link": "https://hac.sparcc.org/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Ohio",
+    "counties": ["Stark County"]
   },
   {
     "name": "Ravenna",
     "platform": "hac",
     "link": "https://hac.sparcc.org/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Ohio",
+    "counties": ["Portage County"]
   },
   {
     "name": "Sandy Valley Local",
     "platform": "hac",
     "link": "https://hac.sparcc.org/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Ohio",
+    "counties": ["Stark County"]
   },
   {
     "name": "Stark County ESC",
     "platform": "hac",
     "link": "https://hac.sparcc.org/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Ohio",
+    "counties": ["Stark County"]
   },
   {
     "name": "STRASBURG-FRANKLIN LOCAL SD",
     "platform": "hac",
     "link": "https://hac.sparcc.org/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Ohio",
+    "counties": ["Tuscarawas County"]
   },
   {
     "name": "Streetsboro City",
     "platform": "hac",
     "link": "https://hac.sparcc.org/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Ohio",
+    "counties": ["Portage County"]
   },
   {
     "name": "Tuslaw Local",
     "platform": "hac",
     "link": "https://hac.sparcc.org/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Ohio",
+    "counties": ["Stark County"]
   },
   {
     "name": "Windham Exempted Village",
     "platform": "hac",
     "link": "https://hac.sparcc.org/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Ohio",
+    "counties": ["Portage County"]
   },
   {
     "name": "Academics Plus Charter",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Pulaski County", "Faulkner County"]
   },
   {
     "name": "Academies of Math & Science",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arizona",
+    "counties": ["Pima County", "Maricopa County"]
   },
   {
     "name": "Alma School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Crawford County"]
   },
   {
     "name": "Alpena School district",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Boone County", "Carroll County"]
   },
   {
     "name": "Arch Ford Education Service Cooperative",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Conway County"]
   },
   {
     "name": "Arkadelphia School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Clark County"]
   },
   {
     "name": "Arkansas Arts Academy",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Benton County"]
   },
   {
     "name": "Arkansas Connections Academy",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Pulaski County"]
   },
   {
     "name": "Arkansas Lighthouse Charter Schools",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Pulaski County", "Jefferson County"]
   },
   {
     "name": "Arkansas River Education Service Cooperative",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Lincoln County"]
   },
   {
     "name": "Arkansas School for the Deaf and Blind",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Pulaski County", "Independence County"]
   },
   {
     "name": "Arkansas Virtual Academy",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Pulaski County"]
   },
   {
     "name": "Armorel School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Mississippi County"]
   },
   {
     "name": "Ashdown School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Little River County"]
   },
   {
     "name": "Atkins School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Pope County"]
   },
   {
     "name": "Augusta School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Woodruff County"]
   },
   {
     "name": "Bald Knob School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["White County"]
   },
   {
     "name": "Barton School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Phillips County"]
   },
   {
     "name": "Batesville School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Independence County"]
   },
   {
     "name": "Bauxite School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Saline County"]
   },
   {
     "name": "Bay School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Craighead County"]
   },
   {
     "name": "Bearden School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Ouachita County", "Calhoun County"]
   },
   {
     "name": "Beebe School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["White County"]
   },
   {
     "name": "Benton School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Saline County"]
   },
   {
     "name": "Bentonville School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Benton County"]
   },
   {
     "name": "Bergman School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Boone County"]
   },
   {
     "name": "Berryville School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Carroll County"]
   },
   {
     "name": "Bismarck School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Hot Spring County"]
   },
   {
     "name": "Blevins School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Hempstead County"]
   },
   {
     "name": "Blytheville School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Mississippi County"]
   },
   {
     "name": "Booneville School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Logan County"]
   },
   {
     "name": "Bradford School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["White County"]
   },
   {
     "name": "Brinkley School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Monroe County"]
   },
   {
     "name": "Brookland School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Craighead County"]
   },
   {
     "name": "Bryant School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Saline County"]
   },
   {
     "name": "Buffalo Island Central School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Craighead County"]
   },
   {
     "name": "Cabot School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Lonoke County"]
   },
   {
     "name": "Caddo Hills School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Montgomery County"]
   },
   {
     "name": "Calico Rock School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Izard County"]
   },
   {
     "name": "Camden Fairview School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Ouachita County"]
   },
   {
     "name": "Carlisle School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Lonoke County"]
   },
   {
     "name": "Cave City School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Sharp County", "Independence County"]
   },
   {
     "name": "Cedar Ridge School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Independence County"]
   },
   {
     "name": "Cedarville School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Crawford County"]
   },
   {
     "name": "Centerpoint School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Pike County", "Howard County"]
   },
   {
     "name": "Charleston School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Franklin County"]
   },
   {
     "name": "CIVICA Career and Collegiate Academy Bentonville",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Benton County"]
   },
   {
     "name": "Clarendon School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Monroe County"]
   },
   {
     "name": "Clarksville School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Johnson County"]
   },
   {
     "name": "Cleveland County School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Cleveland County"]
   },
   {
     "name": "Clinton School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Van Buren County"]
   },
   {
     "name": "College Preparatory Academies of Arkansas",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Pulaski County"]
   },
   {
     "name": "Concord School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Cleburne County"]
   },
   {
     "name": "Conway School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Faulkner County"]
   },
   {
     "name": "Corning School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Clay County"]
   },
   {
     "name": "Cossatot River School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Polk County"]
   },
   {
     "name": "Cotter School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Baxter County"]
   },
   {
     "name": "County Line School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Franklin County", "Logan County"]
   },
   {
     "name": "Cross County School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Cross County"]
   },
   {
     "name": "Crossett School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Ashley County"]
   },
   {
     "name": "Crowley's Ridge Education Service Cooperative",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Lawrence County"]
   },
   {
     "name": "Cutter Morning Star School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Garland County"]
   },
   {
     "name": "Danville School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Yell County"]
   },
   {
     "name": "Dardanelle School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Yell County"]
   },
   {
     "name": "Dawson Education Service Cooperative",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Clark County"]
   },
   {
     "name": "Decatur School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Benton County"]
   },
   {
     "name": "Deer-Mount Judea School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Newton County"]
   },
   {
     "name": "DeQueen School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Sevier County"]
   },
   {
     "name": "Dequeen-Mena Education Service Cooperative",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Polk County"]
   },
   {
     "name": "Dermott School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Chicot County"]
   },
   {
     "name": "Des Arc School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Prairie County"]
   },
   {
     "name": "Dewitt School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Arkansas County"]
   },
   {
     "name": "Dierks School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Howard County"]
   },
   {
     "name": "Division of Youth Services",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Pulaski County"]
   },
   {
     "name": "Dover School  District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Pope County"]
   },
   {
     "name": "Drew Central School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Drew County"]
   },
   {
     "name": "Dumas School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Desha County"]
   },
   {
     "name": "Earle School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Crittenden County"]
   },
   {
     "name": "East End School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Perry County"]
   },
   {
     "name": "East Poinsett County School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Poinsett County"]
   },
   {
     "name": "El Dorado School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Union County"]
   },
   {
     "name": "Elkins School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Washington County"]
   },
   {
     "name": "Emerson-Taylor-Bradley School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Columbia County"]
   },
   {
     "name": "England School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Lonoke County"]
   },
   {
     "name": "eSTEM Public Charter School",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Pulaski County"]
   },
   {
     "name": "Eureka Springs School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Carroll County"]
   },
   {
     "name": "Exalt Academy of Southwest Little Rock",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Pulaski County"]
   },
   {
     "name": "Farmington School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Washington County"]
   },
   {
     "name": "Fayetteville School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Washington County"]
   },
   {
     "name": "Flippin School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Marion County"]
   },
   {
     "name": "Fordyce School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Dallas County"]
   },
   {
     "name": "Foreman School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Little River County"]
   },
   {
     "name": "Forrest City School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["St. Francis County"]
   },
   {
     "name": "Fort Smith School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Sebastian County"]
   },
   {
     "name": "Fouke School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Miller County"]
   },
   {
     "name": "Fountain Lake School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Garland County"]
   },
   {
     "name": "Friendship Aspire Academies Arkansas",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Pulaski County", "Jefferson County"]
   },
   {
     "name": "Future School of Fort Smith",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Sebastian County"]
   },
   {
     "name": "Garfield Scholars Academy",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Benton County"]
   },
   {
     "name": "Genoa Central School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Miller County"]
   },
   {
     "name": "Gentry School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Benton County"]
   },
   {
     "name": "Glen Rose School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Hot Spring County"]
   },
   {
     "name": "Gosnell School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Mississippi County"]
   },
   {
     "name": "Graduate Arkansas",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Pulaski County"]
   },
   {
     "name": "Gravette School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Benton County"]
   },
   {
     "name": "Great Rivers Education Service Cooperative",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Phillips County"]
   },
   {
     "name": "Green Forest School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Carroll County"]
   },
   {
     "name": "Greenbrier School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Faulkner County"]
   },
   {
     "name": "Greene County Tech School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Greene County"]
   },
   {
     "name": "Greenland School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Washington County"]
   },
   {
     "name": "Greenwood School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Sebastian County"]
   },
   {
     "name": "Gurdon School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Clark County"]
   },
   {
     "name": "Guy Fenter Education Service Cooperative",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Crawford County"]
   },
   {
     "name": "Guy-Perkins School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Faulkner County"]
   },
   {
     "name": "Haas Hall Academy",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Benton County", "Washington County"]
   },
   {
     "name": "Hackett School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Sebastian County"]
   },
   {
     "name": "Hamburg School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Ashley County"]
   },
   {
     "name": "Hampton School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Calhoun County"]
   },
   {
     "name": "Harmony Grove (Ouachitia County) School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Ouachita County"]
   },
   {
     "name": "Harmony Grove (Saline County) School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Saline County"]
   },
   {
     "name": "Harrisburg School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Poinsett County"]
   },
   {
     "name": "Harrison School District ",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Boone County"]
   },
   {
     "name": "Hazen School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Prairie County"]
   },
   {
     "name": "Heber Springs School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Cleburne County"]
   },
   {
     "name": "Hector School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Pope County"]
   },
   {
     "name": "Helena-West Helena School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Phillips County"]
   },
   {
     "name": "Hermitage School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Bradley County"]
   },
   {
     "name": "Highland School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Sharp County"]
   },
   {
     "name": "Hillcrest School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Lawrence County"]
   },
   {
     "name": "Hope School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Hempstead County"]
   },
   {
     "name": "Horatio School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Sevier County"]
   },
   {
     "name": "Hot Springs School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Garland County"]
   },
   {
     "name": "Hoxie School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Lawrence County"]
   },
   {
     "name": "Huntsville School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Madison County"]
   },
   {
     "name": "ID Management",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Pulaski County"]
   },
   {
     "name": "Imboden Area Charter School",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Lawrence County"]
   },
   {
     "name": "Institute for the Creative Arts",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Pulaski County"]
   },
   {
     "name": "IOTA Leadership Academy Elementary",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Pulaski County"]
   },
   {
     "name": "IOTA Leadership Academy Middle School",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Pulaski County"]
   },
   {
     "name": "Izard County Consolidated School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Izard County"]
   },
   {
     "name": "Jackson County School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Jackson County"]
   },
   {
     "name": "Jacksonville-North Pulaski School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Pulaski County"]
   },
   {
     "name": "Jasper School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Newton County", "Boone County", "Searcy County"]
   },
   {
     "name": "Jessieville School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Garland County"]
   },
   {
     "name": "Jonesboro School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Craighead County"]
   },
   {
     "name": "Junction City School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Union County"]
   },
   {
     "name": "Kipp: Delta Public Schools",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Phillips County", "Lee County"]
   },
   {
     "name": "Kirby School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Pike County"]
   },
   {
     "name": "Lafayette County School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Lafayette County"]
   },
   {
     "name": "Lake Hamilton School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Garland County"]
   },
   {
     "name": "Lakeside (Chicot County) School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Chicot County"]
   },
   {
     "name": "Lakeside (Garland County) School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Garland County"]
   },
   {
     "name": "Lamar School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Johnson County"]
   },
   {
     "name": "Lavaca School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Sebastian County"]
   },
   {
     "name": "Lawrence County School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Lawrence County"]
   },
   {
     "name": "Lead Hill School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Boone County"]
   },
   {
     "name": "Lee County School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Lee County"]
   },
   {
     "name": "Lincoln Consolidated School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Washington County"]
   },
   {
     "name": "LISA Academy",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Pulaski County", "Benton County"]
   },
   {
     "name": "Little Rock School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Pulaski County"]
   },
   {
     "name": "Lonoke School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Lonoke County"]
   },
   {
     "name": "Magazine School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Logan County"]
   },
   {
     "name": "Magnet Cove School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Hot Spring County"]
   },
   {
     "name": "Magnolia School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Columbia County"]
   },
   {
     "name": "Malvern School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Hot Spring County"]
   },
   {
     "name": "Mammoth Spring School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Fulton County"]
   },
   {
     "name": "Manila School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Mississippi County"]
   },
   {
     "name": "Mansfield School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Sebastian County", "Scott County"]
   },
   {
     "name": "Marion School District   ",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Crittenden County"]
   },
   {
     "name": "Marked Tree School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Poinsett County"]
   },
   {
     "name": "Marmaduke School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Greene County"]
   },
   {
     "name": "Marvell-Elaine School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Phillips County"]
   },
   {
     "name": "Mayflower School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Faulkner County"]
   },
   {
     "name": "Maynard School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Randolph County"]
   },
   {
     "name": "McCrory School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Woodruff County"]
   },
   {
     "name": "McGehee School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Desha County"]
   },
   {
     "name": "Melbourne School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Izard County"]
   },
   {
     "name": "Mena School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Polk County"]
   },
   {
     "name": "Midland School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Independence County"]
   },
   {
     "name": "Mineral Springs School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Howard County"]
   },
   {
     "name": "Monticello School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Drew County"]
   },
   {
     "name": "Mount Ida School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Montgomery County"]
   },
   {
     "name": "Mountain Home School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Baxter County"]
   },
   {
     "name": "Mountain Pine School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Garland County"]
   },
   {
     "name": "Mountain View School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Stone County"]
   },
   {
     "name": "Mountainburg School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Crawford County"]
   },
   {
     "name": "Mt. Vernon/Enola School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Faulkner County"]
   },
   {
     "name": "Mulberry-Pleasant View Bi-County School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Franklin County"]
   },
   {
     "name": "Nashville School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Howard County"]
   },
   {
     "name": "Nemo Vista School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Conway County"]
   },
   {
     "name": "Nettleton School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Craighead County"]
   },
   {
     "name": "Nevada School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Nevada County"]
   },
   {
     "name": "Newport School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Jackson County"]
   },
   {
     "name": "Norfork School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Baxter County"]
   },
   {
     "name": "North Little Rock School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Pulaski County"]
   },
   {
     "name": "Northcentral Arkansas Education Service Coop",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Izard County"]
   },
   {
     "name": "Northeast Arkansas Education Cooperative",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Lawrence County"]
   },
   {
     "name": "Northwest Arkansas Education Service Cooperative",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Washington County"]
   },
   {
     "name": "Omaha School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Boone County"]
   },
   {
     "name": "Osceola School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Mississippi County"]
   },
   {
     "name": "Ouachita River School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Montgomery County"]
   },
   {
     "name": "Ouachita School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Hot Spring County"]
   },
   {
     "name": "Ozark Mountain School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Marion County", "Searcy County", "Boone County"]
   },
   {
     "name": "Ozark School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Franklin County"]
   },
   {
     "name": "Ozarks Unlimited Resource Service Cooperative",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Boone County"]
   },
   {
     "name": "Palestine-Wheatley School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["St. Francis County"]
   },
   {
     "name": "Pangburn School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["White County"]
   },
   {
     "name": "Paragould School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Greene County"]
   },
   {
     "name": "Paris School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Logan County"]
   },
   {
     "name": "Parkers Chapel School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Union County"]
   },
   {
     "name": "Pea Ridge School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Benton County"]
   },
   {
     "name": "Perryville School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Perry County"]
   },
   {
     "name": "Piggott School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Clay County"]
   },
   {
     "name": "Pine Bluff School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Jefferson County"]
   },
   {
     "name": "Pinecrest Preparatory Academy Fayetteville",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Washington County"]
   },
   {
     "name": "Pocahontas School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Randolph County"]
   },
   {
     "name": "Pottsville School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Pope County"]
   },
   {
     "name": "Poyen School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Grant County"]
   },
   {
     "name": "Prairie Grove School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Washington County"]
   },
   {
     "name": "Premier High Schools of Arkansas",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Pulaski County"]
   },
   {
     "name": "Prescott School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Nevada County"]
   },
   {
     "name": "Pulaski County Special SD",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Pulaski County"]
   },
   {
     "name": "Quitman School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Cleburne County", "Faulkner County"]
   },
   {
     "name": "Rector School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Clay County"]
   },
   {
     "name": "Rivercrest School District 57",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Mississippi County"]
   },
   {
     "name": "Riverside School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Craighead County"]
   },
   {
     "name": "Riverview School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["White County"]
   },
   {
     "name": "Rogers School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Benton County"]
   },
   {
     "name": "Rose Bud School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["White County"]
   },
   {
     "name": "Russellville School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Pope County"]
   },
   {
     "name": "Salem School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Fulton County"]
   },
   {
     "name": "ScholarMade Achievement Place of Arkansas",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Pulaski County"]
   },
   {
     "name": "School for Advanced Studies-Northwest Arkansas",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Benton County"]
   },
   {
     "name": "Scranton School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Logan County"]
   },
   {
     "name": "Searcy County School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Searcy County"]
   },
   {
     "name": "Searcy School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["White County"]
   },
   {
     "name": "Sheridan School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Grant County"]
   },
   {
     "name": "Shirley School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Van Buren County"]
   },
   {
     "name": "Siloam Springs School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Benton County"]
   },
   {
     "name": "Sloan-Hendrix School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Lawrence County"]
   },
   {
     "name": "Smackover-Norphlet School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Union County"]
   },
   {
     "name": "So. Conway County School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Conway County"]
   },
   {
     "name": "South Central Education Service Cooperative",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Clark County"]
   },
   {
     "name": "South Pike County School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Pike County"]
   },
   {
     "name": "South Side(Bee Branch) School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Van Buren County"]
   },
   {
     "name": "Southeast Arkansas Community Based Education Ctr",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Jefferson County"]
   },
   {
     "name": "Southeast Arkansas Education Service Cooperative",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Drew County"]
   },
   {
     "name": "Southside School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Independence County"]
   },
   {
     "name": "Southwest Arkansas Education Cooperative",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Hempstead County"]
   },
   {
     "name": "Spring Hill School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Hempstead County"]
   },
   {
     "name": "Springdale School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Washington County", "Benton County"]
   },
   {
     "name": "Star City School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Lincoln County"]
   },
   {
     "name": "Strong-Huttig School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Union County"]
   },
   {
     "name": "Stuttgart School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Arkansas County"]
   },
   {
     "name": "Success School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Clay County"]
   },
   {
     "name": "Texarkana School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Miller County"]
   },
   {
     "name": "The Excel Center",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Pulaski County"]
   },
   {
     "name": "Trumann School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Poinsett County"]
   },
   {
     "name": "Two Rivers School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Yell County", "Perry County"]
   },
   {
     "name": "Valley Springs School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Boone County"]
   },
   {
     "name": "Valley View School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Craighead County"]
   },
   {
     "name": "Van Buren School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Crawford County"]
   },
   {
     "name": "Vilonia School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Faulkner County"]
   },
   {
     "name": "Viola School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Fulton County"]
   },
   {
     "name": "Waldron School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Scott County"]
   },
   {
     "name": "Warren School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Bradley County"]
   },
   {
     "name": "Watson Chapel School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Jefferson County"]
   },
   {
     "name": "West Fork School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Washington County"]
   },
   {
     "name": "West Memphis School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Crittenden County"]
   },
   {
     "name": "West Side (Cleburne County) School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Cleburne County"]
   },
   {
     "name": "Western Yell County School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Yell County"]
   },
   {
     "name": "Westside Consolidated School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Craighead County"]
   },
   {
     "name": "Westside(Johnson County) School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Johnson County"]
   },
   {
     "name": "Westwind School for Performing Arts",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Pulaski County"]
   },
   {
     "name": "White County Central School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["White County"]
   },
   {
     "name": "White Hall School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Jefferson County"]
   },
   {
     "name": "Wilbur D. Mills Education Service Cooperative",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["White County"]
   },
   {
     "name": "Wonderview School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Conway County"]
   },
   {
     "name": "Woodlawn School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Cleveland County"]
   },
   {
     "name": "Wynne School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Cross County"]
   },
   {
     "name": "Yellville-Summit School District",
     "platform": "hac",
     "link": "https://hac23.esp.k12.ar.us/",
-    "loginType": "credentials"
+    "loginType": "credentials",
+    "state": "Arkansas",
+    "counties": ["Marion County"]
   }
 ]

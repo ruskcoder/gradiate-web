@@ -26,7 +26,7 @@ import MicrosoftMark from '@/assets/img/microsoft.png';
 import {
   CLASSLINK_LAUNCHPAD_BASE,
   classlinkCodeFromLink,
-  DISTRICTS_URL,
+  DISTRICTS_URLS,
   parseLoginMethods,
   PLATFORMS,
   PLATFORM_MAPPING,
@@ -145,10 +145,19 @@ export default function Login() {
   }, [searchParams]);
 
   useEffect(() => {
-    fetch(DISTRICTS_URL)
-      .then((res) => res.json())
-      .then(setDistricts)
-      .catch((err) => console.error('Failed to load districts:', err));
+    // First source that answers wins; the rest are fallbacks.
+    (async () => {
+      for (const url of DISTRICTS_URLS) {
+        try {
+          const res = await fetch(url);
+          if (!res.ok) throw new Error(`HTTP ${res.status}`);
+          setDistricts(await res.json());
+          return;
+        } catch (err) {
+          console.error(`Failed to load districts from ${url}:`, err);
+        }
+      }
+    })();
   }, []);
 
   // --- Animated viewport height (adapts to the active step) ------------------
