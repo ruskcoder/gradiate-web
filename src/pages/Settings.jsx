@@ -1,6 +1,8 @@
 import React from 'react'
 import { useState, useEffect, useRef } from 'react'
 import { toast } from 'sonner'
+import { ArrowUpRight } from 'lucide-react'
+import { APP_NAME } from '@/lib/constants'
 import { exportBackup, importBackup } from '@/lib/backup'
 import { PrivacyPinSettings } from '@/components/custom/pin-gate'
 import { useCurrentUser, useStore } from '@/lib/store'
@@ -453,6 +455,31 @@ export default function Settings() {
                 </AlertDialogFooter>
               </AlertDialogContent>
             </AlertDialog>
+          </div>
+        </section>
+
+        <section>
+          <h2 className="text-lg font-semibold">Credits</h2>
+          <p className="text-sm text-muted-foreground mt-1">
+            {APP_NAME} is built by <a href="https://github.com/ruskcoder" target="_blank" rel="noopener noreferrer" className="underline underline-offset-2">@ruskcoder</a>, with support from our partners.
+          </p>
+          <div className="mt-4 flex flex-col gap-2">
+            <span className="text-xs font-semibold uppercase tracking-wider text-[#8a5a2b] dark:text-[#e8b98a]">Bronze Sponsor</span>
+            <div className="flex w-fit items-center gap-3 rounded-lg border px-4 py-3">
+              <img src="/sponsors/aspen-tennis-academy.png" alt="Aspen Tennis Academy logo" className="h-14 w-16 shrink-0 rounded-md bg-white object-contain p-1" />
+              <div>
+                <div className="font-medium">Aspen Tennis Academy</div>
+                <div className="text-sm text-muted-foreground">Tennis classes in Fulshear, Texas!</div>
+                <a
+                  href="https://www.aspentennisacademy.com/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex w-fit items-center gap-1 text-sm text-primary underline underline-offset-2 hover:opacity-80"
+                >
+                  aspentennisacademy.com <ArrowUpRight className="size-3.5" />
+                </a>
+              </div>
+            </div>
           </div>
         </section>
       </div>
