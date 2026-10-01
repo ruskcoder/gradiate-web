@@ -1,7 +1,8 @@
 import { useStore } from '@/lib/store'
 import { diffGrades, getCurrentClasses, getMissingAssignments, mergeGradeChanges } from '@/lib/insights'
+import { formatDecimal } from '@/lib/grade-display'
 
-const fmt = (n) => (n === null ? '···' : n.toFixed(2))
+const fmt = (n) => (n === null ? '···' : formatDecimal(n))
 
 function describe(change) {
   const parts = []

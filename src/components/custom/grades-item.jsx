@@ -25,7 +25,7 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
 import { useCurrentUser } from "@/lib/store"
-import { formatGrade } from "@/lib/grade-display"
+import { formatDecimal, formatGrade } from "@/lib/grade-display"
 import { Trash2, Edit, Save, Star } from 'lucide-react'
 
 // Scrim overlaid on a colored grade chip so the "hide colors" primary tint (and
@@ -371,7 +371,7 @@ export function ClassGradesItem({ scoreData, onRemove, onToggleExcluded, onEditP
             )}
             <div className="grid grid-cols-2 items-center gap-4">
               <span className="text-sm font-medium">Score:</span>
-              <span className="text-sm">{scoreData.score !== '' && scoreData.score !== null && typeof scoreData.score !== 'undefined' ? parseFloat(scoreData.score).toFixed(2) : '···'}</span>
+              <span className="text-sm">{scoreData.score !== '' && scoreData.score !== null && typeof scoreData.score !== 'undefined' ? formatDecimal(parseFloat(scoreData.score)) : '···'}</span>
             </div>
             {scoreData.totalPoints !== undefined && (
               <div className="grid grid-cols-2 items-center gap-4">
@@ -391,10 +391,10 @@ export function ClassGradesItem({ scoreData, onRemove, onToggleExcluded, onEditP
                     onChange={(e) => setEditingPercentage(e.target.value)}
                     onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); handleSavePercentage() } }}
                     className="h-8"
-                    placeholder={scoreData.percentage != "" ? parseFloat(scoreData.percentage).toFixed(2) + "%" : ""}
+                    placeholder={scoreData.percentage != "" ? formatDecimal(parseFloat(scoreData.percentage)) + "%" : ""}
                   />
                 ) : (
-                  <span className="text-sm">{scoreData.percentage !== '' && scoreData.percentage !== null && typeof scoreData.percentage !== 'undefined' ? parseFloat(scoreData.percentage).toFixed(2) + "%" : '···'}</span>
+                  <span className="text-sm">{scoreData.percentage !== '' && scoreData.percentage !== null && typeof scoreData.percentage !== 'undefined' ? formatDecimal(parseFloat(scoreData.percentage)) + "%" : '···'}</span>
                 )}
               </div>
             )}

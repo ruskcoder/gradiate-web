@@ -5,6 +5,7 @@ import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { Target, NotebookPen } from 'lucide-react'
+import { formatDecimal } from '@/lib/grade-display'
 
 const keyOf = (grade) => `${grade.course}|${grade.name}`
 
@@ -61,7 +62,7 @@ function GoalBody({ grade }) {
       {goal === undefined ? (
         <p className="text-xs text-muted-foreground">Set a target to see what you need on upcoming work.</p>
       ) : average !== null && average >= goal ? (
-        <p className="text-sm text-green-600">On track: {average.toFixed(2)} ≥ {goal}.</p>
+        <p className="text-sm text-green-600">On track: {formatDecimal(average)} ≥ {goal}.</p>
       ) : plan.length ? (
         <div className="text-sm space-y-1">
           {average !== null && <p className="text-red-600">{(goal - average).toFixed(2)} below goal.</p>}

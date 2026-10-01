@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/card"
 import { Slider } from "@/components/ui/slider"
 import { useCurrentUser, useStore } from '@/lib/store'
+import { formatDecimal } from '@/lib/grade-display'
 export function GradesView({ selectedGrade, timeTravel = false, term }) {
   const currentUser = useCurrentUser()
   const viewedGradeChanges = useStore((s) => s.viewedGradeChanges)
@@ -164,7 +165,7 @@ export function GradesView({ selectedGrade, timeTravel = false, term }) {
                         {travelComparison.delta >= 0 ? '+' : ''}{travelComparison.delta.toFixed(2)}
                       </span>
                     )}
-                    {travelComparison.latest !== null && ` → ${travelComparison.latest.toFixed(2)} now`}
+                    {travelComparison.latest !== null && ` → ${formatDecimal(travelComparison.latest)} now`}
                     {travelComparison.added > 0 && ` · ${travelComparison.added} new assignment${travelComparison.added === 1 ? '' : 's'}`}
                   </span>
                 )}

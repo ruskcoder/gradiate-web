@@ -2,6 +2,13 @@
 // setting. Mirrors the mobile app's lib/grade-display.ts so both platforms show
 // grades identically.
 
+// Two decimals below 100 ("88.50"), one at 100+ ("100.0", "105.3") so grades
+// always fit in 4 digits. Rounds first so 99.996 becomes "100.0", not "100.00".
+export function formatDecimal(value) {
+  const rounded = Number(value.toFixed(2));
+  return Math.abs(rounded) >= 100 ? value.toFixed(1) : rounded.toFixed(2);
+}
+
 export function formatGrade(grade, displayMode = 'decimal') {
   if (grade === null || grade === undefined || grade === '') {
     return '···';
@@ -14,10 +21,7 @@ export function formatGrade(grade, displayMode = 'decimal') {
 
   switch (displayMode) {
     case 'decimal':
-      // toFixed, not toPrecision: `toPrecision(4)` counts SIGNIFICANT digits, so
-      // a 7% average rendered as "7.000" and a 100 as "100.0" while an 88.5
-      // rendered as "88.50". Two decimals is consistent at every magnitude.
-      return numeric.toFixed(2);
+      return formatDecimal(numeric);
     case 'rounded':
       return Math.round(numeric).toString();
     case 'letter':
@@ -25,7 +29,7 @@ export function formatGrade(grade, displayMode = 'decimal') {
     case 'letter+':
       return numericToLetterPlus(numeric);
     default:
-      return numeric.toFixed(2);
+      return formatDecimal(numeric);
   }
 }
 
