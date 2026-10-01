@@ -6,6 +6,7 @@ import {
 } from "@/components/ui/sidebar"
 import { useStore } from '@/lib/store';
 import { CommandPalette } from '@/components/custom/command-palette';
+import { SponsorModal } from '@/components/custom/sponsor-modal';
 import { useBackgroundRefresh } from '@/hooks/use-background-refresh';
 
 export default function MainLayout({ children }) {
@@ -27,6 +28,7 @@ export default function MainLayout({ children }) {
           </div>
         </SidebarInset>
         <CommandPalette />
+        <SponsorModal />
       </SidebarProvider>}
     </>
   );

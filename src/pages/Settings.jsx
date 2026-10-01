@@ -464,6 +464,26 @@ export default function Settings() {
             {APP_NAME} is built by <a href="https://github.com/ruskcoder" target="_blank" rel="noopener noreferrer" className="underline underline-offset-2">@ruskcoder</a>, with support from our partners.
           </p>
           <div className="mt-4 flex flex-col gap-2">
+            <span className="text-xs font-semibold uppercase tracking-wider text-[#5b6472] dark:text-[#c3cad4]">Platinum Sponsor</span>
+            <div className="flex w-full max-w-xl flex-col gap-4 rounded-lg border p-4">
+              <div className="rounded-md bg-white px-6 py-5">
+                <img src="/sponsors/remedy-roofing.png" alt="Remedy Roofing logo" className="w-full" />
+              </div>
+              <div>
+                <div className="text-lg font-semibold">Remedy Roofing</div>
+                <div className="text-sm text-muted-foreground">Residential and commercial roofing and Jellyfish Lighting across Texas since 2005.</div>
+                <a
+                  href="https://remedyroofing.com/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex w-fit items-center gap-1 text-sm text-primary underline underline-offset-2 hover:opacity-80"
+                >
+                  remedyroofing.com <ArrowUpRight className="size-3.5" />
+                </a>
+              </div>
+            </div>
+          </div>
+          <div className="mt-6 flex flex-col gap-2">
             <span className="text-xs font-semibold uppercase tracking-wider text-[#8a5a2b] dark:text-[#e8b98a]">Bronze Sponsor</span>
             <div className="flex w-fit items-center gap-3 rounded-lg border px-4 py-3">
               <img src="/sponsors/aspen-tennis-academy.png" alt="Aspen Tennis Academy logo" className="h-14 w-16 shrink-0 rounded-md bg-white object-contain p-1" />
