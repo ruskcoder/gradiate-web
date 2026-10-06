@@ -474,8 +474,8 @@ export function GradesLayout({ showTitle = true, pageTitle = 'Grades', element }
           <ResizableHandle />
           <ResizablePanel className='bg-card rounded-xl border flex flex-col min-w-[412px]'>
             <div className='flex items-center justify-between py-2 px-2 border-b'>
-              {/* Balance the Goal/Notes buttons on the right so the title stays centered. */}
-              {selectedGrade && !isTimeTravelMode && <div className={isTimelineMode ? 'w-7' : 'w-[60px]'} />}
+              {/* Balance the Notes button on the right so the title stays centered. */}
+              {selectedGrade && !isTimeTravelMode && !isTimelineMode && <div className='w-7' />}
               {isTimeTravelMode &&
                 <Button
                   size="sm"

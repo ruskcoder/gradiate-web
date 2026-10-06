@@ -18,6 +18,7 @@ function HeaderButton({ icon: Icon, title, active }) {
   )
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars -- goals removed, kept for restore
 function GoalBody({ grade }) {
   const user = useCurrentUser()
   const changeUserData = useStore((s) => s.changeUserData)
@@ -112,12 +113,13 @@ function NotesBody({ grade }) {
   )
 }
 
-/** Goal + Notes popover buttons for the selected class's title bar. */
+/** Notes popover button for the selected class's title bar. (Goal removed.) */
 export function ClassHeaderActions({ grade }) {
   const user = useCurrentUser()
   const key = keyOf(grade)
   return (
     <div className="flex gap-1">
+      {/* Goals removed.
       <Popover>
         <PopoverTrigger asChild>
           <span><HeaderButton icon={Target} title="Goal" active={user?.goals?.[key] !== undefined} /></span>
@@ -126,6 +128,7 @@ export function ClassHeaderActions({ grade }) {
           <GoalBody key={key} grade={grade} />
         </PopoverContent>
       </Popover>
+      */}
       <Popover>
         <PopoverTrigger asChild>
           <span><HeaderButton icon={NotebookPen} title="Notes" active={!!user?.classNotes?.[key]} /></span>

@@ -103,7 +103,7 @@ export const gradeAndColor = (grade, badges = null, hideColors = false) => {
 
 // Applies the user's Number Display preference to an already-color-resolved
 // grade, leaving placeholder/exempt markers ("···", "X") untouched.
-const displayGradeValue = (gradeValue, numericGrade, numberDisplay) =>
+export const displayGradeValue = (gradeValue, numericGrade, numberDisplay) =>
   numericGrade !== null && numericGrade !== undefined && gradeValue !== "···" && gradeValue !== "X"
     ? formatGrade(numericGrade, numberDisplay)
     : gradeValue
