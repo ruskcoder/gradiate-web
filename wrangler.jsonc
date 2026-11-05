@@ -1,0 +1,18 @@
+// Gradiate web app on Cloudflare: a static-assets-only Worker. Asset requests
+// are free and unlimited and never run any code.
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "gradiate-web",
+  "compatibility_date": "2026-09-01",
+  "assets": {
+    "directory": "./dist",
+    // Browser navigations to app routes get index.html; a missing /assets/*.js
+    // stays a 404 instead of an HTML page served as JavaScript.
+    "not_found_handling": "single-page-application"
+  }
+  // After checking the workers.dev URL, serve the real hostnames from here:
+  // ,"routes": [
+  //   { "pattern": "web.gradiate.app", "custom_domain": true },
+  //   { "pattern": "web.gradexis.app", "custom_domain": true }
+  // ]
+}

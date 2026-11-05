@@ -1,0 +1,11 @@
+# Hashed build output never changes.
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Always revalidate the service worker so updates reach installed apps.
+/sw.js
+  Cache-Control: no-cache
+
+# Fallback district list for older app builds on other origins.
+/districts.json
+  Access-Control-Allow-Origin: *

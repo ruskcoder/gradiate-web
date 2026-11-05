@@ -77,7 +77,9 @@ export function classlinkCodeFromLink(link: string): string {
     .replace(/^\/+/, '');
   return cleaned.split(/[/?#]/)[0]!.trim();
 }
-export const API_URL = import.meta.env.VITE_API_URL;
+// Set VITE_API_URL to point at a local API (`http://localhost:3000/`); a build
+// without it talks to production.
+export const API_URL = import.meta.env.VITE_API_URL || 'https://api.gradiate.app/';
 export const API_PLATFORM_ENDPOINTS: Record<typeof PLATFORMS[number], string> = {
     hac: '/hac/',
     'skyward-legacy': '/skyward-legacy/',
