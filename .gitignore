@@ -27,3 +27,5 @@ dist-ssr
 .claude/
 CLAUDE.md
 graphify-out/
+# Cloudflare
+.wrangler/

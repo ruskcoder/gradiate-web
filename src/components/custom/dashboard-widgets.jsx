@@ -15,6 +15,7 @@ import {
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Progress } from '@/components/ui/progress'
+// eslint-disable-next-line @typescript-eslint/no-unused-vars -- goals removed, kept for restore
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import {
   Select,
@@ -131,6 +132,7 @@ export function GpaWidget({ classes }) {
   )
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars -- goals removed, kept for restore
 function GoalEditor({ cls, goal }) {
   const changeUserData = useStore((s) => s.changeUserData)
   const user = useCurrentUser()
@@ -162,7 +164,8 @@ function GoalEditor({ cls, goal }) {
 
 export function ClassesWidget({ classes }) {
   const user = useCurrentUser()
-  const goals = user?.goals || {}
+  // Goals removed.
+  // const goals = user?.goals || {}
   const numberDisplay = user?.numberDisplay || 'decimal'
 
   return (
@@ -176,14 +179,15 @@ export function ClassesWidget({ classes }) {
       ) : (
         <div className="flex flex-col divide-y">
           {classes.map((cls) => {
-            const goal = goals[cls.key]
-            const belowGoal = goal !== undefined && cls.average !== null && cls.average < goal
+            // Goals removed.
+            // const goal = goals[cls.key]
+            // const belowGoal = goal !== undefined && cls.average !== null && cls.average < goal
             const atRisk = cls.average !== null && cls.average < 70
             return (
               <div key={cls.key} className="flex items-center gap-3 py-2">
                 <div className="min-w-0 flex-1">
                   <p className="font-medium truncate flex items-center gap-1">
-                    {(atRisk || belowGoal) && <AlertTriangle className="size-4 text-red-500 shrink-0" />}
+                    {atRisk && <AlertTriangle className="size-4 text-red-500 shrink-0" />}
                     {cls.name}
                   </p>
                   <p className="text-xs text-muted-foreground truncate">{cls.course}</p>
@@ -194,6 +198,7 @@ export function ClassesWidget({ classes }) {
                     {Math.abs(cls.delta).toFixed(2)}
                   </span>
                 )}
+                {/* Goals removed.
                 <Popover>
                   <PopoverTrigger asChild>
                     <button
@@ -208,6 +213,7 @@ export function ClassesWidget({ classes }) {
                     <GoalEditor cls={cls} goal={goal} />
                   </PopoverContent>
                 </Popover>
+                */}
                 <span className="font-semibold tabular-nums w-14 text-right">{formatGrade(cls.average, numberDisplay)}</span>
               </div>
             )

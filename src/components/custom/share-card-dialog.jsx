@@ -95,6 +95,7 @@ export function ShareCardDialog({ open, onOpenChange, classes }) {
   const user = useCurrentUser()
   const canvasRef = useRef(null)
   const [hideNumbers, setHideNumbers] = useState(true)
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars -- GPA projection removed
   const [showGpa, setShowGpa] = useState(false)
   const { locked } = usePrivacyLock()
 
@@ -149,12 +150,14 @@ export function ShareCardDialog({ open, onOpenChange, classes }) {
             <Checkbox id="share-hide" checked={hideNumbers} onCheckedChange={(v) => setHideNumbers(!!v)} />
             <Label htmlFor="share-hide">Show letter grades instead of numbers</Label>
           </div>
+          {/* GPA projection removed — use the GPA calculator instead.
           {!locked && (
             <div className="flex items-center gap-2">
               <Checkbox id="share-gpa" checked={showGpa} onCheckedChange={(v) => setShowGpa(!!v)} />
               <Label htmlFor="share-gpa">Include projected GPA</Label>
             </div>
           )}
+          */}
           <div className="flex gap-2 pb-4">
             <Button className="flex-1" onClick={download}>Download</Button>
             <Button className="flex-1" variant="outline" onClick={copy}>Copy</Button>

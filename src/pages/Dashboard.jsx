@@ -1,14 +1,21 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useCurrentUser, useStore } from '@/lib/store'
 import TodoList from '@/components/custom/todo-list'
-import { ShortcutSection } from '@/components/custom/shortcut-section'
-import { GpaWidget, ClassesWidget, BellWidget, MissingWidget } from '@/components/custom/dashboard-widgets'
+// Shortcuts replaced by the New Grades strip.
+// import { ShortcutSection } from '@/components/custom/shortcut-section'
+// GPA projection removed — use the GPA calculator instead.
+import { /* GpaWidget, ClassesWidget, */ BellWidget, MissingWidget } from '@/components/custom/dashboard-widgets'
+import { NewGradesStrip } from '@/components/custom/new-grades-strip'
 import { ShareCardDialog } from '@/components/custom/share-card-dialog'
 import { getCurrentClasses } from '@/lib/insights'
 import { getClasses } from '@/lib/grades-api'
 import { CLASSES_ENDPOINT } from '@/lib/constants'
 import { Button } from '@/components/ui/button'
 import { RefreshCw, Share2 } from 'lucide-react'
+
+// Fetch fresh grades the first time the dashboard opens each session so the
+// New Grades strip has something to diff against; later visits reuse it.
+let checkedThisSession = false
 
 export default function Dashboard() {
   const user = useCurrentUser()
@@ -31,6 +38,13 @@ export default function Dashboard() {
       setRefreshing(false)
     }
   }
+
+  useEffect(() => {
+    if (checkedThisSession || !user) return
+    checkedThisSession = true
+    refresh()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   return (
     <div className="space-y-6 h-full flex flex-col">
@@ -58,12 +72,18 @@ export default function Dashboard() {
 
       <div className="grid gap-4 xl:grid-cols-[minmax(0,2fr)_minmax(360px,1fr)] flex-grow">
         <div className="flex flex-col gap-4 min-w-0">
-          <ShortcutSection />
+          {/* <ShortcutSection /> */}
+          <NewGradesStrip classes={classes} loading={refreshing} />
+          {/* GPA projection removed — use the GPA calculator instead.
           <div className="grid gap-4 lg:grid-cols-2">
             <GpaWidget classes={classes} />
             <BellWidget />
           </div>
-          <ClassesWidget classes={classes} />
+          */}
+          <BellWidget />
+          {/* Classes removed from the dashboard — left as blank space. */}
+          {/* <ClassesWidget classes={classes} /> */}
+          <div className="flex-grow" />
         </div>
         <div className="flex flex-col gap-4 min-w-0">
           <MissingWidget classes={classes} />
