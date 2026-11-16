@@ -382,6 +382,46 @@ export default function Login() {
     }
   };
 
+  // Demo account: canned data from the API's /demo platform, no portal login.
+  const doDemoLogin = async () => {
+    setError(null);
+    setLoading(true);
+    useStore.setState({ session: {} });
+    try {
+      const data = await login('demo', 'credentials', { username: 'testuser', password: 'demo', link: '' });
+      const existing = useStore.getState().users.findIndex(
+        (u) => u.username === 'testuser' && u.platform === 'demo'
+      );
+      const userIndex =
+        existing !== -1
+          ? existing
+          : useStore.getState().addUser({
+              loginType: 'credentials',
+              username: data.username || 'testuser',
+              password: 'demo',
+              platform: 'demo',
+              link: data.link || '',
+              code: '',
+              clMFA: '',
+              mfaType: '',
+              school: data.school || '',
+              district: data.district || 'Demo',
+              dob: '',
+              name: data.name || 'Test User',
+              avatar: 'TU',
+              studentId: '',
+              students: [],
+            });
+      useStore.getState().switchUser(userIndex);
+      if (hadAccounts) window.location.href = homePath();
+      else navigate(homePath());
+    } catch (e) {
+      setError(e.message || 'Demo login failed');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const doLogin = async (answeredMfa = '') => {
     setError(null);
     if (answeredMfa) {
@@ -461,7 +501,7 @@ export default function Login() {
               Select District
             </Button>
             <div className="flex gap-2 w-full">
-              <Button variant="outline" className="flex-1" disabled>
+              <Button variant="outline" className="flex-1" onClick={doDemoLogin} disabled={loading}>
                 Demo
               </Button>
               <Button variant="outline" className="flex-1" onClick={() => go('custom-platform')}>

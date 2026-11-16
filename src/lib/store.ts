@@ -2,7 +2,7 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { PLATFORMS } from './constants';
 
-type Platform = typeof PLATFORMS[number];
+type Platform = typeof PLATFORMS[number] | 'demo';
 
 export interface BellSchedule {
   name: string;

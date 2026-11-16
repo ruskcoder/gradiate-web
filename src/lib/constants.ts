@@ -3,7 +3,8 @@ export const PLATFORMS = ['hac', 'skyward-legacy', 'powerschool'] as const;
 export const PLATFORM_MAPPING: Record<string, string> = {
     hac: 'HAC',
     'skyward-legacy': 'Skyward Legacy',
-    powerschool: 'PowerSchool'
+    powerschool: 'PowerSchool',
+    demo: 'Demo'
 };
 // The district list lives on the splash site. This app's own /districts.json is
 // only a fallback (and still serves older mobile builds that fetch it directly).
@@ -80,10 +81,11 @@ export function classlinkCodeFromLink(link: string): string {
 // Set VITE_API_URL to point at a local API (`http://localhost:3000/`); a build
 // without it talks to production.
 export const API_URL = import.meta.env.VITE_API_URL || 'https://api.gradiate.app/';
-export const API_PLATFORM_ENDPOINTS: Record<typeof PLATFORMS[number], string> = {
+export const API_PLATFORM_ENDPOINTS: Record<typeof PLATFORMS[number] | 'demo', string> = {
     hac: '/hac/',
     'skyward-legacy': '/skyward-legacy/',
-    powerschool: '/powerschool/'
+    powerschool: '/powerschool/',
+    demo: '/demo/'
 };
 export const LOGIN_ENDPOINT = '/info';
 export const DISTRICTS_ENDPOINT = '/districts';

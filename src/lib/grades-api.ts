@@ -4,7 +4,7 @@ import { setSession, currentUser, getSession, useStore, accountKey } from "@/lib
 import { initializeGradesStore, addGradesLoad } from "@/lib/grades-store";
 import { withGradeChangeDetection } from "@/lib/grade-alerts";
 
-type Platform = typeof PLATFORMS[number];
+type Platform = typeof PLATFORMS[number] | 'demo';
 type LoginType = typeof LOGIN_TYPES[number];
 
 /** Identity of the signed-in account, so cached responses never leak across a
