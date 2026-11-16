@@ -79,7 +79,6 @@ export interface User {
   theme: 'light' | 'dark';
   color: string;
   gradesView: 'card' | 'list';
-  showPageTitles?: boolean;
   matchThemeWithLogo?: boolean;
   hideColors?: boolean;
   numberDisplay?: 'decimal' | 'rounded' | 'letter' | 'letter+';
@@ -255,7 +254,6 @@ const DEFAULT_USER: User = {
   theme: 'light',
   color: 'blue',
   gradesView: 'list',
-  showPageTitles: true,
   matchThemeWithLogo: false,
   hideColors: false,
   numberDisplay: 'decimal',

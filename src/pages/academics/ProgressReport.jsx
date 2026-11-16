@@ -1,5 +1,4 @@
 import React from 'react'
-import { useCurrentUser } from '@/lib/store'
 import { getProgressReport } from '@/lib/grades-api'
 import { Spinner } from '@/components/ui/spinner'
 import {
@@ -49,8 +48,7 @@ export default function ProgressReport() {
     fetchProgressReport()
   }, [])
 
-  const user = useCurrentUser()
-  const showTitle = user ? user.showPageTitles !== false : true
+  const showTitle = true
 
   const selectedProgressReport = React.useMemo(() => {
     if (!selectedDate) return null

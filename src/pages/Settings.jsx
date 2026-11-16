@@ -278,16 +278,6 @@ export default function Settings() {
             </div>
             <div className="flex items-center gap-2">
               <Checkbox
-                checked={!!user.showPageTitles}
-                onCheckedChange={(checked) => changeUserData('showPageTitles', !!checked)}
-              />
-              <div>
-                <Label>Show page titles</Label>
-                <div className="text-sm text-muted-foreground">Show or hide page titles across the app.</div>
-              </div>
-            </div>
-            <div className="flex items-center gap-2">
-              <Checkbox
                 checked={user.animationsEnabled !== false}
                 onCheckedChange={(checked) => changeUserData('animationsEnabled', !!checked)}
               />

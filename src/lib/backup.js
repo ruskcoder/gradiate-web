@@ -8,7 +8,7 @@ const VERSION = 1
 // clMFA, clsession) and account identity (username, link, platform, …) are never
 // exported and never overwritten on import.
 const PORTABLE_KEYS = [
-  'colorTheme', 'theme', 'gradesView', 'showPageTitles', 'matchThemeWithLogo',
+  'colorTheme', 'theme', 'gradesView', 'matchThemeWithLogo',
   'hideColors', 'numberDisplay', 'animationsEnabled', 'bellSchedules',
   'courseTypesByCourseName', 'deletedTranscriptCourses', 'customCourses',
   'rankDataPoints', 'todos', 'shortcuts', 'goals', 'classNotes', 'alertSettings',

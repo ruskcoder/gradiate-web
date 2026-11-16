@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react'
-import { useCurrentUser } from '@/lib/store'
 import { getClasses } from '@/lib/grades-api'
 import { getLatestGradesLoad, hasStorageData, getInitialTerm, getTermList } from '@/lib/grades-store'
 import { Spinner } from '@/components/ui/spinner'
@@ -46,8 +45,7 @@ export default function FinalExamCalculator() {
 
   const loadedFromStorageRef = React.useRef(false)
 
-  const user = useCurrentUser()
-  const showTitle = user ? user.showPageTitles !== false : true
+  const showTitle = true
 
   useEffect(() => {
     if (selectedClass && initialClassesData[currentTerm]) {

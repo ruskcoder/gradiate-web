@@ -152,7 +152,7 @@ export default function Schedules() {
     setScheduleName('');
   };
 
-  const showTitle = currentUser ? currentUser.showPageTitles !== false : true;
+  const showTitle = true;
 
   return (
     <div className="space-y-8 flex flex-col" style={{ height: "calc(calc((100vh - var(--spacing)*20)) - 2px)" }}>

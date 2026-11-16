@@ -20,7 +20,7 @@ import { getClasses, getSingleClass } from '@/lib/grades-api'
 import { getLatestGradesLoad, getInitialTerm, getTermList, getTermTree, getHasSubterms, hasStorageData, addGradesLoad, reconstructAllInOneClassesFromHistory, reconstructClassDetailFromHistory, hasClassDetailInStorage } from '@/lib/grades-store'
 import { transformGroupsToCategories } from '@/lib/utils'
 import { flatForest, pathToLabel, barsForPath, pathForTab } from '@/lib/term-tree'
-import { ChevronLeft, GitCommitHorizontal, Loader2, HardDriveDownload } from 'lucide-react'
+import { ChevronLeft, ChevronRight, GitCommitHorizontal, Loader2, HardDriveDownload } from 'lucide-react'
 import { ClassHeaderActions } from '@/components/custom/class-extras'
 
 // Matches the CSS `ease` used across the app so the reveal curve is identical
@@ -347,6 +347,18 @@ export function GradesLayout({ showTitle = true, pageTitle = 'Grades', element }
       {showTitle &&
         <div className="flex items-center justify-between w-full">
           <h1 className="text-4xl font-bold">{pageTitle}</h1>
+          {location.pathname === '/grades' &&
+            <Button variant="outline" onClick={() => navigate('/grades/whatif')}>
+              What If
+              <ChevronRight />
+            </Button>
+          }
+          {location.pathname === '/grades/whatif' &&
+            <Button variant="outline" onClick={() => navigate('/grades')}>
+              <ChevronLeft />
+              Grades
+            </Button>
+          }
         </div>
       }
       <div className="flex overflow-hidden">

@@ -25,7 +25,7 @@ import {
 } from "@/components/ui/select"
 import { Trash2, Plus, RotateCcw, Paperclip } from 'lucide-react'
 import { GPA_CONFIGS, letterForGrade } from '@/lib/GPAConfigs'
-import { useStore, useCurrentUser } from '@/lib/store'
+import { useStore } from '@/lib/store'
 
 export default function GPARankCalculator() {
   const [loadingInitial, setLoadingInitial] = useState(true)
@@ -48,8 +48,7 @@ export default function GPARankCalculator() {
   const [currentRank, setCurrentRank] = useState(null)
   const [classSize, setClassSize] = useState(null)
 
-  const user = useCurrentUser()
-  const showTitle = user ? user.showPageTitles !== false : true
+  const showTitle = true
 
   useEffect(() => {
     const loadTranscript = async () => {

@@ -19,7 +19,7 @@ let checkedThisSession = false
 
 export default function Dashboard() {
   const user = useCurrentUser()
-  const showTitle = user ? user.showPageTitles !== false : true
+  const showTitle = true
   const [refreshing, setRefreshing] = useState(false)
   const [shareOpen, setShareOpen] = useState(false)
   const formattedDate = new Date().toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' })

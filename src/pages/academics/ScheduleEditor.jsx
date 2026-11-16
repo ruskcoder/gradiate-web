@@ -20,7 +20,7 @@ export default function ScheduleEditor() {
   const user = useCurrentUser();
   const changeUserData = useStore((s) => s.changeUserData);
   const scheduleData = location.state?.scheduleData;
-  const showTitle = user ? user.showPageTitles !== false : true;
+  const showTitle = true;
 
   const [name, setName] = React.useState(scheduleData?.name || '');
   const [periods, setPeriods] = React.useState(

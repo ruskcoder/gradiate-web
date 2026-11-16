@@ -1,5 +1,4 @@
 import React from 'react'
-import { useCurrentUser } from '@/lib/store'
 import { getReportCard } from '@/lib/grades-api'
 import { Spinner } from '@/components/ui/spinner'
 import {
@@ -46,8 +45,7 @@ export default function ReportCard() {
     fetchReportCard()
   }, [])
 
-  const user = useCurrentUser()
-  const showTitle = user ? user.showPageTitles !== false : true
+  const showTitle = true
 
   const selectedReportCard = React.useMemo(() => {
     if (!selectedRun) return null

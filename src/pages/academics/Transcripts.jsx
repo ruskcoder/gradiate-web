@@ -40,7 +40,7 @@ export default function Transcripts() {
   }, [])
 
   const user = useCurrentUser()
-  const showTitle = user ? user.showPageTitles !== false : true
+  const showTitle = true
 
   const groupedByYear = React.useMemo(() => {
     const groups = {}

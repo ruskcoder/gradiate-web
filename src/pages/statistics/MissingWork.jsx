@@ -14,7 +14,7 @@ export default function MissingWork() {
   const user = useCurrentUser()
   const changeUserData = useStore((s) => s.changeUserData)
   const addTodo = useStore((s) => s.addTodo)
-  const showTitle = user ? user.showPageTitles !== false : true
+  const showTitle = true
 
   const { classes, loadedAt } = useMemo(() => getCurrentClasses(user), [user])
   const missing = useMemo(() => getMissingAssignments(classes), [classes])

@@ -6,12 +6,9 @@ import { WhatIf } from '@/pages/calculators/WhatIf'
 import { History } from '@/pages/statistics/History'
 import { TimelinePage } from '@/pages/statistics/Timeline'
 import { ImpactsPage } from '@/pages/statistics/Impacts'
-import { useCurrentUser } from '@/lib/store'
 
 export default function Grades() {
-  const user = useCurrentUser();
   const location = useLocation();
-  const showTitle = user ? user.showPageTitles !== false : true;
   
   let element = null;
   let pageTitle = 'Grades';
@@ -42,5 +39,5 @@ export default function Grades() {
       pageTitle = 'Grades';
   }
 
-  return <GradesLayout showTitle={showTitle} pageTitle={pageTitle} element={element} />
+  return <GradesLayout pageTitle={pageTitle} element={element} />
 }

@@ -1,5 +1,4 @@
 import React from 'react'
-import { useCurrentUser } from '@/lib/store'
 import { getTeachers } from '@/lib/grades-api'
 import { Spinner } from '@/components/ui/spinner'
 import { Button } from '@/components/ui/button'
@@ -48,8 +47,7 @@ export default function Teachers() {
     fetchTeachers()
   }, [])
 
-  const user = useCurrentUser()
-  const showTitle = user ? user.showPageTitles !== false : true
+  const showTitle = true
 
   const getInitials = (name) => {
     if (!name) return ''

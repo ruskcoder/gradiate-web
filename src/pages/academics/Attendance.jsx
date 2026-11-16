@@ -1,5 +1,4 @@
 import React from 'react'
-import { useCurrentUser } from '@/lib/store'
 import {
   ResizableHandle,
   ResizablePanel,
@@ -46,8 +45,7 @@ export default function Attendance() {
     fetchAttendanceForMonth(currentMonth, currentYear);
   }, [currentMonth, currentYear]);
 
-  const user = useCurrentUser();
-  const showTitle = user ? user.showPageTitles !== false : true;
+  const showTitle = true;
 
   return (
     <div className="space-y-8 flex flex-col" style={{ height: "calc(calc((100vh - var(--spacing)*20)) - 2px)" }}>
