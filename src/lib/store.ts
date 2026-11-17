@@ -81,6 +81,10 @@ export interface User {
   gradesView: 'card' | 'list';
   matchThemeWithLogo?: boolean;
   hideColors?: boolean;
+  // Final exam weight (%) the Final Exam calculator remembers between visits.
+  finalExamWeight?: number;
+  // Show the original Final Exam calculator instead of the redesigned one.
+  finalExamClassicUi?: boolean;
   numberDisplay?: 'decimal' | 'rounded' | 'letter' | 'letter+';
   animationsEnabled?: boolean;
   bellSchedules: BellSchedule[];
@@ -256,6 +260,8 @@ const DEFAULT_USER: User = {
   gradesView: 'list',
   matchThemeWithLogo: false,
   hideColors: false,
+  finalExamWeight: 15,
+  finalExamClassicUi: false,
   numberDisplay: 'decimal',
   animationsEnabled: true,
   bellSchedules: [],

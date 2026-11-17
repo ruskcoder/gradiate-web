@@ -9,7 +9,7 @@ const VERSION = 1
 // exported and never overwritten on import.
 const PORTABLE_KEYS = [
   'colorTheme', 'theme', 'gradesView', 'matchThemeWithLogo',
-  'hideColors', 'numberDisplay', 'animationsEnabled', 'bellSchedules',
+  'hideColors', 'finalExamWeight', 'finalExamClassicUi', 'numberDisplay', 'animationsEnabled', 'bellSchedules',
   'courseTypesByCourseName', 'deletedTranscriptCourses', 'customCourses',
   'rankDataPoints', 'todos', 'shortcuts', 'goals', 'classNotes', 'alertSettings',
   'autoTodoFromMissing', 'activeBellSchedule', 'changeAlerts', 'defaultPage',
