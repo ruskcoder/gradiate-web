@@ -515,11 +515,11 @@ export default function FinalExamModern() {
             </div>
           )}
 
-          {/* Semester average, with A/B/C goal shortcuts (nothing to aim for when exempt) */}
+          {/* Semester average, with A/B/C goal shortcuts */}
           <div className="flex flex-col items-center gap-2">
             <div className="flex h-7 items-center gap-2">
               <span className="text-sm font-medium text-muted-foreground">Semester Average</span>
-              {!exempt && LETTER_TARGETS.map((l) => (
+              {LETTER_TARGETS.map((l) => (
                 <button
                   key={l.letter}
                   type="button"
