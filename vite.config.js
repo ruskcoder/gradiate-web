@@ -5,6 +5,11 @@ import path from 'path'
 
 // https://vite.dev/config/
 export default defineConfig(({ mode }) => {
+  // `npm run dev:live` (or `npm run dev -- --mode live`) talks to the deployed
+  // API instead of whatever .env points at. Vite gives existing process.env
+  // VITE_* vars priority over .env files, and reads them after this config runs.
+  if (mode === 'live') process.env.VITE_API_URL = 'https://api.gradiate.app/'
+
   // A production build bakes VITE_API_URL into the bundle. A local .env that
   // points at localhost would ship a site that can't reach the API, so refuse.
   const { VITE_API_URL = '' } = loadEnv(mode, process.cwd(), '')
