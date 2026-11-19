@@ -1,5 +1,6 @@
 import React from 'react'
-import { ArrowRight, Calculator, RotateCcw } from 'lucide-react'
+import { ArrowRight, Calculator, Plus, RefreshCw, X } from 'lucide-react'
+import { CLASSES_ENDPOINT } from '@/lib/constants'
 import { getClasses } from '@/lib/grades-api'
 import { getLatestGradesLoad, getInitialTerm, getTermList, getTermTree } from '@/lib/grades-store'
 import { flatForest, pathToLabel } from '@/lib/term-tree'
@@ -9,6 +10,7 @@ import { GradePillInput } from '@/components/custom/grade-pill-input'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Switch } from '@/components/ui/switch'
+import { Toggle } from '@/components/ui/toggle'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 import { Label } from '@/components/ui/label'
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@/components/ui/resizable'
@@ -144,6 +146,25 @@ export default function FinalExamModern() {
     return semesters.find((s) => s.id === semesterId) ?? semesterFor(semesters, currentPath)
   }, [semesters, semesterId, currentPath])
 
+  // Load one term's grades. All-in-one portals return every term from a single
+  // request, so for them this reloads everything. `fresh` skips the cache.
+  const fetchTerm = React.useCallback(async (term, fresh = false) => {
+    if (fresh) useStore.getState().invalidateCache(CLASSES_ENDPOINT)
+    setLoadingTerms((p) => ({ ...p, [term]: true }))
+    try {
+      for await (const chunk of getClasses(allInOne ? undefined : term)) {
+        if (!mountedRef.current) return
+        if (chunk.success !== true) continue
+        setByTerm((prev) => mergeClassAverages(prev, allInOne ? chunk.term : term, chunk.classes))
+        setLiveTerms((prev) => new Set(prev).add(term))
+      }
+    } catch (err) {
+      console.error(`Final exam calculator: failed to load term ${term}`, err)
+    } finally {
+      if (mountedRef.current) setLoadingTerms((p) => ({ ...p, [term]: false }))
+    }
+  }, [allInOne])
+
   // Quietly fetch the semester's other terms in the background. All-in-one
   // portals already sent every term, so there's nothing to fetch for them.
   React.useEffect(() => {
@@ -154,23 +175,9 @@ export default function FinalExamModern() {
     // Not cancelled when deps change: each finished term updates `liveTerms`,
     // which re-runs this effect, and that must not abandon the rest of the queue.
     ;(async () => {
-      for (const term of todo) {
-        setLoadingTerms((p) => ({ ...p, [term]: true }))
-        try {
-          for await (const chunk of getClasses(term)) {
-            if (!mountedRef.current) return
-            if (chunk.success !== true) continue
-            setByTerm((prev) => mergeClassAverages(prev, term, chunk.classes))
-            setLiveTerms((prev) => new Set(prev).add(term))
-          }
-        } catch (err) {
-          console.error(`Final exam calculator: failed to load term ${term}`, err)
-        } finally {
-          setLoadingTerms((p) => ({ ...p, [term]: false }))
-        }
-      }
+      for (const term of todo) await fetchTerm(term)
     })()
-  }, [initialLoading, allInOne, semester, liveTerms])
+  }, [initialLoading, allInOne, semester, liveTerms, fetchTerm])
 
   const ctxKey = `${course}|${semester.id}`
   const overrides = overridesBy[ctxKey] ?? {}
@@ -287,20 +294,56 @@ export default function FinalExamModern() {
     if (field === 'target') setLastTouched('final')
   }
 
-  const calcButton = (field, active) => (
+  const iconButton = (label, onClick, icon, disabled = false) => (
     <Tooltip>
       <TooltipTrigger asChild>
         <button
           type="button"
+          aria-label={label}
+          disabled={disabled}
+          onClick={onClick}
+          className="flex size-4 items-center justify-center rounded-sm text-muted-foreground transition-colors hover:text-foreground disabled:opacity-50"
+        >
+          {icon}
+        </button>
+      </TooltipTrigger>
+      <TooltipContent>{label}</TooltipContent>
+    </Tooltip>
+  )
+
+  // Refetch: drop any edit so the fresh grade shows, then reload the term.
+  const refetchTerm = (t) => {
+    setOverrides((p) => {
+      const rest = { ...p }
+      delete rest[t]
+      return rest
+    })
+    fetchTerm(t, true)
+  }
+
+  // Turning a field's calculator off hands the job back to the semester
+  // average (or, if that was the one, to the final).
+  const stopCalculating = (field) => {
+    if (field !== 'target') calculateThis('target')
+    else if (!exempt) calculateThis('final')
+  }
+
+  const calcButton = (field, active) => (
+    <Tooltip>
+      <TooltipTrigger asChild>
+        <Toggle
+          variant="outline"
+          size="sm"
           aria-label="Calculate This"
-          onClick={() => calculateThis(field)}
+          pressed={active}
+          onPressedChange={(on) => (on ? calculateThis(field) : stopCalculating(field))}
           className={cn(
-            'absolute inset-y-0 left-full my-auto ml-1.5 flex size-7 items-center justify-center rounded-md border bg-background transition-colors hover:bg-accent',
-            active ? 'border-primary text-primary' : 'text-muted-foreground'
+            'absolute inset-y-0 left-full my-auto ml-1.5 size-7 min-w-7 p-0',
+            active ? 'text-primary' : 'text-muted-foreground'
           )}
         >
           <Calculator className="size-3.5" />
-        </button>
+        </Toggle>
       </TooltipTrigger>
       <TooltipContent>Calculate This</TooltipContent>
     </Tooltip>
@@ -397,37 +440,32 @@ export default function FinalExamModern() {
               const idx = activeTerms.indexOf(t)
               const isAuto = !off && idx === auto
               const value = isAuto && focused !== t ? fmt(result) : rawTerm(t)
-              const edited = overrides[t] !== undefined && overrides[t] !== fetchedRaw(t) && fetchedRaw(t) !== ''
               return (
-                <div key={t} className={cn('flex flex-col items-center gap-1.5', off && 'opacity-40')}>
-                  <div className="flex h-5 items-center gap-1 text-xs font-medium text-muted-foreground">
-                    <button
-                      type="button"
-                      onClick={() => toggleTerm(t)}
-                      title={off ? 'Include this term' : 'Leave this term out'}
-                      className={cn('hover:text-foreground', off && 'line-through')}
+                <div key={t} className="flex flex-col items-center gap-1.5">
+                  <div className="flex h-5 items-center gap-1.5 text-xs font-medium">
+                    {iconButton(
+                      off ? 'Include this term' : 'Leave this term out',
+                      () => toggleTerm(t),
+                      off ? <Plus className="size-3.5" /> : <X className="size-3.5" />,
+                      !off && activeTerms.length <= 1
+                    )}
+                    <span
+                      className={cn(
+                        isAuto ? 'text-primary' : 'text-muted-foreground',
+                        off && 'line-through opacity-40'
+                      )}
                     >
                       {termLabel(t)}
-                    </button>
-                    {isAuto && <span className="text-primary">· calculated</span>}
-                    {edited && (
-                      <button
-                        type="button"
-                        onClick={() =>
-                          setOverrides((p) => {
-                            const rest = { ...p }
-                            delete rest[t]
-                            return rest
-                          })
-                        }
-                        title={`Back to your real grade (${fetchedRaw(t)})`}
-                        className="hover:text-foreground"
-                      >
-                        <RotateCcw className="size-3" />
-                      </button>
-                    )}
+                    </span>
+                    {semester.id !== MANUAL_SEMESTER.id &&
+                      iconButton(
+                        'Refetch this term',
+                        () => refetchTerm(t),
+                        <RefreshCw className={cn('size-3', loadingTerms[t] && 'animate-spin')} />,
+                        off || !!loadingTerms[t]
+                      )}
                   </div>
-                  <div className="relative">
+                  <div className={cn('relative', off && 'opacity-40')}>
                     <GradePillInput
                       aria-label={termLabel(t)}
                       value={value}
@@ -446,12 +484,19 @@ export default function FinalExamModern() {
               )
             })}
 
-            <ArrowRight className="mb-2.5 size-5 text-muted-foreground" />
+            <div
+              className={cn(
+                'flex h-11 items-center',
+                !excluded.has(semester.terms[semester.terms.length - 1]) && 'ml-[34px]'
+              )}
+            >
+              <ArrowRight className="size-5 text-muted-foreground" />
+            </div>
 
             <div className="flex flex-col items-center gap-1.5">
               <div className="flex h-5 items-center text-xs font-medium text-muted-foreground">Average</div>
               <span
-                className="block w-[96px] rounded-sm border-2 border-transparent py-[3px] text-center text-[1.4rem] font-semibold tracking-wide text-white tabular-nums transition-[background-color] duration-300"
+                className="flex h-11 w-[96px] items-center justify-center rounded-sm border-2 border-transparent text-[1.4rem] font-semibold tracking-wide text-white tabular-nums transition-[background-color] duration-300"
                 style={{ backgroundColor: gradeAndColor(fmt(termsMean), null, hideColors).bgColor }}
               >
                 {fmt(termsMean) || '···'}
@@ -478,7 +523,7 @@ export default function FinalExamModern() {
           {!exempt && (
             <div className="flex flex-col items-center gap-1.5">
               <div className="flex h-5 items-center gap-1 text-xs font-medium text-muted-foreground">
-                <span>Final</span>
+                <span className={cn(auto === 'final' && 'text-primary')}>Final</span>
                 <input
                   aria-label="Final exam weight"
                   inputMode="decimal"
@@ -490,7 +535,6 @@ export default function FinalExamModern() {
                   )}
                 />
                 <span>% weight</span>
-                {auto === 'final' && <span className="text-primary">· calculated</span>}
               </div>
               <div className="relative">
                 <GradePillInput
@@ -518,25 +562,46 @@ export default function FinalExamModern() {
           {/* Semester average, with A/B/C goal shortcuts */}
           <div className="flex flex-col items-center gap-2">
             <div className="flex h-7 items-center gap-2">
-              <span className="text-sm font-medium text-muted-foreground">Semester Average</span>
-              {LETTER_TARGETS.map((l) => (
-                <button
-                  key={l.letter}
-                  type="button"
-                  onClick={() => pickTarget(l.target)}
-                  title={`Goal: ${l.target}`}
-                  className="flex size-7 items-center justify-center rounded-sm border-2 text-sm font-bold text-white transition-colors hover:brightness-95"
-                  style={{
-                    backgroundColor: gradeAndColor(l.color, null, hideColors).bgColor,
-                    borderColor:
-                      targetNum === l.target && auto !== 'target'
-                        ? `color-mix(in srgb, ${gradeAndColor(l.color, null, hideColors).bgColor} 55%, black)`
-                        : 'transparent',
-                  }}
-                >
-                  {l.letter}
-                </button>
-              ))}
+              <span className={cn('text-sm font-medium', auto === 'target' ? 'text-primary' : 'text-muted-foreground')}>
+                Semester Average
+              </span>
+              {LETTER_TARGETS.map((l) => {
+                // The semester average is the answer right now, so a goal
+                // can't be typed into it.
+                const locked = auto === 'target'
+                const color = gradeAndColor(l.color, null, hideColors).bgColor
+                const button = (
+                  <button
+                    type="button"
+                    disabled={locked}
+                    onClick={() => pickTarget(l.target)}
+                    title={locked ? undefined : `Goal: ${l.target}`}
+                    className={cn(
+                      'flex size-7 items-center justify-center rounded-sm border-2 text-sm font-bold text-white transition-colors',
+                      locked ? 'pointer-events-none bg-gray-400 opacity-50' : 'hover:brightness-95'
+                    )}
+                    style={{
+                      backgroundColor: locked ? undefined : color,
+                      borderColor:
+                        !locked && targetNum === l.target
+                          ? `color-mix(in srgb, ${color} 55%, black)`
+                          : 'transparent',
+                    }}
+                  >
+                    {l.letter}
+                  </button>
+                )
+                if (!locked) return <React.Fragment key={l.letter}>{button}</React.Fragment>
+                // A disabled button fires no hover events, so the tooltip hangs off a wrapper.
+                return (
+                  <Tooltip key={l.letter}>
+                    <TooltipTrigger asChild>
+                      <span tabIndex={0} className="cursor-not-allowed rounded-sm">{button}</span>
+                    </TooltipTrigger>
+                    <TooltipContent>Cannot set a value that is being calculated</TooltipContent>
+                  </Tooltip>
+                )
+              })}
             </div>
             <div className="relative">
               <GradePillInput

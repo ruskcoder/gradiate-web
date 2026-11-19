@@ -6,7 +6,7 @@ import { cn } from '@/lib/utils'
 const PARTIAL_GRADE = /^-?\d{0,3}(\.\d{0,2})?$/
 
 const SIZES = {
-  md: 'w-[96px] text-[1.4rem] py-[3px]',
+  md: 'h-11 w-[96px] text-[1.4rem]',
   lg: 'w-[180px] text-[2.5rem] py-1',
 }
 

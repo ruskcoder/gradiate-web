@@ -22,6 +22,7 @@ import {
 } from "@/components/ui/popover"
 import { categoryColor } from "./grades-stats"
 import { Badge } from "@/components/ui/badge"
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
 import { useCurrentUser } from "@/lib/store"
@@ -152,12 +153,19 @@ function DeltaBadge({ delta }) {
 // Star centered on an assignment's top-left corner when it's new since last load.
 function NewAssignmentBadge() {
   return (
-    <span
-      title="New assignment"
-      className="pointer-events-none z-10 absolute -top-2.5 -left-2.5 flex size-5 items-center justify-center rounded-full bg-amber-400 text-amber-950 shadow"
-    >
-      <Star className="size-3 fill-current" />
-    </span>
+    <TooltipProvider>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <span
+            aria-label="New"
+            className="z-10 absolute -top-2.5 -left-2.5 flex size-5 items-center justify-center rounded-full bg-amber-400 text-amber-950 shadow"
+          >
+            <Star className="size-3 fill-current" />
+          </span>
+        </TooltipTrigger>
+        <TooltipContent>New</TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
   )
 }
 
